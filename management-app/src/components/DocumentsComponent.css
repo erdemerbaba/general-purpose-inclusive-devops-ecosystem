@@ -1,0 +1,33 @@
+.documents-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.documents-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.documents-list {
+    list-style-type: none;
+    padding: 0;
+    text-align: center;
+}
+
+.documents-list li {
+    margin-bottom: 10px;
+}
+
+.documents-list a {
+    font-size: 18px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.documents-list a:hover {
+    text-decoration: underline;
+}
