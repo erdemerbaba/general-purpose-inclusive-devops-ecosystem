@@ -1,0 +1,8 @@
+{
+  "name": "Inclusive Management DevOps System",
+  "short_name": "IMDS",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "description": "A management system for inclusive DevOps workflows."
+}
