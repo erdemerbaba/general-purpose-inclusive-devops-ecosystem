@@ -1,141 +1,315 @@
-# System Information
+# General Purpose Inclusive DevOps Ecosystem
+Inclusive Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
-## Repository Name
-Inclusive Management Devops System
+<SummaryThumbnail>
+<SummaryEnvironment>
+<SummaryFrontend>
 
-## Description
-This repository contain fullstack integrated inclusive devops system. It should calls "system", due to repository does not contain only application itselves. Also include creating environment, setting configurations, monitoring, log trace tools and that kind of DevOps tools.
-#############################################
+# Index
+1. Ecosystem Summary
+2. Architecture Overview
+3. Technology Stacks
+4. Project Structure
+5. Informations of Services
+6. Local Setup
+7. Get packages
+8. Deployment Operation
+9. Database Parameters
+10. Contributing
+11. License
+12. Support
+13. Donate
 
-# System Tech Stack Spesifications
+# 1 Ecosystem Summary 
+Inclusive Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
-## Sections Included
+# 2 Architecture Overview
+## 2.1 general Sections of Ecosystem
+- Continuous Development
+- Continuous Integration
+- Continuous Testing
+- Continuous Deployment
+- Continuous Delivery
+- Continuous Monitoring
+- Continuous Feedback
+- Continuous Operations
+
+## 2.2 Sector Summary of Ecosystem
 - Frontend
 - Backend
 - Dataservice
-- Continuous Improvement
-- Continuous Delivery
-- Infastructure Tools
+- Gateway
+- Docker
+- Kubernetes
+- Pipeline
+- Infastructure
 - Monitoring
 - Logging
 - Network
-- Cluster
+- Security
+- Trafic Management
+- Scalability
+- Upgradeability
+- Migration
 
-## Used Principle, Pattern and Techniques
-- 
-- Microservice Structure
-- Singleton Creational Pattern
-- DRY Principle
-- Object Oriented Programming 
-- Functional Programming
-- SSL Security
+# 3. Technology Stacks
+## 3.1 Backend
+- **Framework**: Spring Boot 2.7.0
+- **Language**: Java 17
+- **Security**: Spring Security + JWT
+- **Validation**: Bean Validation (JSR-303)
+- **Logging**: SLF4J + Logback
+- **Monitoring**: Spring Boot Actuator + Prometheus
 
-## Abilities
-- 
-- Fullstack Web Application
-- CRUD Operations
-- SOLID Principle
+## 3.2 Frontend
+- **Framework**: React 17
+- **Language**: JavaScript/JSX
+- **Styling**: Bootstrap 4.5
+- **HTTP Client**: Axios
+- **Routing**: React Router DOM
+- **State Management**: Context API
 
-## Included DevOps Technologies
-- Swagger
-- Prometheus
-- Grafana
-- Elastic Search
-- Kibana
+## 3.3 dataservice
+- **Framework**: MongoDB
 
-## Included Software Technologies
-- Spring Boot (Backend Framework)
-- Maven (comprehension tool)
-- Node.js (JS Runtime Environment)
-- React (JS Library)
-- Bootstrap (Frontend Framework)
-- MongoDB (NoSQL Database)
-- Git (Version Control System)
+## 3.4. Container Tools
+- **Containerization**: Docker-ready
+- **Monitoring**: Health checks, metrics
+- **Configuration**: Environment-based configuration
+- **Logging**: Structured logging with rotation
 
-## Language & Formats
-- Java
-- Javascript
-- HTML
-- CSS
-- Bash
-- Json
-- xml
+## 3.5 Automation Tools
+- **Continuous Delivery**: Jenkins
 
-## Pages
-- Main Page: http://localhost:3000/
-- Get users: http://localhost:3000/users
-- Add Users: http://localhost:3000/add-user/_add
-- Detail Users: http://localhost:3000/view-user/
-- Update Users: http://localhost:3000/add-user/userid
+## 3.6 Kubernetes Tools
+- **Infastructure**: Terraform
+- **Configuration**: Ansible
+- **Environment**: Istio
+- **Maintenance**: Rancher
 
-#############################################
 
-# System Setup&Deploy Process
+## 4 Project Structure
 
-## Credentials
+```
+general_purpose_inclusive_devops_ecosystem/
+├── user-service/                 # User management microservice
+│   ├── src/main/java/
+│   │   ├── controller/          # REST controllers
+│   │   ├── service/             # Business logic layer
+│   │   ├── repository/          # Data access layer
+│   │   ├── dto/                 # Data transfer objects
+│   │   ├── document/            # MongoDB entities
+│   │   ├── config/              # Configuration classes
+│   │   └── exception/           # Custom exceptions
+│   └── src/main/resources/
+│       └── application.yml      # Externalized configuration
+├── product-service/              # Product management microservice
+│   ├── src/main/java/
+│   │   ├── controller/          # REST controllers
+│   │   ├── service/             # Business logic layer
+│   │   ├── repository/          # Data access layer
+│   │   ├── dto/                 # Data transfer objects
+│   │   ├── document/            # MongoDB entities
+│   │   ├── config/              # Configuration classes
+│   │   └── exception/           # Custom exceptions
+│   └── src/main/resources/
+│       └── application.yml      # Externalized configuration
+├── management-app/               # React frontend application
+│   ├── src/
+│   │   ├── components/          # Reusable UI components
+│   │   ├── services/            # API service layer
+│   │   ├── context/             # React context providers
+│   │   └── pages/               # Page components
+│   └── package.json             # Node.js dependencies
+└── deployment/                   # Deployment configurations
+```
+## 4.1 Used Principle, Pattern and Techniques
+### 4.1.1 SOLID Principles for maintainable and extensible code
+    **Single Responsibility Principle (SRP)**: Controllers handle only HTTP requests/responses
+    **Open/Closed Principle (OCP)**: Service interfaces allow extension without modification
+    **Liskov Substitution Principle (LSP)**: Service implementations are interchangeable
+    **Interface Segregation Principle (ISP)**: Focused service interfaces
+    *Dependency Inversion Principle (DIP)**: Controllers depend on service interfaces
+### 4.1.2 12-Factor App methodology for cloud-native applications
+    **Codebase**: Single repository for all services
+    **Dependencies**: Maven/Node.js dependency management
+    **Config**: Externalized configuration via environment variables
+    **Backing Services**: MongoDB as backing service
+    **Build, Release, Run**: Maven build process
+    **Processes**: Stateless services
+    **Port Binding**: Configurable ports via environment
+    **Concurrency**: Horizontal scaling support
+    **Disposability**: Graceful shutdown handling
+    **Dev/Prod Parity**: Consistent environments
+    **Logs**: Structured logging with SLF4J
+    **Admin Processes**: Health check endpoints
+### 4.1.3 Service-Oriented Architecture (SOAP) principles for loose coupling
+    **Service Abstraction**: Clear service boundaries
+    **Loose Coupling**: Services communicate via well-defined interfaces
+    **Service Reusability**: Services can be reused across different contexts
+    **Service Autonomy**: Services operate independently
+    
+# 5 Information of Services
+## 5.1 User Service (`user-service`)
+- **Backend Port**: 8081
+- **Frontend URLs**:
+-- Get : http://localhost:3000/users
+-- Add : http://localhost:3000/add-user/_add
+-- Detail : http://localhost:3000/view-user/
+-- Update : http://localhost:3000/add-user/userid
+- **Purpose**: User management and authentication
+- **Features**: CRUD operations, search, pagination, validation
+
+## 5.2 Product Service (`product-service`)
+- **Port**: 8082
+- **Frontend URLs**:
+-- Get : http://localhost:3000/products
+-- Add : http://localhost:3000/add-product/_add
+-- Detail : http://localhost:3000/view-product/
+-- Update : http://localhost:3000/add-product/productid
+- **Purpose**: Product lifecycle management
+- **Features**: CRUD operations, search, pagination, validation
+
+## 5.3 Management App (`management-app`)
+- **Port**: 3000
+- **Frontend URLs**:
+-- Get : http://localhost:3000
+- **Purpose**: React-based frontend application
+- **Features**: Modern UI, responsive design, state management
+
+## 5.4 eureka
+
+
+## 5.5 gateway
+
+
+## 5.6 swagger
+
+
+## 5.7 jenkins
+
+
+## 5.8 jenkins
+
+
+## 5.9 prometheus
+
+
+## 5.10 grafana
+
+
+## 5.11 elastic search
+
+
+## 5.12 logstash
+
+
+## 5.13 kibana
+
+
+## 5.14 rancher
+
+
+
+# 6. Local Setup
+User can run whole project with docker and kubernetes but if want to run manuel please read instructions.
+
+## 6.1 Prerequisites
+- Java 17+
+- Maven 3.6+
+- Node.js 14+
+- MongoDB 4.4+
+- Docker (optional)
+
+## 6.2 Run Services
+
+### 6.2.1 Configure Environment Variables
+   ```bash
+   export MONGODB_HOST=localhost
+   export MONGODB_PORT=27017
+   export MONGODB_DATABASE=management
+   export JWT_SECRET=your-secret-key
+   ```
+
+### 6.2.2 Start MongoDB
+   ```bash
+    mongod --dbpath 
+   ```
+ 
+### 6.2.3 Build and Run User Service
+   ```bash
+   cd user-service
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+### 6.2.4 Build and Run Product Service**
+   ```bash
+   cd product-service
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+### 6.2.4 Install Dependencies
+   ```bash
+   cd management-app
+   npm install
+   npm start
+   ```
+
+### 6.2.5 Enter Web app
 Website: localhost:3000
 Username: admin
 Password: admin
 
-## Execute below script to get local&package&deploy or skip below section for manual 
-Path
+# 7 Get Package
+User can run whole project with docker and kubernetes but if want to run manuel please read instructions.
 
-## Local Run
-Database
-Step 1: Enter repository folder in terminal
-Step 2: Install MongoDB - https://www.mongodb.com/docs/manual/installation/
-Step 3: ```mongosh```
-Step 4: Use http://localhost:8070/
-Backend
-Step 5: Enter related folder in terminal
-Step 6:  ```mvn clean install```
-Step 7:  ```mvn spring-boot:run```
-Step 8: Use http://localhost:8070/
-Frontend
-Step 9: Enter related folder in terminal
-Step 10:  ```npm install```
-Step 11:  ```npm start```
-Step 12: Use http://localhost:3000/
+## 7.1 Database
+    mongosh
 
+## 7.2 Backend
+    mvn package
 
-## Get Package
-Database
-Step 1: mongosh
-Backend
-Step 2: mvn package
-Frontend
-Step 3: npm run build
+## 7.3 Frontend
+    npm run build
 
+# 8 Deployment Operation
+User can run whole project with docker and kubernetes but if want to run manuel please read instructions. Firstly, Enter related machine install requirements.
 
-## Deploy Process
-Database
-Step 1: mongosh
-Backend
-Step 2: java -jar package.jar
-Frontend
-Step 3: npm install -g serve
-Step 4: serve -s build
+## 8.1 Database
+    mongosh
 
+## 8.2 Backend
+    java -jar package.jar
 
-## Error Handling
+## 8.3 Frontend
+    npm install -g serve
+    serve -s build
+
+## 8.4 Docker Deployment
+```bash
+# Build images
+docker build -t user-service ./user-service
+docker build -t product-service ./product-service
+
+# Run containers
+docker run -p 8081:8081 user-service
+docker run -p 8082:8082 product-service
+```
+
+## 8.5 Kubernetes Deployment
+- Deployment manifests in `deployment/` directory
+- Service configurations
+- Ingress rules
+
+## 8.6 Error Handling
 export NODE_OPTIONS=--openssl-legacy-provider
 export SKIP_PREFLIGHT_CHECK=true
 lsof -i tcp:8080
 taskkill /F /PID
 
-#############################################
-# Functionality
-
-## service names
-- management-website
-- employee-service
-- product-service
-
-## Page names
-- Employee
-- Products
-
-## Database Parameters
+# 9 Database Parameters
 - Employee
 -- ID
 -- Name
@@ -185,4 +359,25 @@ taskkill /F /PID
 -- Financial Procedures
 -- Additional Notes
 
-Created by Era Technology Co with Erdem Erbaba 
+# 10 Contributing
+1. Follow the established architecture patterns
+2. Maintain SOLID principles
+3. Add comprehensive tests
+4. Update documentation
+5. Follow the coding standards
+
+# 11 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+# 12 Support
+For support and questions:
+- Create an issue in the repository
+- Review the documentation
+- Check the health endpoints
+
+# 13 Donate
+**Buy me a coffee if you want to donate** 
+https://www.buymeacoffee.com/erdemerbaba/
+---
+
+**Built with ❤️ by Era Technology Co aka Erdem Erbaba** 
