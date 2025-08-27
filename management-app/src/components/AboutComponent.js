@@ -68,37 +68,43 @@ const AboutComponent = () => {
                 </div>
             </div>
             <div className="about-section">
-                <h2 style={{ textAlign: 'center',color: '#007bff' }}>Technology Stacks</h2>
-                <div style={{ lineHeight: '1.6', fontSize: '16px', color: '#333' }}>
-                    <p>
-                        <strong>Backend</strong><br />
-                        - <strong>Framework</strong>: Spring Boot 2.7.0<br />
-                        - <strong>Language</strong>: Java 17<br />
-                        - <strong>Security</strong>: Spring Security + JWT<br />
-                        - <strong>Validation</strong>: Bean Validation (JSR-303)<br />
-                        - <strong>Logging</strong>: SLF4J + Logback<br />
-                        - <strong>Monitoring</strong>: Spring Boot Actuator + Prometheus
-                    </p>
-                    <p>
-                        <strong>Frontend</strong><br />
-                        - <strong>Framework</strong>: React 17<br />
-                        - <strong>Language</strong>: JavaScript/JSX<br />
-                        - <strong>Styling</strong>: Bootstrap 4.5<br />
-                        - <strong>HTTP Client</strong>: Axios<br />
-                        - <strong>Routing</strong>: React Router DOM<br />
-                        - <strong>State Management</strong>: Context API
-                    </p>
-                    <p>
-                        <strong>Dataservice</strong><br />
-                        - <strong>Framework</strong>: MongoDB
-                    </p>
-                    <p>
-                        <strong>Container Tools</strong><br />
-                        - <strong>Containerization</strong>: Docker-ready<br />
-                        - <strong>Monitoring</strong>: Health checks, metrics<br />
-                        - <strong>Configuration</strong>: Environment-based configuration<br />
-                        - <strong>Logging</strong>: Structured logging with rotation
-                    </p>
+                <h2 style={{ textAlign: 'center', color: '#007bff' }}>Technology Stacks</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+                        <p>
+                            <strong>Backend</strong><br />
+                            - <strong>Framework</strong>: Spring Boot 2.7.0<br />
+                            - <strong>Language</strong>: Java 17<br />
+                            - <strong>Security</strong>: Spring Security + JWT<br />
+                            - <strong>Validation</strong>: Bean Validation (JSR-303)<br />
+                            - <strong>Logging</strong>: SLF4J + Logback<br />
+                            - <strong>Monitoring</strong>: Spring Boot Actuator + Prometheus
+                        </p>
+                        <p>
+                            <strong>Dataservice</strong><br />
+                            - <strong>Framework</strong>: MongoDB
+                        </p>
+                    </div>
+                    <div style={{ flex: 1 , textAlign: 'center'}}>
+                        <p>
+                            <strong>Frontend</strong><br />
+                            - <strong>Framework</strong>: React 17<br />
+                            - <strong>Language</strong>: JavaScript/JSX<br />
+                            - <strong>Styling</strong>: Bootstrap 4.5<br />
+                            - <strong>HTTP Client</strong>: Axios<br />
+                            - <strong>Routing</strong>: React Router DOM<br />
+                            - <strong>State Management</strong>: Context API
+                        </p>
+                        <p>
+                            <strong>Container Tools</strong><br />
+                            - <strong>Containerization</strong>: Docker-ready<br />
+                            - <strong>Monitoring</strong>: Health checks, metrics<br />
+                            - <strong>Configuration</strong>: Environment-based configuration<br />
+                            - <strong>Logging</strong>: Structured logging with rotation
+                        </p>
+                    </div>
+                </div>
+                <div style={{ lineHeight: '1.6', fontSize: '16px', color: '#333', marginTop: '20px', textAlign: 'center' }}>
                     <p>
                         <strong>Automation Tools</strong><br />
                         - <strong>Continuous Delivery</strong>: Jenkins

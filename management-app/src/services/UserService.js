@@ -15,11 +15,11 @@ const checkAuthAndRedirect = async () => {
 }
 
 class UserService {
-    async getUsersByName(searchName = '') {
+    async getUsersByName(searchQuery = '', page = 0, size = 10) {
         await checkAuthAndRedirect();
-        let url = USER_API_BASE_URL;
-        if (searchName) {
-            url += `?name=${encodeURIComponent(searchName)}`;
+        let url = `${USER_API_BASE_URL}?page=${page}&size=${size}`;
+        if (searchQuery) {
+            url += `&name=${encodeURIComponent(searchQuery)}`;
         }
         return api.get(url);
     }
@@ -33,9 +33,11 @@ class UserService {
         return api.get(url);
     }
 
-    async getAllUsers() {
+    async getAllUsers(params = {}) {
         await checkAuthAndRedirect();
-        return api.get(USER_API_BASE_URL);
+        const queryString = new URLSearchParams(params).toString();
+        const url = queryString ? `${USER_API_BASE_URL}?${queryString}` : USER_API_BASE_URL;
+        return api.get(url);
     }
 
     async createUser(user) {

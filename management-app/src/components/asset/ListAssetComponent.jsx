@@ -16,7 +16,9 @@ class ListAssetComponent extends Component {
       searchAssignedTo: '',
       searchTechnicalSpecs: '',
       searchValue: '',
-      searchPurchaseDate: ''
+      searchPurchaseDate: '',
+      currentPage: 0,
+      totalPages: 0,
     };
 
     this.addAsset = this.addAsset.bind(this);
@@ -25,11 +27,31 @@ class ListAssetComponent extends Component {
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.searchAsset = this.searchAsset.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
-  handleSearchChange(e) { this.setState({ searchQuery: e.target.value }); }
+  handleSearchChange(e) { this.setState({ searchName: e.target.value }); }
+  handlePageChange(newPage) {
+    this.setState({ currentPage: newPage }, () => {
+      this.fetchAssets();
+    });
+  }
+
+  fetchAssets() {
+    const { searchName, currentPage } = this.state;
+    AssetService.getAssetsByName(searchName, currentPage).then(res => {
+      this.setState({
+        assets: res.data.content,
+        totalPages: res.data.totalPages,
+      });
+    });
+  }
+
   searchAsset() {
-    AssetService.getAllAssets().then(res => this.setState({ assets: res.data }));
+    this.setState({ currentPage: 0 }, () => {
+      this.fetchAssets();
+    });
   }
 
   deleteAsset(id) {
@@ -45,17 +67,19 @@ class ListAssetComponent extends Component {
   editAsset(id) { this.props.history.push(`/add-asset/${id}`); }
 
   componentDidMount() {
-    AssetService.getAllAssets().then(res => {
-      if (res.data == null) {
-        this.props.history.push('/add-asset/_add');
-      }
-      this.setState({ assets: res.data });
-    });
+    this.fetchAssets();
   }
 
   addAsset() { this.props.history.push('/add-asset/_add'); }
 
+  clearSearch() {
+    this.setState({ searchName: '', currentPage: 0 }, () => {
+      this.fetchAssets();
+    });
+  }
+
   render() {
+    const { currentPage, totalPages } = this.state;
     return (
       <div className="dashboard-container">
         <h1 className="about-title">Assets</h1>
@@ -72,8 +96,22 @@ class ListAssetComponent extends Component {
               </div>
 
               <div className="d-flex align-items-center gap-2">
-                <button className="btn btn-primary btn-sm" onClick={this.addAsset} style={{  paddingBottom: '30px' }}>
-                  + Add New Asset
+                  <div className="search-wrap mb-3" style={{ marginTop: '15px' }}>
+                  <input
+                    className="search-input"
+                    placeholder="Search by name"
+                    value={this.state.searchName}
+                    onChange={this.handleSearchChange}
+                  />
+                  </div>
+                  <button className="btn btn-primary btn-sm" onClick={this.searchAsset} style={{ marginLeft: '10px', padding: '5px 10px' }}>
+                    Search
+                  </button>
+                  <button className="btn btn-secondary btn-sm" onClick={this.clearSearch}style={{ marginLeft: '10px' , padding: '5px 10px', backgroundColor: '#656565ad'}}>
+                    Clear
+                  </button>
+                <button className="btn btn-primary btn-sm" onClick={this.addAsset} style={{ marginLeft: '10px' , padding: '5px 10px', backgroundColor: '#0e7d02ad'}}>
+                  Add New Asset
                 </button>
               </div>
             </div>
@@ -108,13 +146,13 @@ class ListAssetComponent extends Component {
                       <td>{asset.value}</td>
                       <td>{asset.purchaseDate}</td>
                       <td className="text-end">
-                        <button className="btn btn-outline-secondary btn-sm ms-2" onClick={() => this.viewAsset(asset.id)} style={{  paddingBottom: '30px', marginRight: '10px' }}>
+                        <button className="btn btn-outline-secondary btn-sm ms-2" onClick={() => this.viewAsset(asset.id)} style={{  paddingBottom: '30px', marginRight: '10px', marginLeft: '30px', backgroundColor: '#0e7d02ad' }}>
                           Details
                         </button>
-                        <button className="btn btn-link btn-sm me-2" onClick={() => this.editAsset(asset.id)} style={{  paddingBottom: '30px', marginRight: '10px' }}>
+                        <button className="btn btn-link btn-sm me-2" onClick={() => this.editAsset(asset.id)} style={{  paddingBottom: '30px', marginRight: '10px' , backgroundColor: '#7d7102ad'}}>
                           Edit
                         </button>
-                        <button className="btn btn-link text-danger btn-sm" onClick={() => this.deleteAsset(asset.id)} style={{  paddingBottom: '30px' }}>
+                        <button className="btn btn-link btn-sm" onClick={() => this.deleteAsset(asset.id)} style={{  paddingBottom: '30px' , backgroundColor: '#7d0202ad'}}>
                           Delete
                         </button>
                       </td>
@@ -124,8 +162,29 @@ class ListAssetComponent extends Component {
               </table>
             </div>
 
-            <div className="d-flex justify-content-between align-items-center small text-muted mt-3">
-              <div>Showing {this.state.assets?.length || 0} values</div>
+            <div className="pagination-controls" style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={() => this.handlePageChange(currentPage - 1)}
+                disabled={currentPage === 0}
+                                style={{ marginRight: '10px', padding: '5px 10px' }}
+
+              >
+                Previous
+              </button>
+              <span>Page {currentPage + 1} of {totalPages}</span>
+              <button
+                className="btn btn-secondary btn-sm"
+                onClick={() => this.handlePageChange(currentPage + 1)}
+                disabled={currentPage + 1 === totalPages}
+                                style={{ marginLeft: '10px', padding: '5px 10px' }}
+
+              >
+                Next
+              </button>
+            </div>
+                        <div className="d-flex justify-content-between align-items-center small text-muted mt-3">
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginLeft: '620px' }}>Showing {this.state.assets?.length || 0} values</div>
             </div>
                       <style>{`
             .app-shell { position: relative; }
