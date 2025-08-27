@@ -78,7 +78,21 @@ class ListProductComponent extends Component {
             </div>
 
             <div className="d-flex align-items-center gap-2">
-              <button className="btn btn-primary d-flex align-items-center" onClick={this.addProduct}>
+                              <div className="search-wrap mb-3" style={{ marginTop: '15px' }}>
+                  <input
+                    className="search-input"
+                    placeholder="Search by name"
+                    value={this.state.searchName}
+                    onChange={this.handleSearchChange}
+                  />
+                  </div>
+                  <button className="btn btn-primary btn-sm" onClick={this.searchProduct} style={{ marginLeft: '10px', padding: '5px 10px' }}>
+                    Search
+                  </button>
+                  <button className="btn btn-secondary btn-sm" onClick={this.clearSearch}style={{ marginLeft: '10px' , padding: '5px 10px', backgroundColor: '#656565ad'}}>
+                    Clear
+                  </button>
+              <button className="btn btn-primary d-flex align-items-center" onClick={this.addProduct} style={{ marginLeft: '10px' , padding: '5px 10px', backgroundColor: '#0e7d02ad'}}>
                 <i className="bi bi-plus-lg me-2" /> Add New Group
               </button>
             </div>
@@ -107,9 +121,9 @@ class ListProductComponent extends Component {
                       {/* kebab still available */}
                       <div className="dropdown">
                         <ul className="dropdown-menu dropdown-menu-end">
-                          <li><button className="dropdown-item" onClick={() => this.viewProduct(product.id)}><i className="bi bi-eye me-2" />View</button></li>
-                          <li><button className="dropdown-item" onClick={() => this.editProduct(product.id)}><i className="bi bi-pencil-square me-2" />Edit</button></li>
-                          <li><button className="dropdown-item text-danger" onClick={() => this.deleteProduct(product.id)}><i className="bi bi-trash me-2" />Delete</button></li>
+                          <li><button className="dropdown-item" onClick={() => this.viewProduct(product.id)} style={{ backgroundColor: '#0e7d02ff' }}><i className="bi bi-eye me-2" />View</button></li>
+                          <li><button className="dropdown-item" onClick={() => this.editProduct(product.id)} style={{ backgroundColor: '#7d7102ff' }}><i className="bi bi-pencil-square me-2" />Edit</button></li>
+                          <li><button className="dropdown-item" onClick={() => this.deleteProduct(product.id)} ><i className="bi bi-trash me-2" style={{ backgroundColor: '#7d0202ff' }}/>Delete</button></li>
                         </ul>
                       </div>
                     </div>
@@ -143,13 +157,13 @@ class ListProductComponent extends Component {
 
                     {/* CRUD ACTION BAR (always visible) */}
                     <div className="mt-3 d-flex justify-content-end gap-2">
-                      <button className="btn btn-sm btn-outline-secondary" onClick={() => this.viewProduct(product.id)}style={{  paddingBottom: '30px', marginRight: '10px' }}>
+                      <button className="btn btn-sm btn-outline-secondary" onClick={() => this.viewProduct(product.id)}style={{  paddingBottom: '30px', marginRight: '10px', backgroundColor: '#0e7d02ad' }}>
                         <i className="bi bi-eye me-1" /> View
                       </button>
-                      <button className="btn btn-sm btn-outline-primary" onClick={() => this.editProduct(product.id)}style={{  paddingBottom: '30px', marginRight: '10px' }}>
+                      <button className="btn btn-sm btn-outline-primary" onClick={() => this.editProduct(product.id)}style={{  paddingBottom: '30px', marginRight: '10px', backgroundColor: '#7d7102ad' }}>
                         <i className="bi bi-pencil-square me-1" /> Edit
                       </button>
-                      <button className="btn btn-sm btn-outline-danger" onClick={() => this.deleteProduct(product.id)}style={{  paddingBottom: '30px'}}>
+                      <button className="btn btn-sm btn-outline-danger" onClick={() => this.deleteProduct(product.id)}style={{  paddingBottom: '30px', backgroundColor: '#7d0202ad' }}>
                         <i className="bi bi-trash me-1" /> Delete
                       </button>
                     </div>
@@ -170,6 +184,19 @@ class ListProductComponent extends Component {
               <div className="spinner-border text-primary" role="status" />
             </div>
           )}
+          <style>{`
+                        .search-input {
+              border: none; outline: none; padding: 6px 6px 6px 26px; background: transparent; width: 240px;
+            }
+                          .search-wrap {
+              position: relative; border: 1px solid #e7ebf3; border-radius: 10px;
+              padding: 6px 10px; background: #fafbfe;
+            }
+            .search-wrap .bi-search { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: .5; }
+            .search-input {
+              border: none; outline: none; padding: 6px 6px 6px 26px; background: transparent; width: 240px;
+            }
+          `}</style>
         </div>
       </div>
     );

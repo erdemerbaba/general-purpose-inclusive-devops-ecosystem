@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,7 +31,7 @@ public class AssetController {
     private AssetRepository assetRepository;
 
     @GetMapping("/assets")
-    public List<Asset> getAllAssets(
+    public Page<Asset> getAllAssets(
             @RequestParam(value = "id", required = false) String id,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "type", required = false) String type,
@@ -37,30 +40,32 @@ public class AssetController {
             @RequestParam(value = "assignedTo", required = false) String assignedTo,
             @RequestParam(value = "technicalSpecs", required = false) String technicalSpecs,
             @RequestParam(value = "value", required = false) String value,
-            @RequestParam(value = "purchaseDate", required = false) String purchaseDate) {
+            @RequestParam(value = "purchaseDate", required = false) String purchaseDate,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
 
-        Sort sort = Sort.by(Sort.Direction.DESC, "_id");
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "_id"));
 
         if (id != null && !id.isEmpty()) {
-            return assetRepository.findByIdFuzzy(id, sort);
+            return assetRepository.findByIdFuzzy(id, pageable);
         } else if (name != null && !name.isEmpty()) {
-            return assetRepository.findByNameFuzzy(name, sort);
+            return assetRepository.findByNameFuzzy(name, pageable);
         } else if (type != null && !type.isEmpty()) {
-            return assetRepository.findByTypeFuzzy(type, sort);
+            return assetRepository.findByTypeFuzzy(type, pageable);
         } else if (serialNumber != null && !serialNumber.isEmpty()) {
-            return assetRepository.findBySerialNumberFuzzy(serialNumber, sort);
+            return assetRepository.findBySerialNumberFuzzy(serialNumber, pageable);
         } else if (department != null && !department.isEmpty()) {
-            return assetRepository.findByDepartmentFuzzy(department, sort);
+            return assetRepository.findByDepartmentFuzzy(department, pageable);
         } else if (assignedTo != null && !assignedTo.isEmpty()) {
-            return assetRepository.findByAssignedToFuzzy(assignedTo, sort);
+            return assetRepository.findByAssignedToFuzzy(assignedTo, pageable);
         } else if (technicalSpecs != null && !technicalSpecs.isEmpty()) {
-            return assetRepository.findByTechnicalSpecsFuzzy(technicalSpecs, sort);
+            return assetRepository.findByTechnicalSpecsFuzzy(technicalSpecs, pageable);
         } else if (value != null && !value.isEmpty()) {
-            return assetRepository.findByValueFuzzy(value, sort);
+            return assetRepository.findByValueFuzzy(value, pageable);
         } else if (purchaseDate != null && !purchaseDate.isEmpty()) {
-            return assetRepository.findByPurchaseDateFuzzy(purchaseDate, sort);
+            return assetRepository.findByPurchaseDateFuzzy(purchaseDate, pageable);
         } else {
-            return assetRepository.findAll(sort);
+            return assetRepository.findAll(pageable);
         }
     }
 
