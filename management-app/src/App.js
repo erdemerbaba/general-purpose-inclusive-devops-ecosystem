@@ -27,6 +27,9 @@ import AboutComponent from './components/AboutComponent';
 import DocumentsComponent from './components/DocumentsComponent';
 import LinksComponent from './components/LinksComponent';
 import InformationComponent from './components/InformationComponent';
+import CreateAssetComponent from './components/asset/CreateAssetComponent';
+import ListAssetComponent from './components/asset/ListAssetComponent';
+import ViewAssetComponent from './components/asset/ViewAssetComponent';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { user } = useContext(AuthContext);
@@ -70,7 +73,7 @@ const App = () => {
           <PrivateRoute path="/landing" component={Landing} />
           <PrivateRoute path="/users" component={Users} />
           <PrivateRoute path="/products" component={Products} />
-          <PrivateRoute path="/" exact component={ListUserComponent} />
+          <PrivateRoute path="/" exact component={DashboardComponent} />
           <PrivateRoute path="/users" component={ListUserComponent} />
           <PrivateRoute path="/add-user/:id" component={CreateUserComponent} />
           <PrivateRoute path="/view-user/:id" component={ViewUserComponent} />
@@ -84,6 +87,9 @@ const App = () => {
           <PrivateRoute path="/documents" component={DocumentsComponent} />
           <PrivateRoute path="/links" component={LinksComponent} />
           <PrivateRoute path="/information" component={InformationComponent} />
+          <PrivateRoute path="/assets" component={ListAssetComponent} />
+          <PrivateRoute path="/add-asset/:id" component={CreateAssetComponent} />
+          <PrivateRoute path="/view-asset/:id" component={ViewAssetComponent} />
           <Redirect from="/" to="/login" />
         </Switch>
       </div>

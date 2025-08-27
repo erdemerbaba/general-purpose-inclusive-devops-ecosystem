@@ -170,6 +170,16 @@ general_purpose_inclusive_devops_ecosystem/
 - **Purpose**: Product lifecycle management
 - **Features**: CRUD operations, search, pagination, validation
 
+## 5.2 Asset Service (`asset-service`)
+- **Port**: 8083
+- **Frontend URLs**:
+-- Get : http://localhost:3000/assets
+-- Add : http://localhost:3000/add-assets/_add
+-- Detail : http://localhost:3000/view-asset/
+-- Update : http://localhost:3000/add-asset/assetid
+- **Purpose**: Product lifecycle management
+- **Features**: CRUD operations, search, pagination, validation
+
 ## 5.3 Management App (`management-app`)
 - **Port**: 3000
 - **Frontend URLs**:
@@ -250,14 +260,21 @@ User can run whole project with docker and kubernetes but if want to run manuel 
    mvn spring-boot:run
    ```
 
-### 6.2.4 Install Dependencies
+### 6.2.5 Build and Run Product Service**
+   ```bash
+   cd asset-service
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+### 6.2.6 Install Dependencies
    ```bash
    cd management-app
    npm install
    npm start
    ```
 
-### 6.2.5 Enter Web app
+### 6.2.7 Enter Web app
 Website: localhost:3000
 Username: admin
 Password: admin
@@ -358,6 +375,18 @@ taskkill /F /PID
 -- Legal Compliance
 -- Financial Procedures
 -- Additional Notes
+
+-Assets
+-- ID
+-- Name
+-- Type
+-- SerialNumber
+-- Department
+-- AssignedTo
+-- TechnicalSpecs
+-- PurchaseDate
+-- Value
+
 
 # 10 Contributing
 1. Follow the established architecture patterns
