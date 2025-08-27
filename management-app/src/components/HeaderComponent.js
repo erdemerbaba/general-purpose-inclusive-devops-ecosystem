@@ -10,7 +10,7 @@ class HeaderComponent extends Component {
 <aside
   className="d-none d-md-flex flex-column align-items-center pt-3 px-2"
   style={{
-    width: 56,
+    width: 110,
     borderRight: "1px solid #eef0f3",
     position: "fixed",
     insetInlineStart: 0,
@@ -25,81 +25,111 @@ class HeaderComponent extends Component {
     <img
       src="/eratechnologylogo.png"
       alt="eratechnology Logo"
-      style={{ width: 34, height: 34 }}
+      style={{ width: 60, height: 40 }}
     />
   </a>
 
   {/* Settings (Main) */}
   <a
     href="/about"
-    className="rounded-3 d-flex align-items-center justify-content-center mb-3"
-    style={{ width: 36, height: 36, background: "#f6f7f9", color: "#64748b" }}
+    className="rounded-3 d-flex align-items-center justify-content-center mb-3 shadow-sm"
+    style={{ width: 80, height: 40, background: "#f0f4f8", color: "#475569", fontSize: "14px", fontWeight: "500" }}
     title="Settings"
   >
-    <i className="bi bi-gear"></i>
+    <span style={{ fontSize: "12px", fontWeight: "600" }}>About</span>
   </a>
 
   {/* Users */}
   
   <a
     href="/documents"
-    className="rounded-3 d-flex align-items-center justify-content-center mb-3"
-    style={{ width: 36, height: 36, background: "#eff4ff", color: "#3b82f6" }}
+    className="rounded-3 d-flex align-items-center justify-content-center mb-3 shadow-sm"
+    style={{ width: 80, height: 40, background: "#f0f4f8", color: "#475569", fontSize: "14px", fontWeight: "500" }}
     title="Users"
   >
-    <i className="bi bi-people"></i>
+    <span style={{ fontSize: "12px", fontWeight: "600" }}>Documents</span>
+
   </a>
 
   {/* Groups */}
   <a
     href="/links"
-    className="rounded-3 d-flex align-items-center justify-content-center mb-3"
-    style={{ width: 36, height: 36, background: "#eef7f1", color: "#16a34a" }}
+    className="rounded-3 d-flex align-items-center justify-content-center mb-3 shadow-sm"
+    style={{ width: 80, height: 40, background: "#f0f4f8", color: "#475569", fontSize: "14px", fontWeight: "500" }}
     title="Groups"
   >
-    <i className="bi bi-grid-3x3-gap"></i>
+    <span style={{ fontSize: "12px", fontWeight: "600" }}>Links</span>
+
   </a>
 
   {/* Information */}
   <a
     href="/information"
     className="rounded-3 d-flex align-items-center justify-content-center mt-auto mb-3"
-    style={{ width: 36, height: 36, background: "#e0f2fe", color: "#0284c7" }}
+    style={{ width: 36, height: 36}}
     title="Information"
   >
-    <i className="bi bi-info-circle"></i>
+    <img src="/infologo.png" alt="Information" style={{ width: 18, height: 18 }} />
   </a>
 </aside>
 
 
         {/* TOP BAR */}
         <header className="d-flex align-items-center justify-content-between px-3 px-md-4"
-                style={{height:64, borderBottom:'1px solid #eef0f3', position:'fixed', insetInlineStart:56, insetInlineEnd:0, insetBlockStart:0, background:'#fff', zIndex:1010}}>
+                style={{height:64, borderBottom:'1px solid #eef0f3', position:'fixed', insetInlineStart:56, insetInlineEnd:0, insetBlockStart:0, background:'#fff', zIndex:1010, marginLeft: '70px'}}>
           {/* Tabs */}
           <nav className="d-none d-md-flex gap-4">
-            <a href="/dashboard" className="text-decoration-none" style={{color:'#475569'}}>Dashboard</a>
-            <a href="/products" className="text-decoration-none" style={{color:'#475569'}}>Product Management</a>
-            <a href="/users" className="text-decoration-none fw-semibold position-relative" style={{color:'#0f172a'}}>User Management
-              <span style={{position:'absolute', left:0, right:0, bottom:-20, height:2, background:'#3b82f6'}} />
-            </a>
-          </nav>
+  {[
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/products", label: "Product Management" },
+    { href: "/users", label: "User Management" },
+    { href: "/assets", label: "Asset Management" },
+
+  ].map((item) => (
+    <a
+      key={item.href}
+      href={item.href}
+      className={`text-decoration-none ${window.location.pathname === item.href ? "fw-semibold position-relative" : ""}`}
+      style={{
+        color: window.location.pathname === item.href ? "#0f172a" : "#475569",
+        marginRight: "40px",
+      }}
+    >
+      {item.label}
+      {window.location.pathname === item.href && (
+        <span
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: -20,
+            height: 2,
+            background: "#3b82f6",
+          }}
+        />
+      )}
+    </a>
+  ))}
+</nav>
 
           {/* Search + actions */}
-          <div className="d-flex align-items-center gap-3">
-            <div className="d-flex align-items-center px-3" style={{height:40, border:'1px solid #e5e7eb', borderRadius:12, background:'#fff'}}>
-              <i className="bi bi-search me-2" style={{color:'#64748b'}} />
-              <input className="border-0" style={{outline:'none', width:220}} placeholder="Search Here" />
-            </div>
+          <div className="d-flex align-items-center gap-4">
+            <a href="/profile" className="d-inline-flex align-items-center justify-content-center rounded-circle shadow-sm"
+               style={{width:40, height:40, background:'#e2e8f0', color:'#475569', fontSize:'14px', fontWeight:'500', marginRight: '20px'}} title="Profile">
+                <img src="/profilelogo.png" alt="Logout" style={{ width: 18, height: 18 }} />
 
-            <a href="/settings" className="btn btn-light border-0">
-              <i className="bi bi-sliders" />
-            </a>
-            <a href="/logout" className="btn btn-outline-secondary btn-sm">Logout</a>
+              </a>
 
-            <a href="/profile" className="d-inline-flex align-items-center justify-content-center rounded-circle"
-               style={{width:36, height:36, background:'#f1f5f9'}} title="Profile">
-              <i className="bi bi-person" />
-            </a>
+              <a href="/settings" className="d-inline-flex align-items-center justify-content-center rounded-circle shadow-sm"
+                 style={{width:40, height:40, background:'#e2e8f0', color:'#475569', fontSize:'14px', fontWeight:'500', marginRight: '20px'}} title="Settings">
+    <img src="/settingslogo.png" alt="Settings" style={{ width: 18, height: 18 }} />
+
+              </a>
+
+              <a href="/logout" className="d-inline-flex align-items-center justify-content-center rounded-circle shadow-sm"
+                 style={{width:40, height:40, background:'#e2e8f0', color:'#dc2626', fontSize:'14px', fontWeight:'500', padding:'5px', marginRight: '20px'}} title="Logout">
+                <img src="/logoutlogo.png" alt="Logout" style={{ width: 18, height: 18 }} />
+              </a>
           </div>
         </header>
 

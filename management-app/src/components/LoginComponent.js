@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import './LoginComponent.css';
 
 const LoginComponent = () => {
     const [username, setUsername] = useState('');
@@ -11,6 +12,7 @@ const LoginComponent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            localStorage.removeItem('user'); // Clear old token
             await login(username, password);
             navigate.push('/dashboard'); 
         } catch (error) {
@@ -23,7 +25,7 @@ const LoginComponent = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '50vh'
+        height: '40vh'
     };
 
     const inputStyle = {
@@ -38,33 +40,40 @@ const LoginComponent = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={formStyle}>
-            <div>
-            <th></th>
-                <label>Username</label>
+        <div className="dashboard-container">
+            <div className="login-section">
+            <form onSubmit={handleSubmit} style={formStyle}>
+                <div>
                 <th></th>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    style={inputStyle}
-                />
+                    <label>Username</label>
+                    <th></th>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        style={inputStyle}
+                    />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <th></th>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={inputStyle}
+                    />
+                </div>
+                <button className="btn btn-primary" type="submit" style={buttonStyle}>Login</button>
+                <div>
+                    <a href="/register">Register</a>
+                </div>
+            </form>
+            <div className="container-fluid">
+                {/* ...existing code... */}
             </div>
-            <div>
-                <label>Password</label>
-                <th></th>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={inputStyle}
-                />
             </div>
-            <button className="btn btn-primary" type="submit" style={buttonStyle}>Login</button>
-            <div>
-                <a href="/register">Register</a>
-            </div>
-        </form>
+        </div>
     );
 };
 

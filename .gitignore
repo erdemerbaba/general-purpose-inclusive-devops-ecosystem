@@ -103,3 +103,7 @@ Thumbs.db
 
 # Linux
 *~
+
+# Ignore target folders for product-service and user-service
+product-service/target/
+user-service/target/
