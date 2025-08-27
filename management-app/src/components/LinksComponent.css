@@ -1,7 +1,11 @@
 .links-container {
-    padding: 20px;
+    padding-top: 40px;
+    padding-left: 80px;
+    padding-right: 80px;
     background-color: #f8f9fa;
     min-height: 100vh;
+    width: 150%;
+    margin-left: -20%;
 }
 
 .links-title {
@@ -30,4 +34,19 @@
 
 .links-list a:hover {
     text-decoration: underline;
+}
+
+.links-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.links-text {
+    font-size: 18px;
+    color: #6c757d;
+    margin-bottom: 20px;
+    text-align: center;
 }

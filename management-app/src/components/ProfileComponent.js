@@ -9,15 +9,14 @@ const ProfileComponent = () => {
     avatar: ''
   });
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('profile'); 
+  const [activeTab, setActiveTab] = useState('terms'); 
   const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
       const mockProfile = {
-        name: 'John Doe',
-        email: 'john.doe@example.com',
+        name: 'admin',
         role: 'Administrator',
         avatar: '' 
       };
@@ -48,6 +47,10 @@ const ProfileComponent = () => {
   return (
     <div className="profile-page">
       {/* HEADER CARD */}
+                  <h1 className="about-title">Profile</h1>
+            <p className="about-text">
+              Login details listed below.
+            </p>
       <section className="card profile-header">
         <div className="profile-identity">
           <div className="avatar-wrap">
@@ -58,16 +61,6 @@ const ProfileComponent = () => {
             ) : (
               <div className="avatar fallback" aria-label="avatar initials">{initials}</div>
             )}
-            <button className="btn btn-light btn-xs change-avatar" onClick={onChangeAvatarClick}>
-              Change
-            </button>
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={onAvatarSelected}
-              style={{ display: 'none' }}
-            />
           </div>
 
           <div className="identity-text">
@@ -78,27 +71,14 @@ const ProfileComponent = () => {
               <span className={`role-badge ${loading ? 'skeleton skeleton-chip' : ''}`}>
                 {loading ? ' ' : profile.role || '—'}
               </span>
-              <span className={`contact-chip ${loading ? 'skeleton skeleton-chip wide' : ''}`}>
-                {loading ? ' ' : profile.email}
-              </span>
             </div>
           </div>
         </div>
 
-        <div className="profile-actions">
-          <button className="btn btn-outline">Edit Profile</button>
-          <button className="btn btn-primary">Save Changes</button>
-        </div>
       </section>
 
       {/* TABS */}
       <nav className="tabs">
-        <button
-          className={`tab ${activeTab === 'profile' ? 'active' : ''}`}
-          onClick={() => setActiveTab('profile')}
-        >
-          Profile
-        </button>
         <button
           className={`tab ${activeTab === 'terms' ? 'active' : ''}`}
           onClick={() => setActiveTab('terms')}
@@ -114,39 +94,6 @@ const ProfileComponent = () => {
       </nav>
 
       {/* CONTENT CARDS */}
-      {activeTab === 'profile' && (
-        <section className="card grid-2">
-          <div className="field">
-            <label>Name</label>
-            <div className={loading ? 'skeleton skeleton-text' : ''}>
-              {loading ? ' ' : profile.name}
-            </div>
-          </div>
-          <div className="field">
-            <label>Email</label>
-            <div className={loading ? 'skeleton skeleton-text' : ''}>
-              {loading ? ' ' : profile.email}
-            </div>
-          </div>
-          <div className="field">
-            <label>Role</label>
-            <div className={loading ? 'skeleton skeleton-text' : ''}>
-              {loading ? ' ' : profile.role}
-            </div>
-          </div>
-          <div className="field">
-            <label>Status</label>
-            <div className="status">
-              <span className="status-dot online" /> Active
-            </div>
-          </div>
-          <div className="field span-2">
-            <label>Bio</label>
-            <div className="muted">Add a short bio or job description to help teammates know you better.</div>
-          </div>
-        </section>
-      )}
-
       {activeTab === 'terms' && (
         <section className="card">
           <h3>Terms of Use</h3>

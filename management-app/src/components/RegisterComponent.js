@@ -39,34 +39,41 @@ const RegisterComponent = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} style={formStyle}>
-            <div>
-                <label>Username</label>
-                
-                <th></th>
+        <div className="dashboard-container">
+            <div className="register-section">
+            <form onSubmit={handleSubmit} style={formStyle}>
+                <div>
+                    <label>Username</label>
+                    
+                    <th></th>
 
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    style={inputStyle}
-                />
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        style={inputStyle}
+                    />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <th></th>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        style={inputStyle}
+                    />
+                </div>
+                <button className="btn btn-primary" type="submit" style={buttonStyle}>Register</button>
+                <div>
+                    <a href="/login">Login</a>
+                </div>
+            </form>
+            <div className="container-fluid">
+                {/* ...existing code... */}
             </div>
-            <div>
-                <label>Password</label>
-                <th></th>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={inputStyle}
-                />
-            </div>
-            <button className="btn btn-primary" type="submit" style={buttonStyle}>Register</button>
-            <div>
-                <a href="/login">Login</a>
-            </div>
-        </form>
+        </div>
+        </div>
     );
 };
 

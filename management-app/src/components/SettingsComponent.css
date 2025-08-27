@@ -1,0 +1,23 @@
+.settings-container {
+    padding-top: 40px;
+    padding-left: 80px;
+    padding-right: 80px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    width: 150%;
+    margin-left: -20%;
+}
+.settings-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.settings-text {
+    font-size: 18px;
+    color: #6c757d;
+    margin-bottom: 20px;
+    text-align: center;
+}
