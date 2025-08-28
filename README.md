@@ -1,9 +1,9 @@
 # General Purpose Inclusive DevOps Ecosystem
 Inclusive Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
-<SummaryThumbnail>
-<SummaryEnvironment>
-<SummaryFrontend>
+<p align="center">
+  <img width="607" height="607" alt="image" src="https://github.com/user-attachments/assets/c7f75900-3b50-4638-ae96-a6885ac10a7f" />
+</p>
 
 # Index
 1. Ecosystem Summary
@@ -21,37 +21,55 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
 13. Donate
 
 # 1 Ecosystem Summary 
-Inclusive Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
+Configurable web application for a calibratable devops enironment. Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
-# 2 Architecture Overview
-## 2.1 general Sections of Ecosystem
-- Continuous Development
-- Continuous Integration
-- Continuous Testing
-- Continuous Deployment
-- Continuous Delivery
-- Continuous Monitoring
-- Continuous Feedback
-- Continuous Operations
 
-## 2.2 Sector Summary of Ecosystem
-- Frontend
-- Backend
-- Dataservice
-- Gateway
-- Docker
-- Kubernetes
-- Pipeline
-- Infastructure
-- Monitoring
-- Logging
-- Network
-- Security
-- Trafic Management
-- Scalability
-- Upgradeability
-- Migration
+<h2>2 Architecture Overview</h2>
 
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>2.1 General Sections of Ecosystem</h3>
+      <ul>
+        <li>Continuous Development</li>
+        <li>Continuous Integration</li>
+        <li>Continuous Testing</li>
+        <li>Continuous Deployment</li>
+        <li>Continuous Delivery</li>
+        <li>Continuous Monitoring</li>
+        <li>Continuous Feedback</li>
+        <li>Continuous Operations</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h3>2.2 Sector Summary of Ecosystem</h3>
+      <ul>
+        <li>Frontend</li>
+        <li>Backend</li>
+        <li>Dataservice</li>
+        <li>Gateway</li>
+        <li>Docker</li>
+        <li>Kubernetes</li>
+        <li>Pipeline</li>
+        <li>Infrastructure</li>
+        <li>Monitoring</li>
+        <li>Logging</li>
+        <li>Network</li>
+        <li>Security</li>
+        <li>Traffic Management</li>
+        <li>Scalability</li>
+        <li>Upgradeability</li>
+        <li>Migration</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+<p align="center">
+<img width="1154" height="577" alt="k8s" src="https://github.com/user-attachments/assets/4243b4b9-1bdc-4290-9e53-1c0e959d495f" />
+</p>
+   
 # 3. Technology Stacks
 ## 3.1 Backend
 - **Framework**: Spring Boot 2.7.0
@@ -123,6 +141,11 @@ general_purpose_inclusive_devops_ecosystem/
 │   └── package.json             # Node.js dependencies
 └── deployment/                   # Deployment configurations
 ```
+
+<p align="center">
+   <img width="2392" height="858" alt="frontendlayout" src="https://github.com/user-attachments/assets/1b8fdf39-abf3-4fca-a64d-b922e9a61729" />
+</p>
+
 ## 4.1 Used Principle, Pattern and Techniques
 ### 4.1.1 SOLID Principles for maintainable and extensible code
     **Single Responsibility Principle (SRP)**: Controllers handle only HTTP requests/responses
@@ -149,41 +172,42 @@ general_purpose_inclusive_devops_ecosystem/
     **Service Reusability**: Services can be reused across different contexts
     **Service Autonomy**: Services operate independently
     
+
 # 5 Information of Services
 ## 5.1 User Service (`user-service`)
 - **Backend Port**: 8081
 - **Frontend URLs**:
--- Get : http://localhost:3000/users
--- Add : http://localhost:3000/add-user/_add
--- Detail : http://localhost:3000/view-user/
--- Update : http://localhost:3000/add-user/userid
+  * Get : http://localhost:3000/users
+  * Add : http://localhost:3000/add-user/_add
+  * Detail : http://localhost:3000/view-user/
+  * Update : http://localhost:3000/add-user/userid
 - **Purpose**: User management and authentication
 - **Features**: CRUD operations, search, pagination, validation
 
 ## 5.2 Product Service (`product-service`)
 - **Port**: 8082
 - **Frontend URLs**:
--- Get : http://localhost:3000/products
--- Add : http://localhost:3000/add-product/_add
--- Detail : http://localhost:3000/view-product/
--- Update : http://localhost:3000/add-product/productid
+  * Get : http://localhost:3000/products
+  * Add : http://localhost:3000/add-product/_add
+  * Detail : http://localhost:3000/view-product/
+  * Update : http://localhost:3000/add-product/productid
 - **Purpose**: Product lifecycle management
 - **Features**: CRUD operations, search, pagination, validation
 
 ## 5.2 Asset Service (`asset-service`)
 - **Port**: 8083
 - **Frontend URLs**:
--- Get : http://localhost:3000/assets
--- Add : http://localhost:3000/add-assets/_add
--- Detail : http://localhost:3000/view-asset/
--- Update : http://localhost:3000/add-asset/assetid
+  * Get : http://localhost:3000/assets
+  * Add : http://localhost:3000/add-assets/_add
+  * Detail : http://localhost:3000/view-asset/
+  * Update : http://localhost:3000/add-asset/assetid
 - **Purpose**: Product lifecycle management
 - **Features**: CRUD operations, search, pagination, validation
 
 ## 5.3 Management App (`management-app`)
 - **Port**: 3000
 - **Frontend URLs**:
--- Get : http://localhost:3000
+  * Get : http://localhost:3000
 - **Purpose**: React-based frontend application
 - **Features**: Modern UI, responsive design, state management
 
@@ -223,6 +247,10 @@ general_purpose_inclusive_devops_ecosystem/
 
 # 6. Local Setup
 User can run whole project with docker and kubernetes but if want to run manuel please read instructions.
+
+<p align="center">
+   <img width="1024" height="1003" alt="image" src="https://github.com/user-attachments/assets/77265eec-adf4-4e1f-a733-fcefacae0197" />
+</p>
 
 ## 6.1 Prerequisites
 - Java 17+
@@ -320,6 +348,10 @@ docker run -p 8082:8082 product-service
 - Service configurations
 - Ingress rules
 
+<p align="center">
+<img width="1154" height="577" alt="k8s" src="https://github.com/user-attachments/assets/4243b4b9-1bdc-4290-9e53-1c0e959d495f" />
+</p>
+
 ## 8.6 Error Handling
 export NODE_OPTIONS=--openssl-legacy-provider
 export SKIP_PREFLIGHT_CHECK=true
@@ -376,7 +408,7 @@ taskkill /F /PID
 -- Financial Procedures
 -- Additional Notes
 
--Assets
+- Assets
 -- ID
 -- Name
 -- Type
