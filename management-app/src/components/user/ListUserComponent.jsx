@@ -87,14 +87,14 @@ class ListUserComponent extends Component {
   fetchUsers() {
     const { searchName, currentPage } = this.state;
     UserService.getUsersByName(searchName, currentPage).then(res => {
-      console.log('API Response:', res.data); // Log the API response
+      console.log('API Response:', res.data);
       this.setState({
-        users: res.data?.content || [], // Ensure users is always an array
+        users: res.data?.content || [],
         totalPages: res.data?.totalPages || 0,
       });
     }).catch(error => {
       console.error('Error fetching users:', error);
-      this.setState({ users: [] }); // Fallback to an empty array on error
+      this.setState({ users: [] });
     });
   }
 
@@ -125,7 +125,6 @@ class ListUserComponent extends Component {
               </div>
 
               <div className="d-flex align-items-center gap-2">
-                {/* keep existing handlers, just styled */}
                 <div className="search-wrap mb-3" style={{ marginTop: '15px' }}>
                   <input
                     className="search-input"
@@ -203,7 +202,7 @@ class ListUserComponent extends Component {
               </table>
             </div>
 
-            {/* Pagination Controls */}
+            {/* Pagination */}
             <div className="pagination-controls" style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
               <button
                 className="btn btn-secondary btn-sm"
@@ -227,7 +226,6 @@ class ListUserComponent extends Component {
             <div className="d-flex justify-content-between align-items-center small text-muted mt-3">
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px', marginLeft: '620px' }}>Showing {users?.length || 0} values</div>
             </div>
-            {/* Inline page-specific styles (keeps Bootstrap; adds clean look) */}
             <style>{`
               .app-shell { position: relative; }
               .app-sidebar {

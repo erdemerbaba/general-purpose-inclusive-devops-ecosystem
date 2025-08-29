@@ -2,6 +2,29 @@ import React, { Component } from 'react';
 import UserService from '../../services/UserService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const styles = {
+  titleBar: {
+    borderBottom: '1px solid #eef0f3',
+  },
+  backButton: {
+    display: 'block',
+    paddingBottom: '30px',
+  },
+  cancelButton: {
+    display: 'block',
+    paddingBottom: '30px',
+    marginRight: '8px',
+  },
+  saveButton: {
+    display: 'block',
+    paddingBottom: '30px',
+  },
+  card: {
+    borderRadius: 20,
+    maxWidth: 1100,
+  },
+};
+
 class CreateUserComponent extends Component {
   constructor(props) {
     super(props);
@@ -32,12 +55,8 @@ class CreateUserComponent extends Component {
       projects: '',
       links: '',
       governmentPapers: '',
-      additionalNotes: ''
+      additionalNotes: '',
     };
-
-    this.changeNameHandler = this.changeNameHandler.bind(this);
-    this.changeSurnameHandler = this.changeSurnameHandler.bind(this);
-    this.saveOrUpdateUser = this.saveOrUpdateUser.bind(this);
   }
 
   componentDidMount() {
@@ -48,22 +67,14 @@ class CreateUserComponent extends Component {
     });
   }
 
-  // --- all your existing handlers (unchanged) ---
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+
   saveOrUpdateUser = (e) => {
     e.preventDefault();
-    const {
-      name, surname, profession, role, level, team, mentor, joinDate, leaveDate,
-      location, email, phoneNumber, birthDate, nationality, address, identityNumber,
-      educations, experience, skills, certifications, honors, memberships, projects,
-      links, governmentPapers, additionalNotes, id
-    } = this.state;
-
-    const user = {
-      name, surname, profession, role, level, team, mentor, joinDate, leaveDate,
-      location, email, phoneNumber, birthDate, nationality, address, identityNumber,
-      educations, experience, skills, certifications, honors, memberships, projects,
-      links, governmentPapers, additionalNotes
-    };
+    const { id, ...user } = this.state;
 
     if (id === '_add') {
       UserService.createUser(user).then(() => this.props.history.push('/users'));
@@ -72,249 +83,139 @@ class CreateUserComponent extends Component {
     }
   };
 
-  changeNameHandler = (e) => this.setState({ name: e.target.value });
-  changeSurnameHandler = (e) => this.setState({ surname: e.target.value });
-  changeProfessionHandler = (e) => this.setState({ profession: e.target.value });
-  changeRoleHandler = (e) => this.setState({ role: e.target.value });
-  changeLevelHandler = (e) => this.setState({ level: e.target.value });
-  changeTeamHandler = (e) => this.setState({ team: e.target.value });
-  changeMentorHandler = (e) => this.setState({ mentor: e.target.value });
-  changeJoinDateHandler = (e) => this.setState({ joinDate: e.target.value });
-  changeLeaveDateHandler = (e) => this.setState({ leaveDate: e.target.value });
-  changeLocationHandler = (e) => this.setState({ location: e.target.value });
-  changeEmailHandler = (e) => this.setState({ email: e.target.value });
-  changePhoneNumberHandler = (e) => this.setState({ phoneNumber: e.target.value });
-  changeBirthDateHandler = (e) => this.setState({ birthDate: e.target.value });
-  changeNationalityHandler = (e) => this.setState({ nationality: e.target.value });
-  changeAddressHandler = (e) => this.setState({ address: e.target.value });
-  changeIdentityNumberHandler = (e) => this.setState({ identityNumber: e.target.value });
-  changeEducationsHandler = (e) => this.setState({ educations: e.target.value });
-  changeExperienceHandler = (e) => this.setState({ experience: e.target.value });
-  changeSkillsHandler = (e) => this.setState({ skills: e.target.value });
-  changeCertificationsHandler = (e) => this.setState({ certifications: e.target.value });
-  changeHonorsHandler = (e) => this.setState({ honors: e.target.value });
-  changeMembershipsHandler = (e) => this.setState({ memberships: e.target.value });
-  changeProjectsHandler = (e) => this.setState({ projects: e.target.value });
-  changeLinksHandler = (e) => this.setState({ links: e.target.value });
-  changeGovernmentPapersHandler = (e) => this.setState({ governmentPapers: e.target.value });
-  changeAdditionalNotesHandler = (e) => this.setState({ additionalNotes: e.target.value });
+  cancel = () => this.props.history.push('/users');
 
-  cancel() { this.props.history.push('/users'); }
+  getTitle = () => (this.state.id === '_add' ? 'Add Employee' : 'Update User');
 
-  getTitle() {
-    return this.state.id === '_add' ? 'Add Employee' : 'Update User';
-  }
-
-  // small header badge block
-  TitleBar() {
-    return (
-      <div className="d-flex align-items-center justify-content-between px-4 py-3"
-           style={{ borderBottom: '1px solid #eef0f3' }}>
-        <div className="d-flex align-items-center gap-2">
-          <a className="btn btn-light border" onClick={() => this.props.history.goBack()} role="button" style={{ display: 'block', paddingBottom: '30px' }}>
-            <i className="bi bi-arrow-left me-1" /> Back
-          </a>
-          <h5 className="m-0" style={{ display: 'block', paddingLeft: '350px' }}>{this.getTitle()}</h5>
-        </div>
+  TitleBar = () => (
+    <div className="d-flex align-items-center justify-content-between px-4 py-3" style={styles.titleBar}>
+      <div className="d-flex align-items-center gap-2">
+        <button
+          className="btn btn-light border"
+          onClick={() => this.props.history.goBack()}
+          style={styles.backButton}
+        >
+          <i className="bi bi-arrow-left me-1" /> Back
+        </button>
+        <h5 className="m-0" style={{ paddingLeft: '350px' }}>{this.getTitle()}</h5>
       </div>
-    );
-  }
+    </div>
+  );
 
   render() {
-    const s = this.state;
+    const { id, ...fields } = this.state;
 
     return (
       <div className="dashboard-container">
         <div className="container-fluid" style={{ paddingInlineStart: 72, paddingInlineEnd: 16, marginBottom: 40 }}>
-          <div className="card border-0 shadow-sm mx-auto" style={{ borderRadius: 20, maxWidth: 1100 }}>
+          <div className="card border-0 shadow-sm mx-auto" style={styles.card}>
             {this.TitleBar()}
 
             <div className="card-body px-4 px-md-5 py-4">
               <form onSubmit={this.saveOrUpdateUser}>
-                {/* SECTION: Basic */}
-                <div className="mb-4">
-                  <div className="mb-2 text-uppercase small text-secondary">Basic Information</div>
-                  <div className="row g-3">
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Name</label>
-                      <input className="form-control" name="name" placeholder="Jane"
-                             value={s.name} onChange={this.changeNameHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Surname</label>
-                      <input className="form-control" name="surname" placeholder="Doe"
-                             value={s.surname} onChange={this.changeSurnameHandler} />
-                    </div>
-
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Profession</label>
-                      <input className="form-control" name="profession" placeholder="Software Engineer"
-                             value={s.profession} onChange={this.changeProfessionHandler} />
-                    </div>
-                    <div className="col-6 col-md-3">
-                      <label className="form-label">Role</label>
-                      <input className="form-control" name="role" placeholder="Developer"
-                             value={s.role} onChange={this.changeRoleHandler} />
-                    </div>
-                    <div className="col-6 col-md-3">
-                      <label className="form-label">Level</label>
-                      <input className="form-control" name="level" placeholder="3"
-                             value={s.level} onChange={this.changeLevelHandler} />
-                    </div>
-
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">Team</label>
-                      <input className="form-control" name="team" placeholder="Core Platform"
-                             value={s.team} onChange={this.changeTeamHandler} />
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">Mentor</label>
-                      <input className="form-control" name="mentor" placeholder="John Smith"
-                             value={s.mentor} onChange={this.changeMentorHandler} />
-                    </div>
-                    <div className="col-6 col-md-2">
-                      <label className="form-label">Join Date</label>
-                      <input type="date" className="form-control" name="joinDate"
-                             value={s.joinDate} onChange={this.changeJoinDateHandler} />
-                    </div>
-                    <div className="col-6 col-md-2">
-                      <label className="form-label">Leave Date</label>
-                      <input type="date" className="form-control" name="leaveDate"
-                             value={s.leaveDate} onChange={this.changeLeaveDateHandler} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION: Contact */}
-                <div className="mb-4">
-                  <div className="mb-2 text-uppercase small text-secondary">Contact</div>
-                  <div className="row g-3">
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Email</label>
-                      <input type="email" className="form-control" name="email" placeholder="name@company.com"
-                             value={s.email} onChange={this.changeEmailHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Phone Number</label>
-                      <input type="tel" className="form-control" name="phoneNumber" placeholder="+90 5xx xxx xx xx"
-                             value={s.phoneNumber} onChange={this.changePhoneNumberHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Location</label>
-                      <input className="form-control" name="location" placeholder="Istanbul, TR"
-                             value={s.location} onChange={this.changeLocationHandler} />
-                    </div>
-                    <div className="col-6 col-md-3">
-                      <label className="form-label">Birth Date</label>
-                      <input type="date" className="form-control" name="birthDate"
-                             value={s.birthDate} onChange={this.changeBirthDateHandler} />
-                    </div>
-                    <div className="col-6 col-md-3">
-                      <label className="form-label">Nationality</label>
-                      <input className="form-control" name="nationality" placeholder="Turkish"
-                             value={s.nationality} onChange={this.changeNationalityHandler} />
-                    </div>
-                    <div className="col-12">
-                      <label className="form-label">Address</label>
-                      <textarea rows="2" className="form-control" name="address" placeholder="Street, city, country"
-                                value={s.address} onChange={this.changeAddressHandler} />
+                {[
+                  {
+                    section: 'Basic Information',
+                    fields: [
+                      { label: 'Name', name: 'name', placeholder: 'Jane' },
+                      { label: 'Surname', name: 'surname', placeholder: 'Doe' },
+                      { label: 'Profession', name: 'profession', placeholder: 'Software Engineer' },
+                      { label: 'Role', name: 'role', placeholder: 'Developer' },
+                      { label: 'Level', name: 'level', placeholder: '3' },
+                      { label: 'Team', name: 'team', placeholder: 'Core Platform' },
+                      { label: 'Mentor', name: 'mentor', placeholder: 'John Smith' },
+                      { label: 'Join Date', name: 'joinDate', type: 'date' },
+                      { label: 'Leave Date', name: 'leaveDate', type: 'date' },
+                    ],
+                  },
+                  {
+                    section: 'Contact',
+                    fields: [
+                      { label: 'Email', name: 'email', placeholder: 'name@company.com', type: 'email' },
+                      { label: 'Phone Number', name: 'phoneNumber', placeholder: '+90 5xx xxx xx xx', type: 'tel' },
+                      { label: 'Location', name: 'location', placeholder: 'Istanbul, TR' },
+                      { label: 'Birth Date', name: 'birthDate', type: 'date' },
+                      { label: 'Nationality', name: 'nationality', placeholder: 'Turkish' },
+                      { label: 'Address', name: 'address', type: 'textarea', placeholder: 'Street, city, country' },
+                    ],
+                  },
+                  {
+                    section: 'Identity',
+                    fields: [
+                      { label: 'Identity Number', name: 'identityNumber', placeholder: 'ID / Passport No.' },
+                    ],
+                  },
+                  {
+                    section: 'Background',
+                    fields: [
+                      { label: 'Educations', name: 'educations', type: 'textarea', placeholder: 'BSc, MSc, etc.' },
+                      { label: 'Experience', name: 'experience', type: 'textarea', placeholder: 'Company – Role (YYYY–YYYY)' },
+                      { label: 'Skills', name: 'skills', type: 'textarea', placeholder: 'Comma-separated or lines' },
+                      { label: 'Certifications', name: 'certifications', type: 'textarea' },
+                      { label: 'Honors', name: 'honors', type: 'textarea' },
+                      { label: 'Memberships', name: 'memberships', type: 'textarea' },
+                    ],
+                  },
+                  {
+                    section: 'Projects & Links',
+                    fields: [
+                      { label: 'Projects', name: 'projects', type: 'textarea' },
+                      { label: 'Links', name: 'links', type: 'textarea', placeholder: 'Portfolio, LinkedIn, GitHub…' },
+                    ],
+                  },
+                  {
+                    section: 'Documents & Notes',
+                    fields: [
+                      { label: 'Government Papers', name: 'governmentPapers', type: 'textarea' },
+                      { label: 'Additional Notes', name: 'additionalNotes', type: 'textarea' },
+                    ],
+                  },
+                ].map((section, index) => (
+                  <div className="mb-4" key={index}>
+                    <div className="mb-2 text-uppercase small text-secondary">{section.section}</div>
+                    <div className="row g-3">
+                      {section.fields.map((field, idx) => (
+                        <div className={`col-12 ${field.type === 'textarea' ? '' : 'col-md-6'}`} key={idx}>
+                          <label className="form-label">{field.label}</label>
+                          {field.type === 'textarea' ? (
+                            <textarea
+                              rows="2"
+                              className="form-control"
+                              name={field.name}
+                              value={fields[field.name] || ''}
+                              onChange={this.handleInputChange}
+                              placeholder={field.placeholder}
+                            />
+                          ) : (
+                            <input
+                              className="form-control"
+                              name={field.name}
+                              value={fields[field.name] || ''}
+                              onChange={this.handleInputChange}
+                              placeholder={field.placeholder}
+                              type={field.type || 'text'}
+                            />
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
+                ))}
 
-                {/* SECTION: Identity */}
-                <div className="mb-4">
-                  <div className="mb-2 text-uppercase small text-secondary">Identity</div>
-                  <div className="row g-3">
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Identity Number</label>
-                      <input className="form-control" name="identityNumber" placeholder="ID / Passport No."
-                             value={s.identityNumber} onChange={this.changeIdentityNumberHandler} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION: Background */}
-                <div className="mb-4">
-                  <div className="mb-2 text-uppercase small text-secondary">Background</div>
-                  <div className="row g-3">
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Educations</label>
-                      <textarea rows="2" className="form-control" name="educations"
-                                placeholder="BSc, MSc, etc."
-                                value={s.educations} onChange={this.changeEducationsHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Experience</label>
-                      <textarea rows="2" className="form-control" name="experience"
-                                placeholder="Company – Role (YYYY–YYYY)"
-                                value={s.experience} onChange={this.changeExperienceHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Skills</label>
-                      <textarea rows="2" className="form-control" name="skills"
-                                placeholder="Comma-separated or lines"
-                                value={s.skills} onChange={this.changeSkillsHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Certifications</label>
-                      <textarea rows="2" className="form-control" name="certifications"
-                                value={s.certifications} onChange={this.changeCertificationsHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Honors</label>
-                      <textarea rows="2" className="form-control" name="honors"
-                                value={s.honors} onChange={this.changeHonorsHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Memberships</label>
-                      <textarea rows="2" className="form-control" name="memberships"
-                                value={s.memberships} onChange={this.changeMembershipsHandler} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION: Projects & Links */}
-                <div className="mb-4">
-                  <div className="mb-2 text-uppercase small text-secondary">Projects & Links</div>
-                  <div className="row g-3">
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Projects</label>
-                      <textarea rows="2" className="form-control" name="projects"
-                                value={s.projects} onChange={this.changeProjectsHandler} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">Links</label>
-                      <textarea rows="2" className="form-control" name="links"
-                                placeholder="Portfolio, LinkedIn, GitHub…"
-                                value={s.links} onChange={this.changeLinksHandler} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* SECTION: Documents & Notes */}
-                <div className="mb-4">
-                  <div className="mb-2 text-uppercase small text-secondary">Documents & Notes</div>
-                  <div className="row g-3">
-                    <div className="col-12">
-                      <label className="form-label">Government Papers</label>
-                      <textarea rows="2" className="form-control" name="governmentPapers"
-                                value={s.governmentPapers} onChange={this.changeGovernmentPapersHandler} />
-                    </div>
-                    <div className="col-12">
-                      <label className="form-label">Additional Notes</label>
-                      <textarea rows="3" className="form-control" name="additionalNotes"
-                                value={s.additionalNotes} onChange={this.changeAdditionalNotesHandler} />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Bottom actions */}
                 <div className="d-flex justify-content-center gap-2">
-                  <button type="button" className="btn btn-outline-secondary" onClick={() => this.cancel()} style={{ display: 'block', paddingBottom: '30px', marginRight: '8px' }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={this.cancel}
+                    style={styles.cancelButton}
+                  >
                     Cancel
                   </button>
-                  <button type="submit" className="btn btn-primary" style={{ display: 'block', paddingBottom: '30px' }}>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={styles.saveButton}
+                  >
                     <i className="bi bi-check2 me-1" /> Save
                   </button>
                 </div>

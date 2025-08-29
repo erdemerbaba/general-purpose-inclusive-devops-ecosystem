@@ -70,7 +70,6 @@ const RegisterComponent = () => {
                 </div>
             </form>
             <div className="container-fluid">
-                {/* ...existing code... */}
             </div>
         </div>
         </div>

@@ -1,6 +1,6 @@
 import api from './api';
 
-const USER_API_BASE_URL = "http://localhost:8070/api/v1/users";
+const USER_API_BASE_URL = "http://localhost:8081/api/v1/users";
 
 const checkAuthAndRedirect = async () => {
     try {

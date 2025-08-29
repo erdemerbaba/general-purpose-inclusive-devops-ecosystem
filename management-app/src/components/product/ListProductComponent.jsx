@@ -118,7 +118,6 @@ class ListProductComponent extends Component {
                         <small className="text-secondary">{product.category || '—'}</small>
                       </div>
 
-                      {/* kebab still available */}
                       <div className="dropdown">
                         <ul className="dropdown-menu dropdown-menu-end">
                           <li><button className="dropdown-item" onClick={() => this.viewProduct(product.id)} style={{ backgroundColor: '#0e7d02ff' }}><i className="bi bi-eye me-2" />View</button></li>
@@ -152,10 +151,9 @@ class ListProductComponent extends Component {
                     {/* spacer */}
                     <div className="flex-grow-1" />
 
-                    {/* members (visual) */}
+                    {/* members */}
 
 
-                    {/* CRUD ACTION BAR (always visible) */}
                     <div className="mt-3 d-flex justify-content-end gap-2">
                       <button className="btn btn-sm btn-outline-secondary" onClick={() => this.viewProduct(product.id)}style={{  paddingBottom: '30px', marginRight: '10px', backgroundColor: '#0e7d02ad' }}>
                         <i className="bi bi-eye me-1" /> View

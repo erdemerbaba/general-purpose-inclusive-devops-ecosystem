@@ -1,6 +1,54 @@
 import React from 'react';
 import './AboutComponent.css';
 
+const styles = {
+    aboutSection: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    missionVision: {
+        flex: 1,
+        textAlign: 'center',
+    },
+    mission: {
+        marginRight: '10px',
+    },
+    vision: {
+        marginLeft: '10px',
+    },
+    sectionContainer: {
+        padding: '20px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    },
+    sectionTitle: {
+        color: '#007bff',
+        textAlign: 'center',
+        marginBottom: '20px',
+    },
+    listContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: '20px',
+    },
+    list: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '10px',
+        listStyleType: 'none',
+        padding: 0,
+        marginTop: '10px',
+    },
+    textCenter: {
+        textAlign: 'center',
+    },
+    textStyle: {
+        lineHeight: '1.6',
+        fontSize: '16px',
+        color: '#333',
+    },
+};
+
 const AboutComponent = () => {
     return (
         <div className="about-container">
@@ -8,31 +56,31 @@ const AboutComponent = () => {
             <p className="about-text">
                 ERA Technology is an initiative that provides innovative engineering services for the benefit of people in the fields of product development and software Services.
             </p>
-            <div className="about-section" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ flex: 1,  textAlign: 'center', marginRight: '10px' }}>
+            <div className="about-section" style={styles.aboutSection}>
+                <div style={{ ...styles.missionVision, ...styles.mission }}>
                     <h2 style={{ color: '#007bff' }}>Mission</h2>
                     <p>
                         Our mission is to leverage technology to create innovative solutions that improve the quality of life for individuals and communities.
                     </p>
                 </div>
-                <div style={{ flex: 1, textAlign: 'center', marginLeft: '10px' }}>
+                <div style={{ ...styles.missionVision, ...styles.vision }}>
                     <h2 style={{ color: '#007bff' }}>Vision</h2>
                     <p>
                         Our vision is to be a global leader in technology-driven solutions, empowering individuals and organizations to achieve their goals.
                     </p>
                 </div>
             </div>
-            <div className="about-section" style={{ padding: '20px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-                <h2 style={{ color: '#007bff', textAlign: 'center', marginBottom: '20px' }}>Why and How to Use This Application</h2>
-                <div style={{ lineHeight: '1.6', fontSize: '16px', color: '#333' }}>
+            <div className="about-section" style={styles.sectionContainer}>
+                <h2 style={styles.sectionTitle}>Why and How to Use This Application</h2>
+                <div style={styles.textStyle}>
                     <p>
                         <strong>General Purpose Inclusive DevOps Ecosystem</strong><br />
                         Inclusive DevOps Ecosystem is a general-purpose environment for maintaining both full-stack and DevOps projects. This ecosystem offers a configurable management web application that provides a DevOps environment, which can be calibrated and used for other projects such as maintaining, monitoring, and infrastructure practices of this web application.
                     </p>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
+                    <div style={styles.listContainer}>
                         <div style={{ flex: 1 }}>
                             <strong>General Sections of Ecosystem</strong>
-                            <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', listStyleType: 'none', padding: 0, marginTop: '10px' }}>
+                            <ul style={styles.list}>
                                 <li>Continuous Development</li>
                                 <li>Continuous Integration</li>
                                 <li>Continuous Testing</li>
@@ -45,7 +93,7 @@ const AboutComponent = () => {
                         </div>
                         <div style={{ flex: 1 }}>
                             <strong>Sector Summary of Ecosystem</strong>
-                            <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', listStyleType: 'none', padding: 0, marginTop: '10px' }}>
+                            <ul style={styles.list}>
                                 <li>Frontend</li>
                                 <li>Backend</li>
                                 <li>Dataservice</li>
@@ -68,8 +116,8 @@ const AboutComponent = () => {
                 </div>
             </div>
             <div className="about-section">
-                <h2 style={{ textAlign: 'center', color: '#007bff' }}>Technology Stacks</h2>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px' }}>
+                <h2 style={{ ...styles.textCenter, color: '#007bff' }}>Technology Stacks</h2>
+                <div style={styles.listContainer}>
                     <div style={{ flex: 1, textAlign: 'center' }}>
                         <p>
                             <strong>Backend</strong><br />
@@ -85,7 +133,7 @@ const AboutComponent = () => {
                             - <strong>Framework</strong>: MongoDB
                         </p>
                     </div>
-                    <div style={{ flex: 1 , textAlign: 'center'}}>
+                    <div style={{ flex: 1, textAlign: 'center' }}>
                         <p>
                             <strong>Frontend</strong><br />
                             - <strong>Framework</strong>: React 17<br />
@@ -104,7 +152,7 @@ const AboutComponent = () => {
                         </p>
                     </div>
                 </div>
-                <div style={{ lineHeight: '1.6', fontSize: '16px', color: '#333', marginTop: '20px', textAlign: 'center' }}>
+                <div style={{ ...styles.textStyle, marginTop: '20px', textAlign: 'center' }}>
                     <p>
                         <strong>Automation Tools</strong><br />
                         - <strong>Continuous Delivery</strong>: Jenkins

@@ -12,7 +12,7 @@ const LoginComponent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            localStorage.removeItem('user'); // Clear old token
+            localStorage.removeItem('user'); 
             await login(username, password);
             navigate.push('/dashboard'); 
         } catch (error) {
@@ -70,7 +70,6 @@ const LoginComponent = () => {
                 </div>
             </form>
             <div className="container-fluid">
-                {/* ...existing code... */}
             </div>
             </div>
         </div>
