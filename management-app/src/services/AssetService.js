@@ -1,6 +1,6 @@
 import api from './api';
 
-const ASSET_API_BASE_URL = "http://localhost:8020/api/v1/assets";
+const ASSET_API_BASE_URL = "http://localhost:8083/api/v1/assets";
 
 const checkAuthAndRedirect = async () => {
     try {
@@ -14,18 +14,20 @@ const checkAuthAndRedirect = async () => {
 }
 
 class AssetService {
-    async getAssetsByName(searchQuery = '') {
+    async getAssetsByName(searchQuery = '', page = 0, size = 10) {
         await checkAuthAndRedirect();
-        let url = ASSET_API_BASE_URL;
+        let url = `${ASSET_API_BASE_URL}?page=${page}&size=${size}`;
         if (searchQuery) {
-            url += `?name=${encodeURIComponent(searchQuery)}`;
+            url += `&name=${encodeURIComponent(searchQuery)}`;
         }
         return api.get(url);
     }
 
-    async getAllAssets() {
+    async getAllAssets(params = {}) {
         await checkAuthAndRedirect();
-        return api.get(ASSET_API_BASE_URL);
+        const queryString = new URLSearchParams(params).toString();
+        const url = queryString ? `${ASSET_API_BASE_URL}?${queryString}` : ASSET_API_BASE_URL;
+        return api.get(url);
     }
 
     async createAsset(asset) {

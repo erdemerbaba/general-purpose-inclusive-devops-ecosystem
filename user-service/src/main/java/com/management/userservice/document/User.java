@@ -36,14 +36,14 @@ public class User {
 	private String memberships;
 	private String projects;
 	private String links;
-	private String govermentPapers;
+	private String governmentPapers;
 	private String additionalNotes;
 
 	public User() {
 
 	}
 
-	public User(String username, String password, String name, String surname, String profession, String role, String level, String team, String mentor, String joinDate, String leaveDate, String location, String email, String phoneNumber, String birthDate, String nationality, String address, String identityNumber, String educations, String experience, String skills, String certifications, String honors, String memberships, String projects, String links, String govermentPapers, String additionalNotes) {
+	public User(String username, String password, String name, String surname, String profession, String role, String level, String team, String mentor, String joinDate, String leaveDate, String location, String email, String phoneNumber, String birthDate, String nationality, String address, String identityNumber, String educations, String experience, String skills, String certifications, String honors, String memberships, String projects, String links, String governmentPapers, String additionalNotes) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -71,7 +71,7 @@ public class User {
 		this.memberships = memberships;
 		this.projects = projects;
 		this.links = links;
-		this.govermentPapers = govermentPapers;
+		this.governmentPapers = governmentPapers;
 		this.additionalNotes = additionalNotes;
 	}
 
@@ -291,12 +291,12 @@ public class User {
 		this.links = links;
 	}
 
-	public String getGovermentPapers() {
-		return govermentPapers;
+	public String getGovernmentPapers() {
+		return governmentPapers;
 	}
 
-	public void setGovermentPapers(String govermentPapers) {
-		this.govermentPapers = govermentPapers;
+	public void setGovernmentPapers(String governmentPapers) {
+		this.governmentPapers = governmentPapers;
 	}
 
 	public String getAdditionalNotes() {
