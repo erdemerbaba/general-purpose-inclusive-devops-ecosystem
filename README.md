@@ -188,10 +188,10 @@ general_purpose_inclusive_devops_ecosystem/
 - **Features**: Modern UI, responsive design, state management
 
 ## 5.4 eureka
-
+http://localhost:8761/
 
 ## 5.5 gateway
-
+http://localhost:8080/actuator/gateway/routes
 
 ## 5.6 swagger
 
