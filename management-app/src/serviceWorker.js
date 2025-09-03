@@ -55,7 +55,6 @@ function registerValidSW(swUrl, config) {
                 'Management App '
               );
 
-              // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
