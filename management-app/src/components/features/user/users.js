@@ -1,9 +1,9 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
-import ListUserComponent from '../user/ListUserComponent';
-import CreateUserComponent from '../user/CreateUserComponent';
-import ViewUserComponent from '../user/ViewUserComponent';
+import ListUserComponent from './ListUserComponent';
+import CreateUserComponent from './CreateUserComponent';
+import ViewUserComponent from './ViewUserComponent';
 
 
 const Satis = () => {

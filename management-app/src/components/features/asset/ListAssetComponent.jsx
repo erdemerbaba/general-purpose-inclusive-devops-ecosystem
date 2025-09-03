@@ -1,6 +1,6 @@
 // ListAssetComponent.jsx
 import React, { Component } from 'react';
-import AssetService from '../../services/AssetService';
+import AssetService from '../../../services/AssetService';
 
 class ListAssetComponent extends Component {
   constructor(props) {

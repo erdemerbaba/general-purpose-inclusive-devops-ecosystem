@@ -1,35 +1,34 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import FooterComponent from './components/FooterComponent';
-import HeaderComponent from './components/HeaderComponent';
+import FooterComponent from './components/layout/FooterComponent';
+import HeaderComponent from './components/layout/HeaderComponent';
 
-import ListUserComponent from './components/user/ListUserComponent';
-import CreateUserComponent from './components/user/CreateUserComponent';
-import ViewUserComponent from './components/user/ViewUserComponent';
+import ListUserComponent from './components/features/user/ListUserComponent';
+import CreateUserComponent from './components/features/user/CreateUserComponent';
+import ViewUserComponent from './components/features/user/ViewUserComponent';
 
 
-import ListProductComponent from './components/product/ListProductComponent';
-import CreateProductComponent from './components/product/CreateProductComponent';
-import ViewProductComponent from './components/product/ViewProductComponent';
+import ListProductComponent from './components/features/product/ListProductComponent';
+import CreateProductComponent from './components/features/product/CreateProductComponent';
+import ViewProductComponent from './components/features/product/ViewProductComponent';
 
-import Users from './components/users/users';
-import Landing from './components/landing/landing';
-import Products from './components/products/products';
+import Users from './components/features/user/users';
+import Products from './components/features/product/products';
 
-import LoginComponent from './components/LoginComponent';
-import RegisterComponent from './components/RegisterComponent';
+import LoginComponent from './components/pages/login/LoginComponent';
+import RegisterComponent from './components/pages/register/RegisterComponent';
 import { AuthContext, AuthProvider } from './context/AuthContext';
-import SettingsComponent from './components/SettingsComponent';
-import ProfileComponent from './components/ProfileComponent';
-import DashboardComponent from './components/DashboardComponent';
-import AboutComponent from './components/AboutComponent';
-import DocumentsComponent from './components/DocumentsComponent';
-import LinksComponent from './components/LinksComponent';
-import InformationComponent from './components/InformationComponent';
-import CreateAssetComponent from './components/asset/CreateAssetComponent';
-import ListAssetComponent from './components/asset/ListAssetComponent';
-import ViewAssetComponent from './components/asset/ViewAssetComponent';
+import SettingsComponent from './components/pages/settings/SettingsComponent';
+import ProfileComponent from './components/pages/profile/ProfileComponent';
+import DashboardComponent from './components/pages/dashboard/DashboardComponent';
+import AboutComponent from './components/pages/about/AboutComponent';
+import DocumentsComponent from './components/pages/documents/DocumentsComponent';
+import LinksComponent from './components/pages/links/LinksComponent';
+import InformationComponent from './components/pages/information/InformationComponent';
+import CreateAssetComponent from './components/features/asset/CreateAssetComponent';
+import ListAssetComponent from './components/features/asset/ListAssetComponent';
+import ViewAssetComponent from './components/features/asset/ViewAssetComponent';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { user } = useContext(AuthContext);
@@ -70,7 +69,6 @@ const App = () => {
         <Switch>
           <Route path="/login" component={LoginComponent} />
           <PrivateRoute path="/register" component={RegisterComponent} />
-          <PrivateRoute path="/landing" component={Landing} />
           <PrivateRoute path="/users" component={Users} />
           <PrivateRoute path="/products" component={Products} />
           <PrivateRoute path="/" exact component={DashboardComponent} />

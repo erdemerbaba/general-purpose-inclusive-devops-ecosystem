@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
-import authService from '../services/auth.service';
+import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
+import './LoginComponent.css';
 
-const RegisterComponent = () => {
+const LoginComponent = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useContext(AuthContext);
+    const navigate = useHistory();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await authService.register(username, password);
-            alert('Registration successful! Logging in...');
-            const loginResponse = await authService.login(username, password);
-            if (loginResponse) {
-                window.location.href = '/'; 
-            }
+            localStorage.removeItem('user'); 
+            await login(username, password);
+            navigate.push('/dashboard'); 
         } catch (error) {
-            console.error('Failed to register:', error);
+            console.error('Failed to login:', error);
         }
     };
 
@@ -24,7 +25,7 @@ const RegisterComponent = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '50vh'
+        height: '40vh'
     };
 
     const inputStyle = {
@@ -40,13 +41,12 @@ const RegisterComponent = () => {
 
     return (
         <div className="dashboard-container">
-            <div className="register-section">
+            <div className="login-section">
             <form onSubmit={handleSubmit} style={formStyle}>
                 <div>
+                <th></th>
                     <label>Username</label>
-                    
                     <th></th>
-
                     <input
                         type="text"
                         value={username}
@@ -64,16 +64,16 @@ const RegisterComponent = () => {
                         style={inputStyle}
                     />
                 </div>
-                <button className="btn btn-primary" type="submit" style={buttonStyle}>Register</button>
+                <button className="btn btn-primary" type="submit" style={buttonStyle}>Login</button>
                 <div>
-                    <a href="/login">Login</a>
+                    <a href="/register">Register</a>
                 </div>
             </form>
             <div className="container-fluid">
             </div>
-        </div>
+            </div>
         </div>
     );
 };
 
-export default RegisterComponent;
+export default LoginComponent;

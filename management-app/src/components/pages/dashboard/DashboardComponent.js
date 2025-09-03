@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './DashboardComponent.css';
-import AssetService from '../services/AssetService';
-import ProductService from '../services/ProductService';
-import UserService from '../services/UserService';
+import AssetService from '../../../services/AssetService';
+import ProductService from '../../../services/ProductService';
+import UserService from '../../../services/UserService';
 
 const DashboardComponent = () => {
     const [assets, setAssets] = useState([]);

@@ -1,9 +1,9 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
-import ListProductComponent from '../product/ListProductComponent';
-import CreateProductComponent from '../product/CreateProductComponent';
-import ViewProductComponent from '../product/ViewProductComponent';
+import ListProductComponent from './ListProductComponent';
+import CreateProductComponent from './CreateProductComponent';
+import ViewProductComponent from './ViewProductComponent';
 
 
 const Satis = () => {

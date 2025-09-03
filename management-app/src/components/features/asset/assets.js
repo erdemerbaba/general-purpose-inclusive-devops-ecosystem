@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import ListAssetComponent from '../asset/ListAssetComponent';
-import CreateAssetComponent from '../asset/CreateAssetComponent';
-import ViewAssetComponent from '../asset/ViewAssetComponent';
+import ListAssetComponent from './ListAssetComponent';
+import CreateAssetComponent from './CreateAssetComponent';
+import ViewAssetComponent from './ViewAssetComponent';
 
 const Assets = () => {
     return (

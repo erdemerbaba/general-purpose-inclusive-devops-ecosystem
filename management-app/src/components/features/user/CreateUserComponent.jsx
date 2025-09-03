@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserService from '../../services/UserService';
+import UserService from '../../../services/UserService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const styles = {

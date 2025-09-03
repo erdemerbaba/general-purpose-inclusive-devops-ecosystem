@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AssetService from '../../services/AssetService';
+import AssetService from '../../../services/AssetService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const styles = {

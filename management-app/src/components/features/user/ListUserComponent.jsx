@@ -1,7 +1,7 @@
 // ListUserComponent.jsx
 import React, { Component } from 'react';
-import UserService from '../../services/UserService';
-import { AuthContext } from '../../context/AuthContext';
+import UserService from '../../../services/UserService';
+import { AuthContext } from '../../../context/AuthContext';
 
 class ListUserComponent extends Component {
   static contextType = AuthContext;
