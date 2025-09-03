@@ -89,7 +89,7 @@ class ListProductComponent extends Component {
                   <button className="btn btn-primary btn-sm" onClick={this.searchProduct} style={{ marginLeft: '10px', padding: '5px 10px' }}>
                     Search
                   </button>
-                  <button className="btn btn-secondary btn-sm" onClick={this.clearSearch}style={{ marginLeft: '10px' , padding: '5px 10px', backgroundColor: '#656565ad'}}>
+                  <button className="btn btn-secondary btn-sm" onClick={this.clearSearch} style={{ marginLeft: '10px' , padding: '5px 10px', backgroundColor: '#656565ad'}}>
                     Clear
                   </button>
               <button className="btn btn-primary d-flex align-items-center" onClick={this.addProduct} style={{ marginLeft: '10px' , padding: '5px 10px', backgroundColor: '#0e7d02ad'}}>
