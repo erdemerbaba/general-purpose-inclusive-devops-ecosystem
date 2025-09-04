@@ -1,0 +1,31 @@
+- name: Deploy Kafka
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: kafka
+        namespace: default
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: kafka
+        template:
+          metadata:
+            labels:
+              app: kafka
+          spec:
+            containers:
+              - name: kafka
+                image: bitnami/kafka:latest
+                ports:
+                  - containerPort: 9092
+                env:
+                  - name: KAFKA_BROKER_ID
+                    value: "1"
+                  - name: KAFKA_ZOOKEEPER_CONNECT
+                    value: zookeeper:2181
+                  - name: KAFKA_ADVERTISED_LISTENERS
+                    value: PLAINTEXT://localhost:9092

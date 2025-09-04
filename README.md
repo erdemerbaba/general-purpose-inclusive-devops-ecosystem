@@ -110,7 +110,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
 
 ```
 general_purpose_inclusive_devops_ecosystem/
-├── user-service/                 # User management microservice
+├── user-service/                # User management microservice
 │   ├── src/main/java/
 │   │   ├── controller/          # REST controllers
 │   │   ├── service/             # Business logic layer
@@ -121,7 +121,7 @@ general_purpose_inclusive_devops_ecosystem/
 │   │   └── exception/           # Custom exceptions
 │   └── src/main/resources/
 │       └── application.yml      # Externalized configuration
-├── product-service/              # Product management microservice
+├── product-service/             # Product management microservice
 │   ├── src/main/java/
 │   │   ├── controller/          # REST controllers
 │   │   ├── service/             # Business logic layer
@@ -132,14 +132,27 @@ general_purpose_inclusive_devops_ecosystem/
 │   │   └── exception/           # Custom exceptions
 │   └── src/main/resources/
 │       └── application.yml      # Externalized configuration
-├── management-app/               # React frontend application
+├── asset-service/               # asset management microservice
+│   ├── src/main/java/
+│   │   ├── controller/          # REST controllers
+│   │   ├── service/             # Business logic layer
+│   │   ├── repository/          # Data access layer
+│   │   ├── dto/                 # Data transfer objects
+│   │   ├── document/            # MongoDB entities
+│   │   ├── config/              # Configuration classes
+│   │   └── exception/           # Custom exceptions
+│   └── src/main/resources/
+│       └── application.yml      # Externalized configuration
+├── management-app/              # React frontend application
 │   ├── src/
 │   │   ├── components/          # Reusable UI components
 │   │   ├── services/            # API service layer
 │   │   ├── context/             # React context providers
 │   │   └── pages/               # Page components
 │   └── package.json             # Node.js dependencies
-└── deployment/                   # Deployment configurations
+├── mongo-init.js                # mongodb configurations
+├── eureka-server/               # eureka configurations
+└── gateway/                     # gateway configurations
 ```
 
 <p align="center">
@@ -174,7 +187,48 @@ general_purpose_inclusive_devops_ecosystem/
     
 
 # 5 Information of Services
-## 5.1 User Service (`user-service`)
+## 5.1 Zookeper
+  * image: bitnami/zookeeper:latest
+  * container_name: zookeeper
+  * ports:
+  *   - "2181:2181"
+
+## 5.2 kafka
+  * image: bitnami/kafka:latest
+  * container_name: kafka
+  * ports:
+  *   - "9092:9092"
+
+## 5.3 Mongodb
+  * mongodb://localhost:27017/userdb
+  * image: mongo:latest
+  * container_name: mongodb
+  * ports:
+  *   - "27017:27017"
+
+## 5.4 redis
+  * image: redis:latest
+  * container_name: redis
+  * ports:
+  *   - "6379:6379"
+
+## 5.5 eureka
+  * http://localhost:8761/
+  * build:
+  *   context: ./eureka-server
+  * ports:
+  *   - "8761:8761"
+  * container_name: eureka-server
+
+## 5.6 gateway
+  * http://localhost:8080/actuator/gateway/routes
+  * build:
+  *   context: ./gateway
+  * ports:
+  *   - "8080:8080"
+  * container_name: gateway
+
+## 5.7 User Service (`user-service`)
 - **Backend Port**: 8081
 - **Frontend URLs**:
   * Get : http://localhost:3000/users
@@ -184,7 +238,7 @@ general_purpose_inclusive_devops_ecosystem/
 - **Purpose**: User management and authentication
 - **Features**: CRUD operations, search, pagination, validation
 
-## 5.2 Product Service (`product-service`)
+## 5.8 Product Service (`product-service`)
 - **Port**: 8082
 - **Frontend URLs**:
   * Get : http://localhost:3000/products
@@ -194,7 +248,7 @@ general_purpose_inclusive_devops_ecosystem/
 - **Purpose**: Product lifecycle management
 - **Features**: CRUD operations, search, pagination, validation
 
-## 5.2 Asset Service (`asset-service`)
+## 5.9 Asset Service (`asset-service`)
 - **Port**: 8083
 - **Frontend URLs**:
   * Get : http://localhost:3000/assets
@@ -204,46 +258,46 @@ general_purpose_inclusive_devops_ecosystem/
 - **Purpose**: Product lifecycle management
 - **Features**: CRUD operations, search, pagination, validation
 
-## 5.3 Management App (`management-app`)
+## 5.10 Management App (`management-app`)
 - **Port**: 3000
 - **Frontend URLs**:
   * Get : http://localhost:3000
 - **Purpose**: React-based frontend application
 - **Features**: Modern UI, responsive design, state management
 
-## 5.4 eureka
-http://localhost:8761/
+## 5.11 swagger
+  * image: swaggerapi/swagger-ui
+  * container_name: swagger-ui
+  * ports:
+  *   - "8090:8080"
 
-## 5.5 gateway
-http://localhost:8080/actuator/gateway/routes
+## 5.12 sonarcube
+  * image: sonarqube:latest
+  * container_name: sonarqube
+  * ports:
+  *   - "9000:9000"
 
-## 5.6 swagger
+## 5.13 jenkins
+  * image: jenkins/jenkins:lts
+  * ports:
+  *   - "8443:8443"
+  *   - "50000:50000"
+  * container_name: jenkins
 
+## 5.14 elastic search
+  * image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+  * container_name: elasticsearch
+  * environment:
+  *   - discovery.type=single-node
+  * ports:
+  *   - "9200:9200"
+  *   - "9300:9300"
 
-## 5.7 jenkins
-
-
-## 5.8 jenkins
-
-
-## 5.9 prometheus
-
-
-## 5.10 grafana
-
-
-## 5.11 elastic search
-
-
-## 5.12 logstash
-
-
-## 5.13 kibana
-
-
-## 5.14 rancher
-
-
+## 5.15 prometheus
+  * image: prom/prometheus:latest
+  * container_name: prometheus
+  * ports:
+  *   - "9090:9090"
 
 # 6. Local Setup
 User can run whole project with docker and kubernetes but if want to run manuel please read instructions.
@@ -343,6 +397,10 @@ docker run -p 8081:8081 user-service
 docker run -p 8082:8082 product-service
 ```
 
+<p align="center">
+<img width="1252" height="706" alt="dockercontainers" src="https://github.com/user-attachments/assets/a28f2b8e-9b58-4425-a68b-1975540eafe5" />
+</p>
+  
 ## 8.5 Kubernetes Deployment
 - Deployment manifests in `deployment/` directory
 - Service configurations

@@ -1,0 +1,81 @@
+---
+- name: Deploy KEDA ScaledObject
+  hosts: localhost
+  tasks:
+    - name: Apply KEDA ScaledObject for user-service
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: keda.sh/v1alpha1
+          kind: ScaledObject
+          metadata:
+            name: user-service-scaledobject
+            namespace: default
+          spec:
+            scaleTargetRef:
+              name: user-service
+            triggers:
+              - type: kafka
+                metadata:
+                  bootstrapServers: kafka:9092
+                  topic: user-events
+                  consumerGroup: user-service-group
+                  lagThreshold: "10"
+
+    - name: Apply KEDA ScaledObject for product-service
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: keda.sh/v1alpha1
+          kind: ScaledObject
+          metadata:
+            name: product-service-scaledobject
+            namespace: default
+          spec:
+            scaleTargetRef:
+              name: product-service
+            triggers:
+              - type: kafka
+                metadata:
+                  bootstrapServers: kafka:9092
+                  topic: product-events
+                  consumerGroup: product-service-group
+                  lagThreshold: "10"
+
+    - name: Apply KEDA ScaledObject for asset-service
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: keda.sh/v1alpha1
+          kind: ScaledObject
+          metadata:
+            name: asset-service-scaledobject
+            namespace: default
+          spec:
+            scaleTargetRef:
+              name: asset-service
+            triggers:
+              - type: kafka
+                metadata:
+                  bootstrapServers: kafka:9092
+                  topic: asset-events
+                  consumerGroup: asset-service-group
+                  lagThreshold: "10"
+
+    - name: Deploy KEDA ScaledObject for management-app
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: keda.sh/v1alpha1
+          kind: ScaledObject
+          metadata:
+            name: management-app-scaledobject
+            namespace: default
+          spec:
+            scaleTargetRef:
+              name: management-app
+            triggers:
+              - type: cpu
+                metadata:
+                  type: Utilization
+                  value: "50"
