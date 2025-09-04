@@ -1,1 +1,0 @@
-// No changes needed as @EnableDiscoveryClient is already present.
