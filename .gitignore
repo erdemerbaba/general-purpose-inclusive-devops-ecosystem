@@ -69,3 +69,4 @@ user-service/target/
 asset-service/target/
 eureka-server/target/
 gateway/target/
+management-app/build/
