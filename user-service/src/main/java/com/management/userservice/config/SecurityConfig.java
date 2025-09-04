@@ -33,12 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().ignoringAntMatchers("/api/auth/**")
-            .and()
+        http.csrf().disable()
             .authorizeRequests()
             .antMatchers("/api/auth/**").permitAll()
-            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow OPTIONS requests for CORS preflight
+            .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() 
             .antMatchers("/api/v1/users/**").authenticated()
             .anyRequest().authenticated()
             .and()
