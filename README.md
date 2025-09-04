@@ -67,7 +67,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
 
 
 <p align="center">
-<img width="1154" height="577" alt="k8s" src="https://github.com/user-attachments/assets/4243b4b9-1bdc-4290-9e53-1c0e959d495f" />
+<img width="1139" height="562" alt="projectschema" src="https://github.com/user-attachments/assets/b82fcc1b-5bdb-468b-bf4f-ad74c838c7a7" />
 </p>
    
 # 3. Technology Stacks
@@ -212,10 +212,10 @@ general_purpose_inclusive_devops_ecosystem/
 - **Features**: Modern UI, responsive design, state management
 
 ## 5.4 eureka
-
+http://localhost:8761/
 
 ## 5.5 gateway
-
+http://localhost:8080/actuator/gateway/routes
 
 ## 5.6 swagger
 
