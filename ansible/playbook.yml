@@ -1,0 +1,132 @@
+---
+- name: Deploy services
+  hosts: localhost
+  tasks:
+
+    - name: Start Zookeeper container
+      docker_container:
+        name: zookeeper
+        image: bitnami/zookeeper:latest
+        state: started
+        published_ports:
+          - "2181:2181"
+
+    - name: Start Kafka container
+      docker_container:
+        name: kafka
+        image: bitnami/kafka:latest
+        state: started
+        published_ports:
+          - "9092:9092"
+        depends_on:
+          - zookeeper
+
+    - name: Start MongoDB container
+      docker_container:
+        name: mongodb
+        image: mongo:latest
+        state: started
+        published_ports:
+          - "27017:27017"
+
+    - name: Start Redis container
+      docker_container:
+        name: redis
+        image: redis:latest
+        state: started
+        published_ports:
+          - "6379:6379"
+
+    - name: Start Eureka Server container
+      docker_container:
+        name: eureka-server
+        image: eureka-server:latest
+        state: started
+        published_ports:
+          - "8761:8761"
+
+    - name: Start Gateway container
+      docker_container:
+        name: gateway
+        image: gateway:latest
+        state: started
+        published_ports:
+          - "8080:8080"
+
+    - name: Start User Service container
+      docker_container:
+        name: user-service
+        image: user-service:latest
+        state: started
+        published_ports:
+          - "8081:8081"
+
+    - name: Start Product Service container
+      docker_container:
+        name: product-service
+        image: product-service:latest
+        state: started
+        published_ports:
+          - "8082:8082"
+
+    - name: Start Asset Service container
+      docker_container:
+        name: asset-service
+        image: asset-service:latest
+        state: started
+        published_ports:
+          - "8083:8083"
+
+    - name: Start Management App container
+      docker_container:
+        name: management-app
+        image: management-app:latest
+        state: started
+        published_ports:
+          - "3000:80"
+
+    - name: Start Swagger UI container
+      docker_container:
+        name: swagger-ui
+        image: swaggerapi/swagger-ui
+        state: started
+        published_ports:
+          - "8090:8080"
+
+    - name: Start SonarQube container
+      docker_container:
+        name: sonarqube
+        image: sonarqube:latest
+        state: started
+        published_ports:
+          - "9000:9000"
+
+    - name: Start Jenkins container
+      docker_container:
+        name: jenkins
+        image: jenkins/jenkins:lts
+        state: started
+        published_ports:
+          - "8443:8080"
+          - "50000:50000"
+
+    - name: Start Elasticsearch container
+      docker_container:
+        name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+        state: started
+        published_ports:
+          - "9200:9200"
+          - "9300:9300"
+        env:
+          discovery.type: "single-node"
+
+    - name: Start Prometheus container
+      docker_container:
+        name: prometheus
+        image: prom/prometheus:latest
+        state: started
+        published_ports:
+          - "9090:9090"
+        volumes:
+          - ./prometheus.yml:/etc/prometheus/prometheus.yml

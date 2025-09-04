@@ -1,26 +1,40 @@
 version: '3.8'
 
 services:
-  asset-service:
-    build:
-      context: ./asset-service
-    ports:
-      - "8083:8083"
-    container_name: asset-service
 
-  user-service:
-    build:
-      context: ./user-service
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
     ports:
-      - "8081:8081"
-    container_name: user-service
+      - "2181:2181"
 
-  product-service:
-    build:
-      context: ./product-service
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
     ports:
-      - "8082:8082"
-    container_name: product-service
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+    depends_on:
+      - zookeeper
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    environment:
+      MONGO_INITDB_DATABASE: userdb
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
 
   eureka-server:
     build:
@@ -36,6 +50,50 @@ services:
       - "8080:8080"
     container_name: gateway
 
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "8081:8081"
+    container_name: user-service
+
+  product-service:
+    build:
+      context: ./product-service
+    ports:
+      - "8082:8082"
+    container_name: product-service
+
+  asset-service:
+    build:
+      context: ./asset-service
+    ports:
+      - "8083:8083"
+    container_name: asset-service
+
+  management-app:
+    build:
+      context: ./management-app
+    ports:
+      - "3000:80"
+    container_name: management-app
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-ui
+    ports:
+      - "8090:8080"
+    environment:
+      SWAGGER_JSON: /app/swagger.json
+    volumes:
+      - ./swagger:/app
+
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+
   jenkins:
     image: jenkins/jenkins:lts
     ports:
@@ -45,22 +103,22 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
 
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    container_name: elasticsearch
     environment:
-      MONGO_INITDB_DATABASE: userdb
-
-  management-app:
-    build:
-      context: ./management-app
+      - discovery.type=single-node
     ports:
-      - "3000:80"
-    container_name: management-app
+      - "9200:9200"
+      - "9300:9300"
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
 
 volumes:
   jenkins_home:

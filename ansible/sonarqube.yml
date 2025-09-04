@@ -1,0 +1,24 @@
+- name: Deploy SonarQube
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: sonarqube
+        namespace: default
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: sonarqube
+        template:
+          metadata:
+            labels:
+              app: sonarqube
+          spec:
+            containers:
+              - name: sonarqube
+                image: sonarqube:latest
+                ports:
+                  - containerPort: 9000
