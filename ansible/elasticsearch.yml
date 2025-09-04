@@ -1,0 +1,28 @@
+- name: Deploy Elasticsearch
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: elasticsearch
+        namespace: default
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: elasticsearch
+        template:
+          metadata:
+            labels:
+              app: elasticsearch
+          spec:
+            containers:
+              - name: elasticsearch
+                image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+                ports:
+                  - containerPort: 9200
+                  - containerPort: 9300
+                env:
+                  - name: discovery.type
+                    value: single-node
