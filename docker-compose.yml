@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  asset-service:
+    build:
+      context: ./asset-service
+    ports:
+      - "8083:8083"
+    container_name: asset-service
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "8081:8081"
+    container_name: user-service
+
+  product-service:
+    build:
+      context: ./product-service
+    ports:
+      - "8082:8082"
+    container_name: product-service
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+    ports:
+      - "8761:8761"
+    container_name: eureka-server
+
+  gateway:
+    build:
+      context: ./gateway
+    ports:
+      - "8080:8080"
+    container_name: gateway
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8443:8443"
+      - "50000:50000"
+    container_name: jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    environment:
+      MONGO_INITDB_DATABASE: userdb
+
+  management-app:
+    build:
+      context: ./management-app
+    ports:
+      - "3000:80"
+    container_name: management-app
+
+volumes:
+  jenkins_home:
