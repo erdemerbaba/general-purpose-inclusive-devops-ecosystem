@@ -1,3 +1,3 @@
 Contribution Members
-Erdem Erbaba
-Github Copilot
+- @erdemerbaba - Initial development
+- Github Copilot - AI Supporter
