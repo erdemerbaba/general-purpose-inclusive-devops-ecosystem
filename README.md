@@ -343,6 +343,10 @@ docker run -p 8081:8081 user-service
 docker run -p 8082:8082 product-service
 ```
 
+<p align="center">
+<img width="1252" height="706" alt="dockercontainers" src="https://github.com/user-attachments/assets/a28f2b8e-9b58-4425-a68b-1975540eafe5" />
+</p>
+  
 ## 8.5 Kubernetes Deployment
 - Deployment manifests in `deployment/` directory
 - Service configurations
