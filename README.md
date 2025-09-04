@@ -67,7 +67,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
 
 
 <p align="center">
-<img width="1154" height="577" alt="k8s" src="https://github.com/user-attachments/assets/4243b4b9-1bdc-4290-9e53-1c0e959d495f" />
+<img width="1139" height="562" alt="projectschema" src="https://github.com/user-attachments/assets/b82fcc1b-5bdb-468b-bf4f-ad74c838c7a7" />
 </p>
    
 # 3. Technology Stacks

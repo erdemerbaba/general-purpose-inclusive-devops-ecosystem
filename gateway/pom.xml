@@ -41,14 +41,29 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 			<version>3.1.3</version>
 		</dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-resolver-dns-native-macos</artifactId>
-            <version>4.1.68.Final</version>
-            <classifier>osx-aarch_64</classifier>
-        </dependency>
+<!-- MacOS-specific Netty resolver dependency moved to a profile below -->
     </dependencies>
 
+    <!-- Profile for MacOS ARM64 to include native Netty DNS resolver -->
+    <profiles>
+        <profile>
+            <id>macos-arm64</id>
+            <activation>
+                <os>
+                    <name>Mac OS X</name>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-resolver-dns-native-macos</artifactId>
+                    <version>4.1.68.Final</version>
+                    <classifier>osx-aarch_64</classifier>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
