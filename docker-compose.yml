@@ -118,7 +118,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./ansible/prometheus.yml:/etc/prometheus/prometheus.yml
 
 volumes:
   jenkins_home:

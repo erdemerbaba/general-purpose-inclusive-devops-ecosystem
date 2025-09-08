@@ -39,6 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             username = jwtUtil.extractUsername(jwt);
         }
 
+        // Skip token validation for /register endpoint
+        if (request.getRequestURI().equals("/api/v1/users/register")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
