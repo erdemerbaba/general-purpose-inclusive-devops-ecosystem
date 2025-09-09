@@ -3,6 +3,8 @@ package com.management.assetservice.controller;
 import com.management.assetservice.document.Asset;
 import com.management.assetservice.exception.ResourceNotFoundException;
 import com.management.assetservice.repository.AssetRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +20,13 @@ import java.util.Map;
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RestController
 @RequestMapping("/api/v1/assets")
+@Tag(name = "Asset Management", description = "Operations related to asset management")
 public class AssetController {
 
     @Autowired
     private AssetRepository assetRepository;
 
+    @Operation(summary = "Get all assets", description = "Retrieve a paginated list of assets based on filters")
     @GetMapping
     public Page<Asset> getAllAssets(
             @RequestParam(value = "id", required = false) String id,

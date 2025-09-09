@@ -5,14 +5,25 @@ package com.management.userservice.document;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Document(collection = "users")
 public class User {
 
 	@Id
 	private String id;
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String username;
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String password;
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String name;
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String surname;
 	private String profession;
 	private String role;

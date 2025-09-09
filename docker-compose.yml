@@ -82,16 +82,6 @@ services:
       - "3000:80"
     container_name: management-app
 
-  swagger-ui:
-    image: swaggerapi/swagger-ui
-    container_name: swagger-ui
-    ports:
-      - "8090:8080"
-    environment:
-      SWAGGER_JSON: /app/swagger.json
-    volumes:
-      - ./swagger:/app
-
   sonarqube:
     image: sonarqube:latest
     container_name: sonarqube

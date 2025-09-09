@@ -3,6 +3,8 @@ package com.management.productservice.controller;
 import com.management.productservice.document.Product;
 import com.management.productservice.exception.ResourceNotFoundException;
 import com.management.productservice.repository.ProductRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +17,13 @@ import java.util.Map;
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RestController
 @RequestMapping("/api/v1/products")
+@Tag(name = "Product Management", description = "Operations related to product management")
 public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
 
+    @Operation(summary = "Get all products", description = "Retrieve a list of products based on filters")
     @GetMapping
     public List<Product> getAllProducts(
             @RequestParam(value = "id", required = false) String id,

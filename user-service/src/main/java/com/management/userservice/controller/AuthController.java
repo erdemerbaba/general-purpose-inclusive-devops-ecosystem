@@ -5,6 +5,8 @@ import com.management.userservice.dto.AuthenticationResponse;
 import com.management.userservice.dto.UserDTO;
 import com.management.userservice.service.UserDetailsServiceImpl;
 import com.management.userservice.util.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,9 +17,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:3000")
+@Tag(name = "Authentication", description = "Operations related to user authentication")
 public class AuthController {
 
     @Autowired
@@ -29,6 +34,7 @@ public class AuthController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Operation(summary = "Authenticate user", description = "Generate a JWT token for valid user credentials")
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
@@ -49,11 +55,13 @@ public class AuthController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
+    @Operation(summary = "Register user", description = "Create a new user account")
     @PostMapping("/register")
-    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) {
+    public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO user) {
         return ResponseEntity.ok(userDetailsService.save(user));
     }
 
+    @Operation(summary = "Check if user is logged in", description = "Validate the JWT token and check user login status")
     @GetMapping("/check")
     public ResponseEntity<?> checkUserLoggedIn(@RequestHeader("Authorization") String token) {
         try {

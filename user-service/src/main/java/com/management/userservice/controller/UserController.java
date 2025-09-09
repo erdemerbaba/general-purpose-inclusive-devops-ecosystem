@@ -4,21 +4,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.management.userservice.document.User;
 import com.management.userservice.exception.ResourceNotFoundException;
 import com.management.userservice.repository.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
 @RequestMapping("/api/v1/users")
+@Tag(name = "User Management", description = "Operations related to user management")
+@Validated
 public class UserController {
 
     @Autowired
@@ -27,6 +35,7 @@ public class UserController {
     private static final int DEFAULT_PAGE = 0;
     private static final int DEFAULT_SIZE = 10;
 
+    @Operation(summary = "Get all users", description = "Retrieve a paginated list of users based on filters")
     @GetMapping
     public Page<User> getAllUsers(
             @RequestParam(value = "id", required = false) String id,
@@ -54,8 +63,9 @@ public class UserController {
         return userRepository.findAll(pageable);
     }
 
+    @Operation(summary = "Create a new user", description = "Add a new user to the system")
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody User user) {
         List<User> allUsers = userRepository.findAll();
         long maxId = allUsers.stream()
                 .mapToLong(u -> {
@@ -71,6 +81,7 @@ public class UserController {
         return userRepository.save(user);
     }
 
+    @Operation(summary = "Get user by ID", description = "Retrieve a user by their unique ID")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         User user = userRepository.findById(id)
@@ -78,6 +89,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @Operation(summary = "Update user", description = "Update the details of an existing user")
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User userDetails) {
         User user = userRepository.findById(id)
@@ -114,6 +126,7 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @Operation(summary = "Delete user", description = "Remove a user from the system")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable String id) {
         User user = userRepository.findById(id)
