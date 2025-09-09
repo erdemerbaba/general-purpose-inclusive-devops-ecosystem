@@ -43,12 +43,14 @@ services:
       - "8761:8761"
     container_name: eureka-server
 
+
   gateway:
     build:
       context: ./gateway
     ports:
       - "8080:8080"
     container_name: gateway
+
 
   user-service:
     build:
@@ -57,12 +59,14 @@ services:
       - "8081:8081"
     container_name: user-service
 
+
   product-service:
     build:
       context: ./product-service
     ports:
       - "8082:8082"
     container_name: product-service
+
 
   asset-service:
     build:
@@ -122,3 +126,7 @@ services:
 
 volumes:
   jenkins_home:
+
+networks:
+  app-network:
+    driver: bridge
