@@ -42,7 +42,9 @@ services:
     ports:
       - "8761:8761"
     container_name: eureka-server
-
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
 
   gateway:
     build:
@@ -50,7 +52,9 @@ services:
     ports:
       - "8080:8080"
     container_name: gateway
-
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
 
   user-service:
     build:
@@ -58,7 +62,9 @@ services:
     ports:
       - "8081:8081"
     container_name: user-service
-
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
 
   product-service:
     build:
@@ -66,7 +72,9 @@ services:
     ports:
       - "8082:8082"
     container_name: product-service
-
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
 
   asset-service:
     build:
@@ -74,7 +82,9 @@ services:
     ports:
       - "8083:8083"
     container_name: asset-service
-
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
   management-app:
     build:
       context: ./management-app
