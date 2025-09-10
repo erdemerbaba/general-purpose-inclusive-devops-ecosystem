@@ -1,24 +1,23 @@
-version: '3.8'
+version: "3.8"
 
 services:
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
 
-#  zookeeper:
-#    image: bitnami/zookeeper:latest
-#    container_name: zookeeper
-#    ports:
-#      - "2181:2181"
-
-#  kafka:
-#    image: bitnami/kafka:latest
-#    container_name: kafka
-#    ports:
-#      - "9092:9092"
-#    environment:
-#      KAFKA_BROKER_ID: 1
-#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-#    depends_on:
-#      - zookeeper
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+    depends_on:
+      - zookeeper
 
   mongodb:
     image: mongo:latest
@@ -30,11 +29,11 @@ services:
     environment:
       MONGO_INITDB_DATABASE: userdb
 
-#  redis:
-#    image: redis:latest
-#    container_name: redis
-#    ports:
-#      - "6379:6379"
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
 
   eureka-server:
     build:
@@ -92,21 +91,27 @@ services:
       - "3000:80"
     container_name: management-app
 
-#  sonarqube:
-#    image: sonarqube:latest
-#    container_name: sonarqube
-#    ports:
-#      - "9000:9000"
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8443:8443"
+      - "8088:8080"
+      - "50000:50000"
+    container_name: jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ./jenkins/init.groovy:/var/jenkins_home/init.groovy.d/init.groovy
 
-#  jenkins:
-#    image: jenkins/jenkins:lts
-#    ports:
-#      - "8443:8443"
-#      - "50000:50000"
-#    container_name: jenkins
-#    volumes:
-#      - jenkins_home:/var/jenkins_home
-
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+      - SONAR_WEB_HOST=0.0.0.0
+      - SONAR_WEB_PORT=9000
+      
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
     container_name: elasticsearch
@@ -137,7 +142,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
       - logstash
-      
+
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.10
     container_name: kibana
@@ -170,18 +175,18 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
 
-#  grafana:
-#    image: grafana/grafana:latest
-#    container_name: grafana
-#    ports:
-#      - "3001:3000"
-#    environment:
-#      - GF_SECURITY_ADMIN_USER=admin
-#      - GF_SECURITY_ADMIN_PASSWORD=admin
-#    volumes:
-#      - ./grafana/provisioning:/etc/grafana/provisioning
-#    depends_on:
-#      - prometheus
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
 
 volumes:
   jenkins_home:
