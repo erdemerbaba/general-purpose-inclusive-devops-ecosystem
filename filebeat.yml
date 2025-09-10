@@ -1,0 +1,20 @@
+filebeat.inputs:
+  - type: container
+    paths:
+      - '/var/lib/docker/containers/*/*.log'
+    processors:
+      - add_docker_metadata: ~
+
+output.logstash:
+  hosts: ["logstash:5044"]
+
+setup.template:
+  name: "filebeat"
+  pattern: "filebeat-*"
+
+logging:
+  level: info
+  to_files: true
+  files:
+    path: /var/log/filebeat
+    name: filebeat.log

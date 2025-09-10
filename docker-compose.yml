@@ -2,23 +2,23 @@ version: '3.8'
 
 services:
 
-  zookeeper:
-    image: bitnami/zookeeper:latest
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
+#  zookeeper:
+#    image: bitnami/zookeeper:latest
+#    container_name: zookeeper
+#    ports:
+#      - "2181:2181"
 
-  kafka:
-    image: bitnami/kafka:latest
-    container_name: kafka
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-    depends_on:
-      - zookeeper
+#  kafka:
+#    image: bitnami/kafka:latest
+#    container_name: kafka
+#    ports:
+#      - "9092:9092"
+#    environment:
+#      KAFKA_BROKER_ID: 1
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+#    depends_on:
+#      - zookeeper
 
   mongodb:
     image: mongo:latest
@@ -30,11 +30,11 @@ services:
     environment:
       MONGO_INITDB_DATABASE: userdb
 
-  redis:
-    image: redis:latest
-    container_name: redis
-    ports:
-      - "6379:6379"
+#  redis:
+#    image: redis:latest
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
 
   eureka-server:
     build:
@@ -92,20 +92,20 @@ services:
       - "3000:80"
     container_name: management-app
 
-  sonarqube:
-    image: sonarqube:latest
-    container_name: sonarqube
-    ports:
-      - "9000:9000"
+#  sonarqube:
+#    image: sonarqube:latest
+#    container_name: sonarqube
+#    ports:
+#      - "9000:9000"
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    ports:
-      - "8443:8443"
-      - "50000:50000"
-    container_name: jenkins
-    volumes:
-      - jenkins_home:/var/jenkins_home
+#  jenkins:
+#    image: jenkins/jenkins:lts
+#    ports:
+#      - "8443:8443"
+#      - "50000:50000"
+#    container_name: jenkins
+#    volumes:
+#      - jenkins_home:/var/jenkins_home
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
@@ -116,13 +116,72 @@ services:
       - "9200:9200"
       - "9300:9300"
 
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.10
+    container_name: logstash
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.10
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - logstash
+      
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.10
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    depends_on:
+      - elasticsearch
+
+  kibana-setup:
+    image: curlimages/curl:latest
+    depends_on:
+      - kibana
+    entrypoint: >
+      sh -c "
+      until curl -X POST 'http://kibana:5601/api/saved_objects/index-pattern/filebeat-*' \
+      -H 'Content-Type: application/json' \
+      -H 'kbn-xsrf: true' \
+      -d '{\"attributes\": {\"title\": \"filebeat-*\", \"timeFieldName\": \"@timestamp\"}}'; do
+        echo 'Waiting for Kibana...';
+        sleep 5;
+      done"
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./ansible/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+#  grafana:
+#    image: grafana/grafana:latest
+#    container_name: grafana
+#    ports:
+#      - "3001:3000"
+#    environment:
+#      - GF_SECURITY_ADMIN_USER=admin
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#    volumes:
+#      - ./grafana/provisioning:/etc/grafana/provisioning
+#    depends_on:
+#      - prometheus
 
 volumes:
   jenkins_home:
