@@ -3,6 +3,9 @@ package com.management.assetservice.controller;
 import com.management.assetservice.document.Asset;
 import com.management.assetservice.exception.ResourceNotFoundException;
 import com.management.assetservice.repository.AssetRepository;
+import com.management.assetservice.service.RedisService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,14 +18,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000") 
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:8080" })
 @RestController
 @RequestMapping("/api/v1/assets")
+@Tag(name = "Asset Management", description = "Operations related to asset management")
 public class AssetController {
 
-    @Autowired
-    private AssetRepository assetRepository;
+    private final AssetRepository assetRepository;
+    private final RedisService redisService;
 
+    private static final String ASSET_NOT_FOUND = "Asset not exist with id: ";
+
+    @Autowired
+    public AssetController(AssetRepository assetRepository, RedisService redisService) {
+        this.assetRepository = assetRepository;
+        this.redisService = redisService;
+    }
+
+    @Operation(summary = "Get all assets", description = "Retrieve a paginated list of assets based on filters")
     @GetMapping
     public Page<Asset> getAllAssets(
             @RequestParam(value = "id", required = false) String id,
@@ -90,14 +103,14 @@ public class AssetController {
     @GetMapping("/{id}")
     public ResponseEntity<Asset> getAssetById(@PathVariable String id) {
         Asset asset = assetRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Asset not exist with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(ASSET_NOT_FOUND + id));
         return ResponseEntity.ok(asset);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Asset> updateAsset(@PathVariable String id, @RequestBody Asset assetDetails) {
         Asset asset = assetRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Asset not exist with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(ASSET_NOT_FOUND + id));
 
         asset.setId(assetDetails.getId());
         asset.setName(assetDetails.getName());
@@ -116,11 +129,26 @@ public class AssetController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteAsset(@PathVariable String id) {
         Asset asset = assetRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Asset not exist with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(ASSET_NOT_FOUND + id));
 
         assetRepository.delete(asset);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/cache")
+    public ResponseEntity<String> cacheAsset(@RequestBody Asset asset) {
+        redisService.saveData(asset.getId(), asset.toString());
+        return ResponseEntity.ok("Asset cached successfully");
+    }
+
+    @GetMapping("/cache/{id}")
+    public ResponseEntity<String> getCachedAsset(@PathVariable String id) {
+        String cachedAsset = redisService.getData(id);
+        if (cachedAsset == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cachedAsset);
     }
 }

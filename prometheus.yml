@@ -7,29 +7,21 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   - job_name: 'eureka-server'
+    metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['eureka-server:8761']
-
-  - job_name: 'gateway'
-    static_configs:
-      - targets: ['gateway:8080']
-
-  - job_name: 'mongodb'
-    static_configs:
-      - targets: ['mongodb:27017']
       
   - job_name: 'user-service'
+    metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['user-service:8081']
 
   - job_name: 'product-service'
+    metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['product-service:8082']
 
   - job_name: 'asset-service'
+    metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['asset-service:8083']
-
-  - job_name: 'management-app'
-    static_configs:
-      - targets: ['management-app:3000']

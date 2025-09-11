@@ -307,11 +307,16 @@ User can run whole project with docker and kubernetes but if want to run manuel 
 </p>
 
 ## 6.1 Prerequisites
+- Docker 
+or
 - Java 17+
 - Maven 3.6+
 - Node.js 14+
 - MongoDB 4.4+
-- Docker (optional)
+- 8 core cpu
+- 8 gb cpu
+- 16 gb ram
+- 15 gb disk space
 
 ## 6.2 Run Services
 

@@ -68,7 +68,7 @@ const App = () => {
       <div className="container">
         <Switch>
           <Route path="/login" component={LoginComponent} />
-          <PrivateRoute path="/register" component={RegisterComponent} />
+          <Route path="/register" component={RegisterComponent} />
           <PrivateRoute path="/users" component={Users} />
           <PrivateRoute path="/products" component={Products} />
           <PrivateRoute path="/" exact component={DashboardComponent} />
