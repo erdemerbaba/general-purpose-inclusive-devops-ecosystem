@@ -84,23 +84,13 @@ services:
     environment:
       - SPRING_SECURITY_USER_NAME=admin
       - SPRING_SECURITY_USER_PASSWORD=admin
+
   management-app:
     build:
       context: ./management-app
     ports:
       - "3000:80"
     container_name: management-app
-
-  jenkins:
-    image: jenkins/jenkins:lts
-    ports:
-      - "8443:8443"
-      - "8088:8080"
-      - "50000:50000"
-    container_name: jenkins
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - ./jenkins/init.groovy:/var/jenkins_home/init.groovy.d/init.groovy
 
   sonarqube:
     image: sonarqube:latest
@@ -111,7 +101,44 @@ services:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
       - SONAR_WEB_HOST=0.0.0.0
       - SONAR_WEB_PORT=9000
-      
+
+  sonarqube-setup:
+    image: curlimages/curl:latest
+    depends_on:
+      - sonarqube
+    entrypoint: >
+      sh -c "
+      until curl -s http://sonarqube:9000 | grep 'data-server-status=\"UP\"'; do
+        echo 'Waiting for SonarQube to return HTTP 200...';
+        sleep 3;
+      done &&
+      curl -u admin:admin -X POST 'http://sonarqube:9000/api/users/change_password' \
+      -H 'Content-Type: application/x-www-form-urlencoded' \
+      -d 'login=admin&password=Adminadmin.1&previousPassword=admin' | grep -q 'errors' &&
+      echo 'credentials changed' || true && sleep 6 &&
+      curl -u admin:Adminadmin.1 -X POST \"http://sonarqube:9000/api/projects/create\" \
+      -H \"Content-Type: application/x-www-form-urlencoded\" \
+      -d \"creationMode=manual&monorepo=false&project=user-service&name=user-service&mainBranch=main\"&&
+      echo 'project done' || true && sleep 6 &&
+      curl -u admin:Adminadmin.1 -X POST \"http://sonarqube:9000/api/projects/create\" \
+      -H \"Content-Type: application/x-www-form-urlencoded\" \
+      -d \"creationMode=manual&monorepo=false&project=product-service&name=product-service&mainBranch=main\"&&
+      echo 'project done' || true && sleep 6 &&
+      curl -u admin:Adminadmin.1 -X POST \"http://sonarqube:9000/api/projects/create\" \
+      -H \"Content-Type: application/x-www-form-urlencoded\" \
+      -d \"creationMode=manual&monorepo=false&project=asset-service&name=asset-service&mainBranch=main\""
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8443:8443"
+      - "8043:8080"
+      - "50000:50000"
+    container_name: jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - ./jenkins/init.groovy:/var/jenkins_home/init.groovy.d/init.groovy
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
     container_name: elasticsearch
@@ -188,8 +215,34 @@ services:
     depends_on:
       - prometheus
 
+  postgre:
+    image: postgres:13
+    container_name: jira_db
+    environment:
+      POSTGRES_USER: jirauser
+      POSTGRES_PASSWORD: jirapassword
+      POSTGRES_DB: jiradb
+    volumes:
+      - postgre_data:/var/lib/postgresql/data
+
+  jira:
+    image: atlassian/jira-software:latest
+    container_name: jira
+    ports:
+      - "8090:8080"
+    volumes:
+      - jira_data:/var/atlassian/application-data/jira
+    environment:
+      - ATL_JDBC_URL=jdbc:postgresql://postgre:5432/jiradb
+      - ATL_JDBC_USER=jirauser
+      - ATL_JDBC_PASSWORD=jirapassword
+    depends_on:
+      - postgre
+
 volumes:
   jenkins_home:
+  jira_data:
+  postgre_data:
 
 networks:
   app-network:
