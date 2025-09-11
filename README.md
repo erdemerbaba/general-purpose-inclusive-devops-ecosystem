@@ -187,6 +187,11 @@ general_purpose_inclusive_devops_ecosystem/
     
 
 # 5 Information of Services
+
+<p align="center">
+<img width="1024" height="1024" alt="graph" src="https://github.com/user-attachments/assets/c3004e30-8b8e-4429-9f8e-bc0565a7fb32" />
+</p>
+
 ## 5.1 Zookeper
   * image: bitnami/zookeeper:latest
   * container_name: zookeeper
