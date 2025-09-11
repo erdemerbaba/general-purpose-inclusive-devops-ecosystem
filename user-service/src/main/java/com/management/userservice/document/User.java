@@ -1,9 +1,10 @@
 package com.management.userservice.document;
 
-
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Document(collection = "users")
 public class User {
@@ -12,7 +13,9 @@ public class User {
 	private String id;
 	private String username;
 	private String password;
+	@NotNull
 	private String name;
+	@NotNull
 	private String surname;
 	private String profession;
 	private String role;
@@ -43,7 +46,11 @@ public class User {
 
 	}
 
-	public User(String username, String password, String name, String surname, String profession, String role, String level, String team, String mentor, String joinDate, String leaveDate, String location, String email, String phoneNumber, String birthDate, String nationality, String address, String identityNumber, String educations, String experience, String skills, String certifications, String honors, String memberships, String projects, String links, String governmentPapers, String additionalNotes) {
+	public User(String username, String password, String name, String surname, String profession, String role,
+			String level, String team, String mentor, String joinDate, String leaveDate, String location, String email,
+			String phoneNumber, String birthDate, String nationality, String address, String identityNumber,
+			String educations, String experience, String skills, String certifications, String honors,
+			String memberships, String projects, String links, String governmentPapers, String additionalNotes) {
 		super();
 		this.username = username;
 		this.password = password;

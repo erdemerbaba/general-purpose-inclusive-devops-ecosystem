@@ -1,24 +1,42 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   zookeeper:
-    image: bitnami/zookeeper:latest
+    image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
 
   kafka:
-    image: bitnami/kafka:latest
+    image: confluentinc/cp-kafka:latest
     container_name: kafka
-    ports:
-      - "9092:9092"
+    depends_on:
+      - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      CLUSTER_ID: cluster-gepide
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
     depends_on:
-      - zookeeper
+      - kafka
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9092
+    ports:
+      - "9099:9000"
 
   mongodb:
     image: mongo:latest
@@ -35,6 +53,8 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - app-network
 
   eureka-server:
     build:
@@ -42,6 +62,9 @@ services:
     ports:
       - "8761:8761"
     container_name: eureka-server
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
 
   gateway:
     build:
@@ -49,6 +72,11 @@ services:
     ports:
       - "8080:8080"
     container_name: gateway
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
+    depends_on:
+      - eureka-server
 
   user-service:
     build:
@@ -56,6 +84,18 @@ services:
     ports:
       - "8081:8081"
     container_name: user-service
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      - kafka
+      - mongodb
+      - redis
+      - eureka-server
+      - gateway
 
   product-service:
     build:
@@ -63,6 +103,14 @@ services:
     ports:
       - "8082:8082"
     container_name: product-service
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      - user-service
 
   asset-service:
     build:
@@ -70,6 +118,14 @@ services:
     ports:
       - "8083:8083"
     container_name: asset-service
+    environment:
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=admin
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      - user-service
 
   management-app:
     build:
@@ -77,31 +133,55 @@ services:
     ports:
       - "3000:80"
     container_name: management-app
-
-  swagger-ui:
-    image: swaggerapi/swagger-ui
-    container_name: swagger-ui
-    ports:
-      - "8090:8080"
-    environment:
-      SWAGGER_JSON: /app/swagger.json
-    volumes:
-      - ./swagger:/app
+    depends_on:
+      - user-service
 
   sonarqube:
     image: sonarqube:latest
     container_name: sonarqube
     ports:
       - "9000:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+      - SONAR_WEB_HOST=0.0.0.0
+      - SONAR_WEB_PORT=9000
+
+  sonarqube-setup:
+    image: curlimages/curl:latest
+    depends_on:
+      - sonarqube
+    entrypoint: >
+      sh -c "
+      until curl -s http://sonarqube:9000 | grep 'data-server-status=\"UP\"'; do
+        echo 'Waiting for SonarQube to return HTTP 200...';
+        sleep 3;
+      done &&
+      curl -u admin:admin -X POST 'http://sonarqube:9000/api/users/change_password' \
+      -H 'Content-Type: application/x-www-form-urlencoded' \
+      -d 'login=admin&password=Adminadmin.1&previousPassword=admin' | grep -q 'errors' &&
+      echo 'credentials changed' || true && sleep 6 &&
+      curl -u admin:Adminadmin.1 -X POST \"http://sonarqube:9000/api/projects/create\" \
+      -H \"Content-Type: application/x-www-form-urlencoded\" \
+      -d \"creationMode=manual&monorepo=false&project=user-service&name=user-service&mainBranch=main\"&&
+      echo 'project done' || true && sleep 6 &&
+      curl -u admin:Adminadmin.1 -X POST \"http://sonarqube:9000/api/projects/create\" \
+      -H \"Content-Type: application/x-www-form-urlencoded\" \
+      -d \"creationMode=manual&monorepo=false&project=product-service&name=product-service&mainBranch=main\"&&
+      echo 'project done' || true && sleep 6 &&
+      curl -u admin:Adminadmin.1 -X POST \"http://sonarqube:9000/api/projects/create\" \
+      -H \"Content-Type: application/x-www-form-urlencoded\" \
+      -d \"creationMode=manual&monorepo=false&project=asset-service&name=asset-service&mainBranch=main\""
 
   jenkins:
     image: jenkins/jenkins:lts
     ports:
       - "8443:8443"
+      - "8043:8080"
       - "50000:50000"
     container_name: jenkins
     volumes:
       - jenkins_home:/var/jenkins_home
+      - ./jenkins/init.groovy:/var/jenkins_home/init.groovy.d/init.groovy
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
@@ -112,13 +192,102 @@ services:
       - "9200:9200"
       - "9300:9300"
 
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.10
+    container_name: logstash
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.10
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - logstash
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.10
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    depends_on:
+      - elasticsearch
+
+  kibana-setup:
+    image: curlimages/curl:latest
+    depends_on:
+      - kibana
+    entrypoint: >
+      sh -c "
+      until curl -X POST 'http://kibana:5601/api/saved_objects/index-pattern/filebeat-*' \
+      -H 'Content-Type: application/json' \
+      -H 'kbn-xsrf: true' \
+      -d '{\"attributes\": {\"title\": \"filebeat-*\", \"timeFieldName\": \"@timestamp\"}}'; do
+        echo 'Waiting for Kibana...';
+        sleep 5;
+      done"
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./ansible/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+
+  postgre:
+    image: postgres:13
+    container_name: jira_db
+    environment:
+      POSTGRES_USER: jirauser
+      POSTGRES_PASSWORD: jirapassword
+      POSTGRES_DB: jiradb
+    volumes:
+      - postgre_data:/var/lib/postgresql/data
+
+  jira:
+    image: atlassian/jira-software:latest
+    container_name: jira
+    ports:
+      - "8090:8080"
+    volumes:
+      - jira_data:/var/atlassian/application-data/jira
+    environment:
+      - ATL_JDBC_URL=jdbc:postgresql://postgre:5432/jiradb
+      - ATL_JDBC_USER=jirauser
+      - ATL_JDBC_PASSWORD=jirapassword
+    depends_on:
+      - postgre
 
 volumes:
   jenkins_home:
+  jira_data:
+  postgre_data:
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,35 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Prometheus Monitoring",
+    "tags": ["prometheus"],
+    "timezone": "browser",
+    "schemaVersion": 16,
+    "version": 0,
+    "refresh": "5s",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "CPU Usage",
+        "targets": [
+          {
+            "expr": "rate(node_cpu_seconds_total{mode=\"idle\"}[5m])",
+            "legendFormat": "{{instance}}",
+            "refId": "A"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Memory Usage",
+        "targets": [
+          {
+            "expr": "node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes",
+            "legendFormat": "{{instance}}",
+            "refId": "B"
+          }
+        ]
+      }
+    ]
+  }
+}

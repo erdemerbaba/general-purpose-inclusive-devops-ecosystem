@@ -5,8 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -25,6 +28,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(LocalDateTime.now(), "Authentication failed"), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(new ValidationErrorResponse(LocalDateTime.now(), errors), HttpStatus.BAD_REQUEST);
+    }
 
     static class ErrorResponse {
         private LocalDateTime timestamp;
@@ -52,5 +62,23 @@ public class GlobalExceptionHandler {
         }
 
 
+    }
+
+    static class ValidationErrorResponse {
+        private LocalDateTime timestamp;
+        private List<String> errors;
+
+        public ValidationErrorResponse(LocalDateTime timestamp, List<String> errors) {
+            this.timestamp = timestamp;
+            this.errors = errors;
+        }
+
+        public LocalDateTime getTimestamp() {
+            return timestamp;
+        }
+
+        public List<String> getErrors() {
+            return errors;
+        }
     }
 }
