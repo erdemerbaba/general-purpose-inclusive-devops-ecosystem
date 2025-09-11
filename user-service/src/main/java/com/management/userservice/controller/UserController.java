@@ -18,12 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import com.management.userservice.document.User;
 import com.management.userservice.exception.ResourceNotFoundException;
 import com.management.userservice.repository.UserRepository;
+import com.management.userservice.service.RedisService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:8080" })
 @RequestMapping("/api/v1/users")
 @Tag(name = "User Management", description = "Operations related to user management")
 @Validated
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RedisService redisService;
 
     private static final int DEFAULT_PAGE = 0;
     private static final int DEFAULT_SIZE = 10;
@@ -51,14 +55,22 @@ public class UserController {
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "_id"));
 
-        if (id != null && !id.isEmpty()) return userRepository.findByIdFuzzy(id, pageable);
-        if (name != null && !name.isEmpty()) return userRepository.findByNameFuzzy(name, pageable);
-        if (surname != null && !surname.isEmpty()) return userRepository.findBySurnameFuzzy(surname, pageable);
-        if (profession != null && !profession.isEmpty()) return userRepository.findByProfessionFuzzy(profession, pageable);
-        if (role != null && !role.isEmpty()) return userRepository.findByRoleFuzzy(role, pageable);
-        if (level != null && !level.isEmpty()) return userRepository.findByLevelFuzzy(level, pageable);
-        if (team != null && !team.isEmpty()) return userRepository.findByTeamFuzzy(team, pageable);
-        if (mentor != null && !mentor.isEmpty()) return userRepository.findByMentorFuzzy(mentor, pageable);
+        if (id != null && !id.isEmpty())
+            return userRepository.findByIdFuzzy(id, pageable);
+        if (name != null && !name.isEmpty())
+            return userRepository.findByNameFuzzy(name, pageable);
+        if (surname != null && !surname.isEmpty())
+            return userRepository.findBySurnameFuzzy(surname, pageable);
+        if (profession != null && !profession.isEmpty())
+            return userRepository.findByProfessionFuzzy(profession, pageable);
+        if (role != null && !role.isEmpty())
+            return userRepository.findByRoleFuzzy(role, pageable);
+        if (level != null && !level.isEmpty())
+            return userRepository.findByLevelFuzzy(level, pageable);
+        if (team != null && !team.isEmpty())
+            return userRepository.findByTeamFuzzy(team, pageable);
+        if (mentor != null && !mentor.isEmpty())
+            return userRepository.findByMentorFuzzy(mentor, pageable);
 
         return userRepository.findAll(pageable);
     }
@@ -136,5 +148,20 @@ public class UserController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/cache")
+    public ResponseEntity<String> cacheUser(@RequestBody User user) {
+        redisService.saveData(user.getId(), user.toString());
+        return ResponseEntity.ok("User cached successfully");
+    }
+
+    @GetMapping("/cache/{id}")
+    public ResponseEntity<String> getCachedUser(@PathVariable String id) {
+        String cachedUser = redisService.getData(id);
+        if (cachedUser == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cachedUser);
     }
 }

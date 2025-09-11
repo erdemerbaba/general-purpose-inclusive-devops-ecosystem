@@ -3,6 +3,7 @@ package com.management.productservice.controller;
 import com.management.productservice.document.Product;
 import com.management.productservice.exception.ResourceNotFoundException;
 import com.management.productservice.repository.ProductRepository;
+import com.management.productservice.service.RedisService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:8080"})
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:8080" })
 @RestController
 @RequestMapping("/api/v1/products")
 @Tag(name = "Product Management", description = "Operations related to product management")
@@ -22,6 +23,9 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private RedisService redisService;
 
     @Operation(summary = "Get all products", description = "Retrieve a list of products based on filters")
     @GetMapping
@@ -164,5 +168,20 @@ public class ProductController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/cache")
+    public ResponseEntity<String> cacheProduct(@RequestBody Product product) {
+        redisService.saveData(product.getId(), product.toString());
+        return ResponseEntity.ok("Product cached successfully");
+    }
+
+    @GetMapping("/cache/{id}")
+    public ResponseEntity<String> getCachedProduct(@PathVariable String id) {
+        String cachedProduct = redisService.getData(id);
+        if (cachedProduct == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cachedProduct);
     }
 }

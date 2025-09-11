@@ -34,6 +34,8 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - app-network
 
   eureka-server:
     build:
@@ -54,6 +56,8 @@ services:
     environment:
       - SPRING_SECURITY_USER_NAME=admin
       - SPRING_SECURITY_USER_PASSWORD=admin
+    depends_on:
+      - eureka-server
 
   user-service:
     build:
@@ -64,6 +68,13 @@ services:
     environment:
       - SPRING_SECURITY_USER_NAME=admin
       - SPRING_SECURITY_USER_PASSWORD=admin
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      - mongodb
+      - redis
+      - eureka-server
+      - gateway
 
   product-service:
     build:
@@ -74,6 +85,10 @@ services:
     environment:
       - SPRING_SECURITY_USER_NAME=admin
       - SPRING_SECURITY_USER_PASSWORD=admin
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      - user-service
 
   asset-service:
     build:
@@ -84,6 +99,10 @@ services:
     environment:
       - SPRING_SECURITY_USER_NAME=admin
       - SPRING_SECURITY_USER_PASSWORD=admin
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      - user-service
 
   management-app:
     build:
@@ -91,6 +110,8 @@ services:
     ports:
       - "3000:80"
     container_name: management-app
+    depends_on:
+      - user-service
 
   sonarqube:
     image: sonarqube:latest

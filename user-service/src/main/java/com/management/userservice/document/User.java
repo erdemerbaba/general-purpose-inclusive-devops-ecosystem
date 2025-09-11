@@ -1,7 +1,5 @@
 package com.management.userservice.document;
 
-
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,17 +11,11 @@ public class User {
 
 	@Id
 	private String id;
-	@NotNull
-	@Size(min = 3, max = 50)
 	private String username;
-	@NotNull
-	@Size(min = 3, max = 50)
 	private String password;
 	@NotNull
-	@Size(min = 3, max = 50)
 	private String name;
 	@NotNull
-	@Size(min = 3, max = 50)
 	private String surname;
 	private String profession;
 	private String role;
@@ -54,7 +46,11 @@ public class User {
 
 	}
 
-	public User(String username, String password, String name, String surname, String profession, String role, String level, String team, String mentor, String joinDate, String leaveDate, String location, String email, String phoneNumber, String birthDate, String nationality, String address, String identityNumber, String educations, String experience, String skills, String certifications, String honors, String memberships, String projects, String links, String governmentPapers, String additionalNotes) {
+	public User(String username, String password, String name, String surname, String profession, String role,
+			String level, String team, String mentor, String joinDate, String leaveDate, String location, String email,
+			String phoneNumber, String birthDate, String nationality, String address, String identityNumber,
+			String educations, String experience, String skills, String certifications, String honors,
+			String memberships, String projects, String links, String governmentPapers, String additionalNotes) {
 		super();
 		this.username = username;
 		this.password = password;
