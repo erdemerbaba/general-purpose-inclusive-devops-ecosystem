@@ -2,22 +2,41 @@ version: "3.8"
 
 services:
   zookeeper:
-    image: bitnami/zookeeper:latest
+    image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
 
   kafka:
-    image: bitnami/kafka:latest
+    image: confluentinc/cp-kafka:latest
     container_name: kafka
-    ports:
-      - "9092:9092"
+    depends_on:
+      - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      CLUSTER_ID: cluster-gepide
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
     depends_on:
-      - zookeeper
+      - kafka
+    environment:
+      KAFKA_BROKERCONNECT: kafka:9092
+    ports:
+      - "9099:9000"
 
   mongodb:
     image: mongo:latest
@@ -70,7 +89,9 @@ services:
       - SPRING_SECURITY_USER_PASSWORD=admin
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
+      - kafka
       - mongodb
       - redis
       - eureka-server
@@ -87,6 +108,7 @@ services:
       - SPRING_SECURITY_USER_PASSWORD=admin
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       - user-service
 
@@ -101,6 +123,7 @@ services:
       - SPRING_SECURITY_USER_PASSWORD=admin
       - SPRING_REDIS_HOST=redis
       - SPRING_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
     depends_on:
       - user-service
 
