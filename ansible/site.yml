@@ -1,0 +1,13 @@
+---
+- name: On-Prem Local Ansible Demo
+  hosts: localhost
+  tasks:
+    - name: Ensure a file exists
+      copy:
+        dest: /tmp/demo_file.txt
+        content: "This is a demo file created by Ansible."
+
+    - name: "Install a package (example: tree)"
+      homebrew:
+        name: tree
+        state: present
