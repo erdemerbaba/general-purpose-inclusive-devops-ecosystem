@@ -1,2 +1,2 @@
-[local]
-localhost ansible_connection=local
+[all]
+localhost ansible_connection=local ansible_python_interpreter=/Users/erdemerbaba/k8s-ansible-env/bin/python

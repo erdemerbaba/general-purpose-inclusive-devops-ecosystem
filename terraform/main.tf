@@ -1,9 +1,13 @@
 terraform {
   required_providers {
- docker = {
-   source  = "kreuzwerker/docker"
-   version = "~> 2.0"
- }
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 2.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
   }
 }
 
@@ -11,15 +15,61 @@ provider "docker" {
   host = "unix:///Users/erdemerbaba/.docker/run/docker.sock"
 }
 
-resource "docker_image" "nginx_image" {
-  name = "nginx:latest"
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
 
-resource "docker_container" "nginx_container" {
-  image = docker_image.nginx_image.name
-  name  = "nginx-web-server"
-  ports {
- internal = 80
- external = 8080
+resource "kubernetes_deployment" "zookeeper" {
+  metadata {
+    name      = "zookeeper"
+    namespace = "default"
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        app = "zookeeper"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "zookeeper"
+        }
+      }
+
+      spec {
+        container {
+          name  = "zookeeper"
+          image = "confluentinc/cp-zookeeper:latest"
+
+          port {
+            container_port = 2181
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "zookeeper" {
+  metadata {
+    name = "zookeeper"
+  }
+
+  spec {
+    selector = {
+      app = "zookeeper"
+    }
+
+    port {
+      port        = 2181
+      target_port = 2181
+    }
+
+    type = "ClusterIP"
   }
 }
