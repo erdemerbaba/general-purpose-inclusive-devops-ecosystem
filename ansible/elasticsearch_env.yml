@@ -1,0 +1,27 @@
+---
+- name: Update Elasticsearch environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Elasticsearch Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: elasticsearch
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: elasticsearch
+            template:
+              metadata:
+                labels:
+                  app: elasticsearch
+              spec:
+                containers:
+                  - name: elasticsearch
+                    env:
+                      - name: discovery.type
+                        value: "single-node"

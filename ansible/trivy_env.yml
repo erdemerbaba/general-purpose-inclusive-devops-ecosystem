@@ -1,0 +1,25 @@
+---
+- name: Update Trivy environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Trivy Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: trivy
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: trivy
+            template:
+              metadata:
+                labels:
+                  app: trivy
+              spec:
+                containers:
+                  - name: trivy
+                    env: []

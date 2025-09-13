@@ -1,0 +1,35 @@
+---
+- name: Update User Service environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch User Service Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: user-service
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: user-service
+            template:
+              metadata:
+                labels:
+                  app: user-service
+              spec:
+                containers:
+                  - name: user-service
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"
+                      - name: SPRING_REDIS_HOST
+                        value: "redis"
+                      - name: SPRING_REDIS_PORT
+                        value: "6379"
+                      - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                        value: "kafka:9092"

@@ -1,0 +1,25 @@
+---
+- name: Update Keda environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Keda Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: keda
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: keda
+            template:
+              metadata:
+                labels:
+                  app: keda
+              spec:
+                containers:
+                  - name: keda
+                    env: []

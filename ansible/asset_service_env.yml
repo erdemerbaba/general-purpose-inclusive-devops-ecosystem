@@ -1,0 +1,35 @@
+---
+- name: Update Asset Service environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Asset Service Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: asset-service
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: asset-service
+            template:
+              metadata:
+                labels:
+                  app: asset-service
+              spec:
+                containers:
+                  - name: asset-service
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"
+                      - name: SPRING_REDIS_HOST
+                        value: "redis"
+                      - name: SPRING_REDIS_PORT
+                        value: "6379"
+                      - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                        value: "kafka:9092"

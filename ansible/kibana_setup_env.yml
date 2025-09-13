@@ -1,0 +1,25 @@
+---
+- name: Update Kibana Setup environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kibana Setup Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kibana-setup
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: kibana-setup
+            template:
+              metadata:
+                labels:
+                  app: kibana-setup
+              spec:
+                containers:
+                  - name: kibana-setup
+                    env: []

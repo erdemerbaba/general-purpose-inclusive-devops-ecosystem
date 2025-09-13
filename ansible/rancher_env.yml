@@ -1,0 +1,25 @@
+---
+- name: Update Rancher environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Rancher Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: rancher
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: rancher
+            template:
+              metadata:
+                labels:
+                  app: rancher
+              spec:
+                containers:
+                  - name: rancher
+                    env: []

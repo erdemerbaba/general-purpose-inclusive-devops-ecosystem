@@ -1,0 +1,31 @@
+---
+- name: Update Jira environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Jira Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: jira
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: jira
+            template:
+              metadata:
+                labels:
+                  app: jira
+              spec:
+                containers:
+                  - name: jira
+                    env:
+                      - name: ATL_JDBC_URL
+                        value: "jdbc:postgresql://postgre:5432/jiradb"
+                      - name: ATL_JDBC_USER
+                        value: "jirauser"
+                      - name: ATL_JDBC_PASSWORD
+                        value: "jirapassword"

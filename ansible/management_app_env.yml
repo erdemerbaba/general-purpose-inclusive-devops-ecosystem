@@ -1,0 +1,25 @@
+---
+- name: Update Management App environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Management App Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: management-app
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: management-app
+            template:
+              metadata:
+                labels:
+                  app: management-app
+              spec:
+                containers:
+                  - name: management-app
+                    env: []
