@@ -1,0 +1,23 @@
+---
+- name: Update Zookeeper environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Zookeeper Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: zookeeper
+            namespace: default
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: zookeeper
+                    env:
+                      - name: ZOOKEEPER_CLIENT_PORT
+                        value: "2181"
+                      - name: ZOOKEEPER_TICK_TIME
+                        value: "2000"

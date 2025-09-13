@@ -1,0 +1,27 @@
+---
+- name: Update Kibana environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kibana Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kibana
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: kibana
+            template:
+              metadata:
+                labels:
+                  app: kibana
+              spec:
+                containers:
+                  - name: kibana
+                    env:
+                      - name: ELASTICSEARCH_HOSTS
+                        value: "http://elasticsearch:9200"

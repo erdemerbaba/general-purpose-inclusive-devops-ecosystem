@@ -1,0 +1,35 @@
+---
+- name: Update Product Service environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Product Service Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: product-service
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: product-service
+            template:
+              metadata:
+                labels:
+                  app: product-service
+              spec:
+                containers:
+                  - name: product-service
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"
+                      - name: SPRING_REDIS_HOST
+                        value: "redis"
+                      - name: SPRING_REDIS_PORT
+                        value: "6379"
+                      - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                        value: "kafka:9092"

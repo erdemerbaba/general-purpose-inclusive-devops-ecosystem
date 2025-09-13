@@ -1,0 +1,29 @@
+---
+- name: Update Grafana environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Grafana Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: grafana
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: grafana
+            template:
+              metadata:
+                labels:
+                  app: grafana
+              spec:
+                containers:
+                  - name: grafana
+                    env:
+                      - name: GF_SECURITY_ADMIN_USER
+                        value: "admin"
+                      - name: GF_SECURITY_ADMIN_PASSWORD
+                        value: "admin"

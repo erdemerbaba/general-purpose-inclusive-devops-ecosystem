@@ -1,0 +1,25 @@
+---
+- name: Update Jenkins environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Jenkins Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: jenkins
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: jenkins
+            template:
+              metadata:
+                labels:
+                  app: jenkins
+              spec:
+                containers:
+                  - name: jenkins
+                    env: []

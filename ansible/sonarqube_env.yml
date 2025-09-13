@@ -1,0 +1,31 @@
+---
+- name: Update SonarQube environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch SonarQube Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: sonarqube
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: sonarqube
+            template:
+              metadata:
+                labels:
+                  app: sonarqube
+              spec:
+                containers:
+                  - name: sonarqube
+                    env:
+                      - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
+                        value: "true"
+                      - name: SONAR_WEB_HOST
+                        value: "0.0.0.0"
+                      - name: SONAR_WEB_PORT
+                        value: "9000"

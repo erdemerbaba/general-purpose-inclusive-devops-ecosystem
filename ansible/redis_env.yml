@@ -1,0 +1,25 @@
+---
+- name: Update Redis environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Redis Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: redis
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: redis
+            template:
+              metadata:
+                labels:
+                  app: redis
+              spec:
+                containers:
+                  - name: redis
+                    env: []
