@@ -12,7 +12,7 @@ terraform {
 }
 
 provider "docker" {
-  host = "unix:///Users/erdemerbaba/.docker/run/docker.sock"
+  # The Docker host will be determined by the DOCKER_HOST environment variable, or defaults to unix:///var/run/docker.sock
 }
 
 provider "kubernetes" {
