@@ -1,0 +1,25 @@
+---
+- name: Update Prometheus environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Prometheus Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: prometheus
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: prometheus
+            template:
+              metadata:
+                labels:
+                  app: prometheus
+              spec:
+                containers:
+                  - name: prometheus
+                    env: []

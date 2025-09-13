@@ -1,0 +1,27 @@
+---
+- name: Update MongoDB environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch MongoDB Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: mongodb
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: mongodb
+            template:
+              metadata:
+                labels:
+                  app: mongodb
+              spec:
+                containers:
+                  - name: mongodb
+                    env:
+                      - name: MONGO_INITDB_DATABASE
+                        value: "userdb"

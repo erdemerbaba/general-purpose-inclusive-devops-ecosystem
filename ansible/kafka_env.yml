@@ -1,0 +1,35 @@
+---
+- name: Update Kafka environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kafka Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kafka
+            namespace: default
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: kafka
+                    env:
+                      - name: KAFKA_BROKER_ID
+                        value: "1"
+                      - name: KAFKA_ZOOKEEPER_CONNECT
+                        value: "zookeeper:2181"
+                      - name: KAFKA_CONTROLLER_LISTENER_NAMES
+                        value: "CONTROLLER"
+                      - name: KAFKA_ADVERTISED_LISTENERS
+                        value: "PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093"
+                      - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+                        value: "1"
+                      - name: KAFKA_PROCESS_ROLES
+                        value: "broker,controller"
+                      - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+                        value: "1@kafka:9093"
+                      - name: CLUSTER_ID
+                        value: "cluster-gepide"

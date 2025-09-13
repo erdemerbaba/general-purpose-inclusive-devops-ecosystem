@@ -1,0 +1,25 @@
+---
+- name: Update Istio environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Istio Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: istio
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: istio
+            template:
+              metadata:
+                labels:
+                  app: istio
+              spec:
+                containers:
+                  - name: istio
+                    env: []

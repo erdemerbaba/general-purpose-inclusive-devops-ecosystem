@@ -1,0 +1,25 @@
+---
+- name: Update Flagger environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Flagger Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: flagger
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: flagger
+            template:
+              metadata:
+                labels:
+                  app: flagger
+              spec:
+                containers:
+                  - name: flagger
+                    env: []

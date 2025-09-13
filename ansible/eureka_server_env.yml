@@ -1,0 +1,29 @@
+---
+- name: Update Eureka Server environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Eureka Server Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: eureka-server
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: eureka-server
+            template:
+              metadata:
+                labels:
+                  app: eureka-server
+              spec:
+                containers:
+                  - name: eureka-server
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"

@@ -1,0 +1,31 @@
+---
+- name: Update Postgre environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Postgre Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: postgre
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: postgre
+            template:
+              metadata:
+                labels:
+                  app: postgre
+              spec:
+                containers:
+                  - name: postgre
+                    env:
+                      - name: POSTGRES_USER
+                        value: "jirauser"
+                      - name: POSTGRES_PASSWORD
+                        value: "jirapassword"
+                      - name: POSTGRES_DB
+                        value: "jiradb"

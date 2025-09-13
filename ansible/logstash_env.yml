@@ -1,0 +1,25 @@
+---
+- name: Update Logstash environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Logstash Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: logstash
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: logstash
+            template:
+              metadata:
+                labels:
+                  app: logstash
+              spec:
+                containers:
+                  - name: logstash
+                    env: []

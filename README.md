@@ -67,7 +67,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
 
 
 <p align="center">
-<img width="1139" height="562" alt="projectschema" src="https://github.com/user-attachments/assets/b82fcc1b-5bdb-468b-bf4f-ad74c838c7a7" />
+<img width="1024" height="1024" alt="gepideschema" src="https://github.com/user-attachments/assets/bcc62dc8-6b27-481f-b441-c8f57630976e" />
 </p>
    
 # 3. Technology Stacks
@@ -189,7 +189,7 @@ general_purpose_inclusive_devops_ecosystem/
 # 5 Information of Services
 
 <p align="center">
-<img width="1024" height="1024" alt="graph" src="https://github.com/user-attachments/assets/c3004e30-8b8e-4429-9f8e-bc0565a7fb32" />
+<img width="1024" height="1024" alt="gepideports" src="https://github.com/user-attachments/assets/83d8eaff-824e-4215-a206-cb8c0cb92f96" />
 </p>
 
 ## 5.1 Zookeper
@@ -417,7 +417,7 @@ docker run -p 8082:8082 product-service
 - Ingress rules
 
 <p align="center">
-<img width="1154" height="577" alt="k8s" src="https://github.com/user-attachments/assets/4243b4b9-1bdc-4290-9e53-1c0e959d495f" />
+<img width="1345" height="801" alt="gepidekubernetes" src="https://github.com/user-attachments/assets/f55c7bb3-b8e5-4e09-a914-cebc612a00b1" />
 </p>
 
 ## 8.6 Error Handling

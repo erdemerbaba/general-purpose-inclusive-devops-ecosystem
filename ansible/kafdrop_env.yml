@@ -1,0 +1,27 @@
+---
+- name: Update Kafdrop environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kafdrop Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kafdrop
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: kafdrop
+            template:
+              metadata:
+                labels:
+                  app: kafdrop
+              spec:
+                containers:
+                  - name: kafdrop
+                    env:
+                      - name: KAFKA_BROKERCONNECT
+                        value: "kafka:9092"
