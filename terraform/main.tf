@@ -343,7 +343,7 @@ resource "kubernetes_config_map" "mongo_init_config" {
   }
 
   data = {
-    "mongo-init.js" = file("../mongo-init.js")
+    "mongo-init.js" = file("${path.module}/../mongo-init.js")
   }
 }
 
