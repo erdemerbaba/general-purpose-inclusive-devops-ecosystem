@@ -25,7 +25,7 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
         <li> 7. Get packages</li>
         <li> - 7.1.  With Container</li>
         <li>- 7.2.  With Manual</li>
-        <li>8. Deployment Operation</li>
+        <li>8. Deploy Operation</li>
         <li>- 8.1.  With Kubernetes</li>
         <li>- 8.2.  With Container</li>
         <li>- 8.3.  With Manual</li>
@@ -154,7 +154,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
   </tr>
 </table>
 
-## 4 Project Structure
+# 4 Project Structure
 
 ```
 general_purpose_inclusive_devops_ecosystem/
@@ -537,7 +537,9 @@ User can run whole project with docker and kubernetes but if want to run manual 
    ```
 
 ### 6.3.7 Enter Web app
+```bash
 Website: localhost:3000
+```
 
 # 7 Get Package
 User can run whole project with docker and kubernetes but if want to run manual please read 7.2 instructions.
@@ -562,7 +564,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
    docker compose push
    ```
 
-### 7.1.3.1 if you get package with offline environment
+#### 7.1.3.1 if you get package with offline environment
    ```bash
    docker compose images --quiet | xargs -n1 docker save -o <name>.tar
    ```
@@ -591,46 +593,46 @@ User can run whole project with docker and kubernetes but if want to run manuel 
 </p>
 
 ## 8.1 Deploy with kubernetes
-### 8.2.1 Install Terraform
+### 8.1.1 Install Terraform
 ```bash
 https://developer.hashicorp.com/terraform/install
 ```
-### 8.2.2 locate file and execute init
+### 8.1.2 locate file and execute init
 ```bash
 terraform init
 ```
 
-### 8.2.3 apply teraform environment 
+### 8.1.3 apply teraform environment 
 ```bash
 terraform apply
 ```
 
-### 8.2.4 now take a time to terraform handle process and you can see the status with paralel terminal
+### 8.1.4 now take a time to terraform handle process and you can see the status with paralel terminal
 ```bash
 kubectl get all -A
 ```
 
-### 8.2.5 Install Ansible
+### 8.1.5 Install Ansible
 ```bash
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 ```
 
-### 8.2.6 Install python kubernetes lib
+### 8.1.6 Install python kubernetes lib
 ```bash
 pip install kubernetes
 ```
 
-### 8.2.7 Change what required in spesific tool yml file
+### 8.1.7 Change what required in spesific tool yml file
 ```bash
 ansible-playbook -i inventory.ini site.yml
 ```
 
-### 8.2.8 Take a rest and look environment if something changed or not
+### 8.1.8 Take a rest and look environment if something changed or not
 ```bash
 kubectl describe pod -n <namespace> <choosen pod>
 ```
 
-### 8.2.4 To down services execute below command in environment
+### 8.1.9 To down services execute below command in environment
 ```bash
 kubectl delete namespace gepide
 ```
@@ -647,12 +649,12 @@ scp docker-compose.yml root:<ipadress>:/home/docker-compose.yml
 docker compose up -d --build
 ```
 
-### 8.2.2.1 if environment offline, locate file then enter machine and execute below rpm command
+#### 8.2.2.1 if environment offline, locate file then enter machine and execute below rpm command
 ```bash
 docker load -i all-images.tar
 ```
 
-### 8.2.2 stop the services if needed
+### 8.2.3 stop the services if needed
 ```bash
 docker compose down
 ```
