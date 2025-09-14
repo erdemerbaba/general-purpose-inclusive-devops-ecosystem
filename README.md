@@ -2,31 +2,51 @@
 Inclusive Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
 <p align="center">
-  <img width="607" height="607" alt="image" src="https://github.com/user-attachments/assets/c7f75900-3b50-4638-ae96-a6885ac10a7f" />
+<img width="1209" height="552" alt="gepidethumbnailwideful" src="https://github.com/user-attachments/assets/50ffcd4f-a5a3-4f70-b98b-49298cf3c995" />
 </p>
 
 # Index
-1. Ecosystem Summary
-2. Architecture Overview
-3. Technology Stacks
-4. Project Structure
-5. Informations of Services
-6. Local Setup
-- 6.1.  With Container
-- 6.2.  With Manual
-7. Get packages
-- 7.1.  With Container
-- 7.2.  With Manual
-8. Deployment Operation
-- 8.1.  With Kubernetes
-- 8.2.  With Container
-- 8.3.  With Manual
-- 8.4.  Error Handling
-9. Database Parameters
-10. Contributing
-11. License
-12. Support
-13. Donate
+<table>
+  <tr>
+    <td width="25%" valign="top">
+      <ul>
+        <li>1. Ecosystem Summary</li>
+        <li>2. Architecture Overview</li>
+        <li>3. Technology Stacks</li>
+        <li>4. Project Structure</li>
+        <li>5. Informations of Services</li>
+      </ul>
+    </td>
+    <td width="25%" valign="top">
+      <ul>
+        <li>6. Local Setup</li>
+        <li>- 6.1.  With Container</li>
+        <li> - 6.2.  With Manual</li>
+        <li> 7. Get packages</li>
+        <li> - 7.1.  With Container</li>
+        <li>- 7.2.  With Manual</li>
+      </ul>
+    </td>
+    <td width="25%" valign="top">
+      <ul>
+        <li>8. Deployment Operation</li>
+        <li>- 8.1.  With Kubernetes</li>
+        <li>- 8.2.  With Container</li>
+        <li>- 8.3.  With Manual</li>
+        <li>- 8.4.  Error Handling</li>
+     </ul>
+    </td>
+    <td width="25%" valign="top">
+      <ul>
+        <li>9. Database Parameters</li>
+        <li>10. Contributing</li>
+        <li>11. License</li>
+       <li> 12. Support</li>
+       <li> 13. Donate</li>
+     </ul>
+    </td>
+  </tr>
+</table>
 
 # 1 Ecosystem Summary 
 Configurable web application for a calibratable devops enironment. Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
@@ -75,7 +95,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
 
 
 <p align="center">
-<img width="507" height="507" alt="gepideschema" src="https://github.com/user-attachments/assets/226a80d9-f334-404e-8e20-0afdeb37237a" />
+<img width="807" height="507" alt="gepideschema" src="https://github.com/user-attachments/assets/226a80d9-f334-404e-8e20-0afdeb37237a" />
 </p>
    
 # 3. Technology Stacks
@@ -221,7 +241,7 @@ general_purpose_inclusive_devops_ecosystem/
 # 5 Information of Services
 
 <p align="center">
-<img width="600" height="300" alt="gepideports" src="https://github.com/user-attachments/assets/a3a8a13b-302d-4d73-b592-036ead937084" />
+<img width="900" height="300" alt="gepideports" src="https://github.com/user-attachments/assets/a3a8a13b-302d-4d73-b592-036ead937084" />
 </p>
 
 
@@ -441,7 +461,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
 </table>
 
 <p align="center">
-   <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/77265eec-adf4-4e1f-a733-fcefacae0197" />
+   <img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/77265eec-adf4-4e1f-a733-fcefacae0197" />
 </p>
 
 ## 6.2 Run Services with container
