@@ -8,27 +8,23 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
 # Index
 <table>
   <tr>
-    <td width="25%" valign="top">
+    <td width="33%" valign="top">
       <ul>
         <li>1. Ecosystem Summary</li>
         <li>2. Architecture Overview</li>
         <li>3. Technology Stacks</li>
         <li>4. Project Structure</li>
-        <li>5. Informations of Services</li>
-      </ul>
-    </td>
-    <td width="25%" valign="top">
-      <ul>
+        <li>5. Infos of Services</li>
         <li>6. Local Setup</li>
         <li>- 6.1.  With Container</li>
         <li> - 6.2.  With Manual</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <ul>
         <li> 7. Get packages</li>
         <li> - 7.1.  With Container</li>
         <li>- 7.2.  With Manual</li>
-      </ul>
-    </td>
-    <td width="25%" valign="top">
-      <ul>
         <li>8. Deployment Operation</li>
         <li>- 8.1.  With Kubernetes</li>
         <li>- 8.2.  With Container</li>
@@ -36,7 +32,7 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
         <li>- 8.4.  Error Handling</li>
      </ul>
     </td>
-    <td width="25%" valign="top">
+    <td width="33%" valign="top">
       <ul>
         <li>9. Database Parameters</li>
         <li>10. Contributing</li>
@@ -363,7 +359,7 @@ general_purpose_inclusive_devops_ecosystem/
     <td width="33%" valign="top">
       <h3>5.14 elastic search</h3>
       <ul>
-         <li>image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10</li>
+         <li>image: elasticsearch/elasticsearch:7.17.10</li>
         <li>container_name: elasticsearch</li>
         <li>ports: "9200,9300"</li>
       </ul>
@@ -371,7 +367,7 @@ general_purpose_inclusive_devops_ecosystem/
     <td width="33%" valign="top">
       <h3>5.15 logstash</h3>
       <ul>
-         <li>image: docker.elastic.co/logstash/logstash:7.17.10</li>
+         <li>image: logstash/logstash:7.17.10</li>
          <li>container_name: logstash</li>
          <li>ports: "5044,9600"</li>
       </ul>
@@ -381,14 +377,14 @@ general_purpose_inclusive_devops_ecosystem/
     <td width="33%" valign="top">
       <h3>5.16 filebeat</h3>
       <ul>
-         <li>mage: docker.elastic.co/beats/filebeat:7.17.10</li>
+         <li>mage: beats/filebeat:7.17.10</li>
          <li>container_name: filebeat</li>
       </ul>
     </td>
     <td width="33%" valign="top">
       <h3>5.17 kibana</h3>
       <ul>
-         <li>image: docker.elastic.co/kibana/kibana:7.17.10</li>
+         <li>image: kibana/kibana:7.17.10</li>
         <li>container_name: kibana</li>
         <li>ports: "5601"</li>
       </ul>
