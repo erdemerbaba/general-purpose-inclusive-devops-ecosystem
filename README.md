@@ -12,8 +12,16 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
 4. Project Structure
 5. Informations of Services
 6. Local Setup
+- 6.1.  With Container
+- 6.2.  With Manual
 7. Get packages
+- 7.1.  With Container
+- 7.2.  With Manual
 8. Deployment Operation
+- 8.1.  With Kubernetes
+- 8.2.  With Container
+- 8.3.  With Manual
+- 8.4.  Error Handling
 9. Database Parameters
 10. Contributing
 11. License
@@ -67,44 +75,68 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
 
 
 <p align="center">
-<img width="1024" height="1024" alt="gepideschema" src="https://github.com/user-attachments/assets/bcc62dc8-6b27-481f-b441-c8f57630976e" />
+<img width="507" height="507" alt="gepideschema" src="https://github.com/user-attachments/assets/226a80d9-f334-404e-8e20-0afdeb37237a" />
 </p>
    
 # 3. Technology Stacks
-## 3.1 Backend
-- **Framework**: Spring Boot 2.7.0
-- **Language**: Java 17
-- **Security**: Spring Security + JWT
-- **Validation**: Bean Validation (JSR-303)
-- **Logging**: SLF4J + Logback
-- **Monitoring**: Spring Boot Actuator + Prometheus
-
-## 3.2 Frontend
-- **Framework**: React 17
-- **Language**: JavaScript/JSX
-- **Styling**: Bootstrap 4.5
-- **HTTP Client**: Axios
-- **Routing**: React Router DOM
-- **State Management**: Context API
-
-## 3.3 dataservice
-- **Framework**: MongoDB
-
-## 3.4. Container Tools
-- **Containerization**: Docker-ready
-- **Monitoring**: Health checks, metrics
-- **Configuration**: Environment-based configuration
-- **Logging**: Structured logging with rotation
-
-## 3.5 Automation Tools
-- **Continuous Delivery**: Jenkins
-
-## 3.6 Kubernetes Tools
-- **Infastructure**: Terraform
-- **Configuration**: Ansible
-- **Environment**: Istio
-- **Maintenance**: Rancher
-
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>3.1 Backend</h3>
+      <ul>
+        <li>Framework: Spring Boot 2.7.0</li>
+        <li>Language: Java 17</li>
+        <li>Security: Spring Security + JWT</li>
+        <li>Validation: Bean Validation (JSR-303)</li>
+        <li>Logging: SLF4J + Logback</li>
+        <li>Monitoring: Spring Boot Actuator + Prometheus</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>3.2 Frontend</h3>
+      <ul>
+        <li>Framework: React 17</li>
+        <li>**Language: JavaScript/JSX</li>
+        <li>Styling: Bootstrap 4.5</li>
+        <li>HTTP Client: Axios</li>
+        <li>Routing: React Router DOM</li>
+        <li>State Management: Context API</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>3.3 dataservice</h3>
+      <ul>
+         <li>Framework: MongoDB</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>3.4. Container Tools</h3>
+      <ul>
+         <li>Containerization: Docker-ready</li>
+        <li>Monitoring: Health checks, metrics</li>
+        <li>Configuration: Environment-based configuration</li>
+        <li>Logging: Structured logging with rotation</li>
+      </ul>
+    </td>
+        <td width="33%" valign="top">
+      <h3>3.6 Kubernetes Tools</h3>
+      <ul>
+         <li>Infastructure: Terraform</li>
+        <li>Configuration: Ansible</li>
+        <li>Environment: Istio</li>
+        <li>Maintenance: Rancher</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>3.5 Automation Tools</h3>
+      <ul>
+         <li>Continuous Delivery: Jenkins</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 ## 4 Project Structure
 
@@ -189,143 +221,265 @@ general_purpose_inclusive_devops_ecosystem/
 # 5 Information of Services
 
 <p align="center">
-<img width="1024" height="1024" alt="gepideports" src="https://github.com/user-attachments/assets/83d8eaff-824e-4215-a206-cb8c0cb92f96" />
+<img width="600" height="300" alt="gepideports" src="https://github.com/user-attachments/assets/a3a8a13b-302d-4d73-b592-036ead937084" />
 </p>
 
-## 5.1 Zookeper
-  * image: bitnami/zookeeper:latest
-  * container_name: zookeeper
-  * ports:
-  *   - "2181:2181"
 
-## 5.2 kafka
-  * image: bitnami/kafka:latest
-  * container_name: kafka
-  * ports:
-  *   - "9092:9092"
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>5.1 Zookeper</h3>
+      <ul>
+          <li>* image: bitnami/zookeeper:latest</li>
+          <li>* container_name: zookeeper</li>
+          <li>* ports: "2181"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.2 kafka</h3>
+      <ul>
+          <li> image: bitnami/kafka:latest</li>
+          <li> container_name: kafka</li>
+          <li> ports: "9093,9092"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3> 5.3 kafdrop</h3>
+      <ul>
+          <li> image: obsidiandynamics/kafdrop:latest </li>
+          <li> container_name: kafdrop</li>
+          <li> ports: "9099"</li>
+      </ul>
+    </td>
 
-## 5.3 Mongodb
-  * mongodb://localhost:27017/userdb
-  * image: mongo:latest
-  * container_name: mongodb
-  * ports:
-  *   - "27017:27017"
-
-## 5.4 redis
-  * image: redis:latest
-  * container_name: redis
-  * ports:
-  *   - "6379:6379"
-
-## 5.5 eureka
-  * http://localhost:8761/
-  * build:
-  *   context: ./eureka-server
-  * ports:
-  *   - "8761:8761"
-  * container_name: eureka-server
-
-## 5.6 gateway
-  * http://localhost:8080/actuator/gateway/routes
-  * build:
-  *   context: ./gateway
-  * ports:
-  *   - "8080:8080"
-  * container_name: gateway
-
-## 5.7 User Service (`user-service`)
-- **Backend Port**: 8081
-- **Frontend URLs**:
-  * Get : http://localhost:3000/users
-  * Add : http://localhost:3000/add-user/_add
-  * Detail : http://localhost:3000/view-user/
-  * Update : http://localhost:3000/add-user/userid
-- **Purpose**: User management and authentication
-- **Features**: CRUD operations, search, pagination, validation
-
-## 5.8 Product Service (`product-service`)
-- **Port**: 8082
-- **Frontend URLs**:
-  * Get : http://localhost:3000/products
-  * Add : http://localhost:3000/add-product/_add
-  * Detail : http://localhost:3000/view-product/
-  * Update : http://localhost:3000/add-product/productid
-- **Purpose**: Product lifecycle management
-- **Features**: CRUD operations, search, pagination, validation
-
-## 5.9 Asset Service (`asset-service`)
-- **Port**: 8083
-- **Frontend URLs**:
-  * Get : http://localhost:3000/assets
-  * Add : http://localhost:3000/add-assets/_add
-  * Detail : http://localhost:3000/view-asset/
-  * Update : http://localhost:3000/add-asset/assetid
-- **Purpose**: Product lifecycle management
-- **Features**: CRUD operations, search, pagination, validation
-
-## 5.10 Management App (`management-app`)
-- **Port**: 3000
-- **Frontend URLs**:
-  * Get : http://localhost:3000
-- **Purpose**: React-based frontend application
-- **Features**: Modern UI, responsive design, state management
-
-## 5.11 swagger
-  * image: swaggerapi/swagger-ui
-  * container_name: swagger-ui
-  * ports:
-  *   - "8090:8080"
-
-## 5.12 sonarcube
-  * image: sonarqube:latest
-  * container_name: sonarqube
-  * ports:
-  *   - "9000:9000"
-
-## 5.13 jenkins
-  * image: jenkins/jenkins:lts
-  * ports:
-  *   - "8443:8443"
-  *   - "50000:50000"
-  * container_name: jenkins
-
-## 5.14 elastic search
-  * image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
-  * container_name: elasticsearch
-  * environment:
-  *   - discovery.type=single-node
-  * ports:
-  *   - "9200:9200"
-  *   - "9300:9300"
-
-## 5.15 prometheus
-  * image: prom/prometheus:latest
-  * container_name: prometheus
-  * ports:
-  *   - "9090:9090"
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h3> 5.4 Mongodb</h3>
+      <ul>
+          <li> image: mongo:latest </li>
+          <li> container_name: mongodb</li>
+          <li> ports: "27017"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.5 redis</h3>
+      <ul>
+        <li>image: redis:latest</li>
+        <li>container_name: redis</li>
+        <li>ports:"6379"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.6 eureka</h3>
+      <ul>
+         <li>image: local</li>
+        <li>container_name: eureka-server</li>
+        <li>Eports: "8761"</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>5.7 gateway</h3>
+      <ul>
+         <li>image: local</li>
+         <li>container_name: gateway</li>
+         <li>ports: "8080"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.8 user service</h3>
+      <ul>
+         <li>image: local</li>
+        <li>container_name: user-service</li>
+        <li>ports: "8081"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.9 product service</h3>
+      <ul>
+         <li>image: local</li>
+         <li>container_name: product-service</li>
+         <li>ports: "8082"</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>5.10 asset service</h3>
+      <ul>
+         <li>image: local</li>
+         <li>container_name: asset-service</li>
+         <li>ports: "8083"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.11 management app</h3>
+      <ul>
+         <li>image: local</li>
+        <li>container_name: management-app</li>
+        <li>ports: "3000"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.12 sonarqube</h3>
+      <ul>
+         <li>image: sonarqube:latest</li>
+         <li>container_name: sonarqube</li>
+         <li>ports: "9000"</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>5.13 jenkins</h3>
+      <ul>
+         <li>mage: jenkins/jenkins:lts</li>
+         <li>container_name: jenkins</li>
+         <li>ports: "8443,8043,50000"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.14 elastic search</h3>
+      <ul>
+         <li>image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10</li>
+        <li>container_name: elasticsearch</li>
+        <li>ports: "9200,9300"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.15 logstash</h3>
+      <ul>
+         <li>image: docker.elastic.co/logstash/logstash:7.17.10</li>
+         <li>container_name: logstash</li>
+         <li>ports: "5044,9600"</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>5.16 filebeat</h3>
+      <ul>
+         <li>mage: docker.elastic.co/beats/filebeat:7.17.10</li>
+         <li>container_name: filebeat</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.17 kibana</h3>
+      <ul>
+         <li>image: docker.elastic.co/kibana/kibana:7.17.10</li>
+        <li>container_name: kibana</li>
+        <li>ports: "5601"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.18 prometheus</h3>
+      <ul>
+         <li>image: prom/prometheus:latest</li>
+         <li>container_name: prometheus</li>
+         <li>ports: "9090"</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <h3>5.19 grafana</h3>
+      <ul>
+         <li>mage: grafana/grafana:latest</li>
+         <li>container_name: grafana</li>
+        <li>ports: "3001"</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.20 postgre</h3>
+      <ul>
+         <li>image: postgres:13</li>
+        <li>container_name: jira_db</li>
+      </ul>
+    </td>
+    <td width="33%" valign="top">
+      <h3>5.21 jira</h3>
+      <ul>
+         <li>image: atlassian/jira-software:latest</li>
+         <li>container_name: jira</li>
+         <li>ports: "8090"</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 # 6. Local Setup
-User can run whole project with docker and kubernetes but if want to run manuel please read instructions.
-
-<p align="center">
-   <img width="1024" height="1003" alt="image" src="https://github.com/user-attachments/assets/77265eec-adf4-4e1f-a733-fcefacae0197" />
-</p>
+User can run whole project with docker and kubernetes but if want to run manual please read 6.3 instructions.
 
 ## 6.1 Prerequisites
-- Docker 
-or
-- Java 17+
-- Maven 3.6+
-- Node.js 14+
-- MongoDB 4.4+
-- 8 core cpu
-- 8 gb cpu
-- 16 gb ram
-- 15 gb disk space
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <ul>
+          <li>16 core 2.5 ghz cpu</li>
+          <li>16 gb ram</li>
+          <li>50 gb disk space</li>
+          <li>Docker</li>
+          <li>minikube</li>
+          <li>terraform</li>
+          <li>python pip kubernetes</li>
+          <li>ansible</li>
+      </ul>
+    <td width="50%" valign="top">
+      <ul>
+          <li> if do not use docker then:</li>
+          <li> Java 17+</li>
+          <li> Maven 3.6+</li>
+          <li> Node.js 14+</li>
+          <li> MongoDB 4.4+</li>
+          <li> python 3.12+</li>
+          <li> also should download related tools that inside of docker compose</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-## 6.2 Run Services
+<p align="center">
+   <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/77265eec-adf4-4e1f-a733-fcefacae0197" />
+</p>
 
-### 6.2.1 Configure Environment Variables
+## 6.2 Run Services with container
+
+### 6.2.1 install docker
+   ```bash
+   https://docs.docker.com/desktop/
+   ```
+
+### 6.2.2 locate to project pat
+   ```bash
+    cd general-purpose-inclusive-devops-ecosystem/
+   ```
+### 6.2.3 execute docker compose
+   ```bash
+    docker compose up -d --build
+   ```
+
+### 6.2.4 take a tea and wait a while after that check statusses with different terminal 
+   ```bash
+    docker images
+    docker ps
+   ```
+
+### 6.2.5 you are read to go for check services
+   ```bash
+    curl http://localhost:3000
+    Website: http://localhost:3000
+   ```
+
+### 6.2.5 if you want to down all the compose
+   ```bash
+    docker compose down
+   ```
+
+## 6.3 Run Services with old school style (non-container)
+
+### 6.3.1 Configure Environment Variables
    ```bash
    export MONGODB_HOST=localhost
    export MONGODB_PORT=27017
@@ -333,94 +487,173 @@ or
    export JWT_SECRET=your-secret-key
    ```
 
-### 6.2.2 Start MongoDB
+### 6.3.2 Start MongoDB
    ```bash
     mongod --dbpath 
    ```
  
-### 6.2.3 Build and Run User Service
+### 6.3.3 Build and Run User Service
    ```bash
    cd user-service
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.2.4 Build and Run Product Service**
+### 6.3.4 Build and Run Product Service**
    ```bash
    cd product-service
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.2.5 Build and Run Product Service**
+### 6.3.5 Build and Run Product Service**
    ```bash
    cd asset-service
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.2.6 Install Dependencies
+### 6.3.6 Install Dependencies
    ```bash
    cd management-app
    npm install
    npm start
    ```
 
-### 6.2.7 Enter Web app
+### 6.3.7 Enter Web app
 Website: localhost:3000
-Username: admin
-Password: admin
 
 # 7 Get Package
-User can run whole project with docker and kubernetes but if want to run manuel please read instructions.
-
-## 7.1 Database
-    mongosh
-
-## 7.2 Backend
-    mvn package
-
-## 7.3 Frontend
-    npm run build
-
-# 8 Deployment Operation
-User can run whole project with docker and kubernetes but if want to run manuel please read instructions. Firstly, Enter related machine install requirements.
-
-## 8.1 Database
-    mongosh
-
-## 8.2 Backend
-    java -jar package.jar
-
-## 8.3 Frontend
-    npm install -g serve
-    serve -s build
-
-## 8.4 Docker Deployment
-```bash
-# Build images
-docker build -t user-service ./user-service
-docker build -t product-service ./product-service
-
-# Run containers
-docker run -p 8081:8081 user-service
-docker run -p 8082:8082 product-service
-```
+User can run whole project with docker and kubernetes but if want to run manual please read 7.2 instructions.
 
 <p align="center">
 <img width="1252" height="706" alt="dockercontainers" src="https://github.com/user-attachments/assets/a28f2b8e-9b58-4425-a68b-1975540eafe5" />
 </p>
-  
-## 8.5 Kubernetes Deployment
-- Deployment manifests in `deployment/` directory
-- Service configurations
-- Ingress rules
+
+## 7.1 Get package with container
+### 7.1.1 login docker
+   ```bash
+   docker login
+   ```
+
+### 7.1.2 build compose
+   ```bash
+   docker compose build
+   ```
+
+### 7.1.3 push to docker hub
+   ```bash
+   docker compose push
+   ```
+
+### 7.1.3.1 if you get package with offline environment
+   ```bash
+   docker compose images --quiet | xargs -n1 docker save -o <name>.tar
+   ```
+
+## 7.2 Get package with old school style (non-container)
+### 7.2.1 Database
+   ```bash
+    mongosh
+   ```
+
+### 7.2.2 Backend
+   ```bash
+    mvn package
+   ```
+
+### 7.2.3 Frontend
+   ```bash
+    npm run build
+   ```
+
+# 8 Deployment Operation
+User can run whole project with docker and kubernetes but if want to run manuel please read 8.3 instructions. Firstly, Enter related machine to deploy process.
 
 <p align="center">
 <img width="1345" height="801" alt="gepidekubernetes" src="https://github.com/user-attachments/assets/f55c7bb3-b8e5-4e09-a914-cebc612a00b1" />
 </p>
 
-## 8.6 Error Handling
+## 8.1 Deploy with kubernetes
+### 8.2.1 Install Terraform
+```bash
+https://developer.hashicorp.com/terraform/install
+```
+### 8.2.2 locate file and execute init
+```bash
+terraform init
+```
+
+### 8.2.3 apply teraform environment 
+```bash
+terraform apply
+```
+
+### 8.2.4 now take a time to terraform handle process and you can see the status with paralel terminal
+```bash
+kubectl get all -A
+```
+
+### 8.2.5 Install Ansible
+```bash
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+```
+
+### 8.2.6 Install python kubernetes lib
+```bash
+pip install kubernetes
+```
+
+### 8.2.7 Change what required in spesific tool yml file
+```bash
+ansible-playbook -i inventory.ini site.yml
+```
+
+### 8.2.8 Take a rest and look environment if something changed or not
+```bash
+kubectl describe pod -n <namespace> <choosen pod>
+```
+
+### 8.2.4 To down services execute below command in environment
+```bash
+kubectl delete namespace gepide
+```
+
+## 8.2 Deploy with docker
+
+### 8.2.1 send docker compose to related machine
+```bash
+scp docker-compose.yml root:<ipadress>:/home/docker-compose.yml
+```
+
+### 8.2.2 enter machine, locate file and execute compose
+```bash
+docker compose up -d --build
+```
+
+### 8.2.2.1 if environment offline, locate file then enter machine and execute below rpm command
+```bash
+docker load -i all-images.tar
+```
+
+### 8.2.2 stop the services if needed
+```bash
+docker compose down
+```
+
+## 8.3 Deploy with local
+
+### 8.3.1 Database
+    mongosh
+
+### 8.3.2 Backend
+    java -jar package.jar
+
+### 8.3.3 Frontend
+    npm install -g serve
+    serve -s build
+
+## 8.4 Error Handling
 export NODE_OPTIONS=--openssl-legacy-provider
 export SKIP_PREFLIGHT_CHECK=true
 lsof -i tcp:8080
