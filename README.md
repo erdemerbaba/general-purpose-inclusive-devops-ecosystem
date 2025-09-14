@@ -47,7 +47,6 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
 # 1 Ecosystem Summary 
 Configurable web application for a calibratable devops enironment. Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
-
 <h2>2 Architecture Overview</h2>
 
 <table>
@@ -88,7 +87,6 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
     </td>
   </tr>
 </table>
-
 
 <p align="center">
 <img width="807" height="507" alt="gepideschema" src="https://github.com/user-attachments/assets/226a80d9-f334-404e-8e20-0afdeb37237a" />
@@ -232,14 +230,12 @@ general_purpose_inclusive_devops_ecosystem/
     **Loose Coupling**: Services communicate via well-defined interfaces
     **Service Reusability**: Services can be reused across different contexts
     **Service Autonomy**: Services operate independently
-    
 
 # 5 Information of Services
 
 <p align="center">
 <img width="900" height="300" alt="gepideports" src="https://github.com/user-attachments/assets/a3a8a13b-302d-4d73-b592-036ead937084" />
 </p>
-
 
 <table>
   <tr>
@@ -467,7 +463,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
    https://docs.docker.com/desktop/
    ```
 
-### 6.2.2 locate to project pat
+### 6.2.2 locate to project path
    ```bash
     cd general-purpose-inclusive-devops-ecosystem/
    ```
@@ -488,7 +484,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
     Website: http://localhost:3000
    ```
 
-### 6.2.5 if you want to down all the compose
+### 6.2.6 if you want to down all the compose
    ```bash
     docker compose down
    ```
@@ -549,6 +545,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
 </p>
 
 ## 7.1 Get package with container
+
 ### 7.1.1 login docker
    ```bash
    docker login
@@ -570,6 +567,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
    ```
 
 ## 7.2 Get package with old school style (non-container)
+
 ### 7.2.1 Database
    ```bash
     mongosh
@@ -593,10 +591,12 @@ User can run whole project with docker and kubernetes but if want to run manuel 
 </p>
 
 ## 8.1 Deploy with kubernetes
+
 ### 8.1.1 Install Terraform
 ```bash
 https://developer.hashicorp.com/terraform/install
 ```
+
 ### 8.1.2 locate file and execute init
 ```bash
 terraform init
