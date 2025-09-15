@@ -1,10 +1,3 @@
 # Security Policy
 
-## Supported Versions
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+If you discover a security vulnerability, I would be very grateful if you could email us at erdemerbaba@gmail.com. I will credit the person or people who report the security vulnerabilities after it has been patched.

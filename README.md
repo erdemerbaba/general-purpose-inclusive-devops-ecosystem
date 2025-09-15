@@ -2,7 +2,7 @@
 Inclusive Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
 <p align="center">
-<img width="1209" height="552" alt="gepidethumbnailwideful" src="https://github.com/user-attachments/assets/50ffcd4f-a5a3-4f70-b98b-49298cf3c995" />
+<img width="1209" height="652" alt="gepidethumbnailwideful" src="https://github.com/user-attachments/assets/50ffcd4f-a5a3-4f70-b98b-49298cf3c995" />
 </p>
 
 # Index
@@ -14,7 +14,7 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
         <li>2. Architecture Overview</li>
         <li>3. Technology Stacks</li>
         <li>4. Project Structure</li>
-        <li>5. Infos of Services</li>
+        <li>5. Information of Services</li>
         <li>6. Local Setup</li>
         <li>- 6.1.  With Container</li>
         <li> - 6.2.  With Manual</li>
@@ -47,9 +47,7 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
 # 1 Ecosystem Summary 
 Configurable web application for a calibratable devops enironment. Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
-
-<h2>2 Architecture Overview</h2>
-
+# 2 Architecture Overview
 <table>
   <tr>
     <td width="50%" valign="top">
@@ -89,12 +87,11 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
   </tr>
 </table>
 
-
 <p align="center">
-<img width="807" height="507" alt="gepideschema" src="https://github.com/user-attachments/assets/226a80d9-f334-404e-8e20-0afdeb37237a" />
+<img width="807" height="657" alt="gepideschema" src="https://github.com/user-attachments/assets/226a80d9-f334-404e-8e20-0afdeb37237a" />
 </p>
    
-# 3. Technology Stacks
+# 3 Technology Stacks
 <table>
   <tr>
     <td width="33%" valign="top">
@@ -128,7 +125,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
   </tr>
   <tr>
     <td width="33%" valign="top">
-      <h3>3.4. Container Tools</h3>
+      <h3>3.4 Container Tools</h3>
       <ul>
          <li>Containerization: Docker-ready</li>
         <li>Monitoring: Health checks, metrics</li>
@@ -137,7 +134,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
       </ul>
     </td>
         <td width="33%" valign="top">
-      <h3>3.6 Kubernetes Tools</h3>
+      <h3>3.5 Kubernetes Tools</h3>
       <ul>
          <li>Infastructure: Terraform</li>
         <li>Configuration: Ansible</li>
@@ -146,7 +143,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
       </ul>
     </td>
     <td width="33%" valign="top">
-      <h3>3.5 Automation Tools</h3>
+      <h3>3.6 Automation Tools</h3>
       <ul>
          <li>Continuous Delivery: Jenkins</li>
       </ul>
@@ -154,7 +151,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
   </tr>
 </table>
 
-## 4 Project Structure
+# 4 Project Structure
 
 ```
 general_purpose_inclusive_devops_ecosystem/
@@ -232,14 +229,12 @@ general_purpose_inclusive_devops_ecosystem/
     **Loose Coupling**: Services communicate via well-defined interfaces
     **Service Reusability**: Services can be reused across different contexts
     **Service Autonomy**: Services operate independently
-    
 
 # 5 Information of Services
 
 <p align="center">
 <img width="900" height="300" alt="gepideports" src="https://github.com/user-attachments/assets/a3a8a13b-302d-4d73-b592-036ead937084" />
 </p>
-
 
 <table>
   <tr>
@@ -425,7 +420,7 @@ general_purpose_inclusive_devops_ecosystem/
   </tr>
 </table>
 
-# 6. Local Setup
+# 6 Local Setup
 User can run whole project with docker and kubernetes but if want to run manual please read 6.3 instructions.
 
 ## 6.1 Prerequisites
@@ -467,7 +462,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
    https://docs.docker.com/desktop/
    ```
 
-### 6.2.2 locate to project pat
+### 6.2.2 locate to project path
    ```bash
     cd general-purpose-inclusive-devops-ecosystem/
    ```
@@ -488,7 +483,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
     Website: http://localhost:3000
    ```
 
-### 6.2.5 if you want to down all the compose
+### 6.2.6 if you want to down all the compose
    ```bash
     docker compose down
    ```
@@ -507,37 +502,53 @@ User can run whole project with docker and kubernetes but if want to run manual 
    ```bash
     mongod --dbpath 
    ```
- 
-### 6.3.3 Build and Run User Service
+
+ ### 6.3.3 Build and Run eureka server**
+   ```bash
+   cd eureka-server
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+### 6.3.4 Build and Run gateway**
+   ```bash
+   cd gateway
+   mvn clean install
+   mvn spring-boot:run
+   ```
+
+### 6.3.5 Build and Run User Service
    ```bash
    cd user-service
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.3.4 Build and Run Product Service**
+### 6.3.6 Build and Run Product Service**
    ```bash
    cd product-service
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.3.5 Build and Run Product Service**
+### 6.3.7 Build and Run asset Service**
    ```bash
    cd asset-service
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.3.6 Install Dependencies
+### 6.3.8 Install Dependencies
    ```bash
    cd management-app
    npm install
    npm start
    ```
 
-### 6.3.7 Enter Web app
+### 6.3.9 Enter Web app
+```bash
 Website: localhost:3000
+```
 
 # 7 Get Package
 User can run whole project with docker and kubernetes but if want to run manual please read 7.2 instructions.
@@ -547,6 +558,7 @@ User can run whole project with docker and kubernetes but if want to run manual 
 </p>
 
 ## 7.1 Get package with container
+
 ### 7.1.1 login docker
    ```bash
    docker login
@@ -562,12 +574,13 @@ User can run whole project with docker and kubernetes but if want to run manual 
    docker compose push
    ```
 
-### 7.1.3.1 if you get package with offline environment
+#### 7.1.3.1 if you get package with offline environment
    ```bash
    docker compose images --quiet | xargs -n1 docker save -o <name>.tar
    ```
 
 ## 7.2 Get package with old school style (non-container)
+
 ### 7.2.1 Database
    ```bash
     mongosh
@@ -591,46 +604,48 @@ User can run whole project with docker and kubernetes but if want to run manuel 
 </p>
 
 ## 8.1 Deploy with kubernetes
-### 8.2.1 Install Terraform
+
+### 8.1.1 Install Terraform
 ```bash
 https://developer.hashicorp.com/terraform/install
 ```
-### 8.2.2 locate file and execute init
+
+### 8.1.2 locate file and execute init
 ```bash
 terraform init
 ```
 
-### 8.2.3 apply teraform environment 
+### 8.1.3 apply teraform environment 
 ```bash
 terraform apply
 ```
 
-### 8.2.4 now take a time to terraform handle process and you can see the status with paralel terminal
+### 8.1.4 now take a time to terraform handle process and you can see the status with paralel terminal
 ```bash
 kubectl get all -A
 ```
 
-### 8.2.5 Install Ansible
+### 8.1.5 Install Ansible
 ```bash
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 ```
 
-### 8.2.6 Install python kubernetes lib
+### 8.1.6 Install python kubernetes lib
 ```bash
 pip install kubernetes
 ```
 
-### 8.2.7 Change what required in spesific tool yml file
+### 8.1.7 Change what required in spesific tool yml file
 ```bash
 ansible-playbook -i inventory.ini site.yml
 ```
 
-### 8.2.8 Take a rest and look environment if something changed or not
+### 8.1.8 Take a rest and look environment if something changed or not
 ```bash
 kubectl describe pod -n <namespace> <choosen pod>
 ```
 
-### 8.2.4 To down services execute below command in environment
+### 8.1.9 To down services execute below command in environment
 ```bash
 kubectl delete namespace gepide
 ```
@@ -647,12 +662,12 @@ scp docker-compose.yml root:<ipadress>:/home/docker-compose.yml
 docker compose up -d --build
 ```
 
-### 8.2.2.1 if environment offline, locate file then enter machine and execute below rpm command
+#### 8.2.2.1 if environment offline, locate file then enter machine and execute below rpm command
 ```bash
 docker load -i all-images.tar
 ```
 
-### 8.2.2 stop the services if needed
+### 8.2.3 stop the services if needed
 ```bash
 docker compose down
 ```
@@ -752,6 +767,7 @@ For support and questions:
 - Create an issue in the repository
 - Review the documentation
 - Check the health endpoints
+<h5>contact me erdemerbaba@gmail.com</h5>
 
 # 13 Donate
 **Buy me a coffee if you want to donate** 
