@@ -17,13 +17,13 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
         <li>5. Information of Services</li>
         <li>6. Local Setup</li>
         <li>- 6.1.  With Container</li>
-        <li> - 6.2.  With Manual</li>
+        <li>- 6.2.  With Manual</li>
       </ul>
     </td>
     <td width="33%" valign="top">
       <ul>
         <li> 7. Get packages</li>
-        <li> - 7.1.  With Container</li>
+        <li>- 7.1.  With Container</li>
         <li>- 7.2.  With Manual</li>
         <li>8. Deployment Operation</li>
         <li>- 8.1.  With Kubernetes</li>
@@ -37,8 +37,8 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
         <li>9. Database Parameters</li>
         <li>10. Contributing</li>
         <li>11. License</li>
-       <li> 12. Support</li>
-       <li> 13. Donate</li>
+        <li>12. Support</li>
+        <li>13. Donate</li>
      </ul>
     </td>
   </tr>
@@ -109,7 +109,7 @@ Configurable web application for a calibratable devops enironment. Devops Ecosys
       <h3>3.2 Frontend</h3>
       <ul>
         <li>Framework: React 17</li>
-        <li>**Language: JavaScript/JSX</li>
+        <li>Language: JavaScript/JSX</li>
         <li>Styling: Bootstrap 4.5</li>
         <li>HTTP Client: Axios</li>
         <li>Routing: React Router DOM</li>
@@ -241,25 +241,25 @@ general_purpose_inclusive_devops_ecosystem/
     <td width="33%" valign="top">
       <h3>5.1 Zookeper</h3>
       <ul>
-          <li>* image: bitnami/zookeeper:latest</li>
-          <li>* container_name: zookeeper</li>
-          <li>* ports: "2181"</li>
+          <li>image: bitnami/zookeeper:latest</li>
+          <li>container_name: zookeeper</li>
+          <li>ports: "2181"</li>
       </ul>
     </td>
     <td width="33%" valign="top">
       <h3>5.2 kafka</h3>
       <ul>
-          <li> image: bitnami/kafka:latest</li>
-          <li> container_name: kafka</li>
-          <li> ports: "9093,9092"</li>
+          <li>image: bitnami/kafka:latest</li>
+          <li>container_name: kafka</li>
+          <li>ports: "9093,9092"</li>
       </ul>
     </td>
     <td width="33%" valign="top">
       <h3> 5.3 kafdrop</h3>
       <ul>
-          <li> image: obsidiandynamics/kafdrop:latest </li>
-          <li> container_name: kafdrop</li>
-          <li> ports: "9099"</li>
+          <li>image: obsidiandynamics/kafdrop:latest </li>
+          <li>container_name: kafdrop</li>
+          <li>ports: "9099"</li>
       </ul>
     </td>
 
@@ -268,9 +268,9 @@ general_purpose_inclusive_devops_ecosystem/
     <td width="33%" valign="top">
       <h3> 5.4 Mongodb</h3>
       <ul>
-          <li> image: mongo:latest </li>
-          <li> container_name: mongodb</li>
-          <li> ports: "27017"</li>
+          <li>image: mongo:latest </li>
+          <li>container_name: mongodb</li>
+          <li>ports: "27017"</li>
       </ul>
     </td>
     <td width="33%" valign="top">
@@ -379,7 +379,7 @@ general_purpose_inclusive_devops_ecosystem/
     <td width="33%" valign="top">
       <h3>5.17 kibana</h3>
       <ul>
-         <li>image: kibana/kibana:7.17.10</li>
+        <li>image: kibana/kibana:7.17.10</li>
         <li>container_name: kibana</li>
         <li>ports: "5601"</li>
       </ul>
@@ -503,14 +503,14 @@ User can run whole project with docker and kubernetes but if want to run manual 
     mongod --dbpath 
    ```
 
- ### 6.3.3 Build and Run eureka server**
+ ### 6.3.3 Build and Run eureka server
    ```bash
    cd eureka-server
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.3.4 Build and Run gateway**
+### 6.3.4 Build and Run gateway
    ```bash
    cd gateway
    mvn clean install
@@ -524,14 +524,14 @@ User can run whole project with docker and kubernetes but if want to run manual 
    mvn spring-boot:run
    ```
 
-### 6.3.6 Build and Run Product Service**
+### 6.3.6 Build and Run Product Service
    ```bash
    cd product-service
    mvn clean install
    mvn spring-boot:run
    ```
 
-### 6.3.7 Build and Run asset Service**
+### 6.3.7 Build and Run asset Service
    ```bash
    cd asset-service
    mvn clean install
@@ -604,48 +604,69 @@ User can run whole project with docker and kubernetes but if want to run manuel 
 </p>
 
 ## 8.1 Deploy with kubernetes
+### 8.1.1 Install minikube for kubernetes environment
+For Linux
+```bash
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
 
-### 8.1.1 Install Terraform
+For Mac
+```bash
+brew install minikube
+```
+
+For Windows
+```bash
+choco install minikube -y
+```
+
+### 8.1.2 Execute minikube for setup kubernetes
+```bash
+minikube start
+```
+
+### 8.1.3 Install Terraform
 ```bash
 https://developer.hashicorp.com/terraform/install
 ```
 
-### 8.1.2 locate file and execute init
+### 8.1.4 locate file and execute init
 ```bash
 terraform init
 ```
 
-### 8.1.3 apply teraform environment 
+### 8.1.5 apply teraform environment
 ```bash
 terraform apply
 ```
 
-### 8.1.4 now take a time to terraform handle process and you can see the status with paralel terminal
+### 8.1.6 now take a time to terraform handle process and you can see the status with paralel terminal
 ```bash
 kubectl get all -A
 ```
 
-### 8.1.5 Install Ansible
+### 8.1.7 Install Ansible
 ```bash
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 ```
 
-### 8.1.6 Install python kubernetes lib
+### 8.1.8 Install python kubernetes lib
 ```bash
 pip install kubernetes
 ```
 
-### 8.1.7 Change what required in spesific tool yml file
+### 8.1.9 Change what required in spesific tool yml file
 ```bash
 ansible-playbook -i inventory.ini site.yml
 ```
 
-### 8.1.8 Take a rest and look environment if something changed or not
+### 8.1.10 Take a rest and look environment if something changed or not
 ```bash
 kubectl describe pod -n <namespace> <choosen pod>
 ```
 
-### 8.1.9 To down services execute below command in environment
+### 8.1.11 To down services execute below command in environment
 ```bash
 kubectl delete namespace gepide
 ```
