@@ -1,4 +1,5 @@
 # General Purpose Inclusive DevOps Ecosystem
+
 Inclusive Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
 <p align="center">
@@ -6,6 +7,7 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
 </p>
 
 # Index
+
 <table>
   <tr>
     <td width="33%" valign="top">
@@ -44,10 +46,12 @@ Inclusive Devops Ecosystem is general purpose environment for maintain both full
   </tr>
 </table>
 
-# 1 Ecosystem Summary 
+# 1 Ecosystem Summary
+
 Configurable web application for a calibratable devops enironment. Devops Ecosystem is general purpose environment for maintain both fullstack and devops projects. This ecosystem offer configureable management web application with provides a devops environment that can be calibrated and used for other projects such as maintaining, monitoring,infastructure practices of this web application.
 
 # 2 Architecture Overview
+
 <table>
   <tr>
     <td width="50%" valign="top">
@@ -205,13 +209,17 @@ general_purpose_inclusive_devops_ecosystem/
 </p>
 
 ## 4.1 Used Principle, Pattern and Techniques
+
 ### 4.1.1 SOLID Principles for maintainable and extensible code
+
     **Single Responsibility Principle (SRP)**: Controllers handle only HTTP requests/responses
     **Open/Closed Principle (OCP)**: Service interfaces allow extension without modification
     **Liskov Substitution Principle (LSP)**: Service implementations are interchangeable
     **Interface Segregation Principle (ISP)**: Focused service interfaces
     *Dependency Inversion Principle (DIP)**: Controllers depend on service interfaces
+
 ### 4.1.2 12-Factor App methodology for cloud-native applications
+
     **Codebase**: Single repository for all services
     **Dependencies**: Maven/Node.js dependency management
     **Config**: Externalized configuration via environment variables
@@ -224,7 +232,9 @@ general_purpose_inclusive_devops_ecosystem/
     **Dev/Prod Parity**: Consistent environments
     **Logs**: Structured logging with SLF4J
     **Admin Processes**: Health check endpoints
+
 ### 4.1.3 Service-Oriented Architecture (SOAP) principles for loose coupling
+
     **Service Abstraction**: Clear service boundaries
     **Loose Coupling**: Services communicate via well-defined interfaces
     **Service Reusability**: Services can be reused across different contexts
@@ -421,9 +431,11 @@ general_purpose_inclusive_devops_ecosystem/
 </table>
 
 # 6 Local Setup
+
 User can run whole project with docker and kubernetes but if want to run manual please read 6.3 instructions.
 
 ## 6.1 Prerequisites
+
 <table>
   <tr>
     <td width="50%" valign="top">
@@ -458,99 +470,116 @@ User can run whole project with docker and kubernetes but if want to run manual 
 ## 6.2 Run Services with container
 
 ### 6.2.1 install docker
-   ```bash
-   https://docs.docker.com/desktop/
-   ```
+
+```bash
+https://docs.docker.com/desktop/
+```
 
 ### 6.2.2 locate to project path
-   ```bash
-    cd general-purpose-inclusive-devops-ecosystem/
-   ```
-### 6.2.3 execute docker compose
-   ```bash
-    docker compose up -d --build
-   ```
 
-### 6.2.4 take a tea and wait a while after that check statusses with different terminal 
-   ```bash
-    docker images
-    docker ps
-   ```
+```bash
+ cd general-purpose-inclusive-devops-ecosystem/
+```
+
+### 6.2.3 execute docker compose
+
+```bash
+ docker compose up -d --build
+```
+
+### 6.2.4 take a tea and wait a while after that check statusses with different terminal
+
+```bash
+ docker images
+ docker ps
+```
 
 ### 6.2.5 you are read to go for check services
-   ```bash
-    curl http://localhost:3000
-    Website: http://localhost:3000
-   ```
+
+```bash
+ curl http://localhost:3000
+ Website: http://localhost:3000
+```
 
 ### 6.2.6 if you want to down all the compose
-   ```bash
-    docker compose down
-   ```
+
+```bash
+ docker compose down
+```
 
 ## 6.3 Run Services with old school style (non-container)
 
 ### 6.3.1 Configure Environment Variables
-   ```bash
-   export MONGODB_HOST=localhost
-   export MONGODB_PORT=27017
-   export MONGODB_DATABASE=management
-   export JWT_SECRET=your-secret-key
-   ```
+
+```bash
+export MONGODB_HOST=localhost
+export MONGODB_PORT=27017
+export MONGODB_DATABASE=management
+export JWT_SECRET=your-secret-key
+```
 
 ### 6.3.2 Start MongoDB
-   ```bash
-    mongod --dbpath 
-   ```
 
- ### 6.3.3 Build and Run eureka server
-   ```bash
-   cd eureka-server
-   mvn clean install
-   mvn spring-boot:run
-   ```
+```bash
+ mongod --dbpath
+```
+
+### 6.3.3 Build and Run eureka server
+
+```bash
+cd eureka-server
+mvn clean install
+mvn spring-boot:run
+```
 
 ### 6.3.4 Build and Run gateway
-   ```bash
-   cd gateway
-   mvn clean install
-   mvn spring-boot:run
-   ```
+
+```bash
+cd gateway
+mvn clean install
+mvn spring-boot:run
+```
 
 ### 6.3.5 Build and Run User Service
-   ```bash
-   cd user-service
-   mvn clean install
-   mvn spring-boot:run
-   ```
+
+```bash
+cd user-service
+mvn clean install
+mvn spring-boot:run
+```
 
 ### 6.3.6 Build and Run Product Service
-   ```bash
-   cd product-service
-   mvn clean install
-   mvn spring-boot:run
-   ```
+
+```bash
+cd product-service
+mvn clean install
+mvn spring-boot:run
+```
 
 ### 6.3.7 Build and Run asset Service
-   ```bash
-   cd asset-service
-   mvn clean install
-   mvn spring-boot:run
-   ```
+
+```bash
+cd asset-service
+mvn clean install
+mvn spring-boot:run
+```
 
 ### 6.3.8 Install Dependencies
-   ```bash
-   cd management-app
-   npm install
-   npm start
-   ```
+
+```bash
+cd management-app
+npm install
+npm start
+```
 
 ### 6.3.9 Enter Web app
+
 ```bash
 Website: localhost:3000
 ```
 
 # 7 Get Package
+
 User can run whole project with docker and kubernetes but if want to run manual please read 7.2 instructions.
 
 <p align="center">
@@ -560,43 +589,51 @@ User can run whole project with docker and kubernetes but if want to run manual 
 ## 7.1 Get package with container
 
 ### 7.1.1 login docker
-   ```bash
-   docker login
-   ```
+
+```bash
+docker login
+```
 
 ### 7.1.2 build compose
-   ```bash
-   docker compose build
-   ```
+
+```bash
+docker compose build
+```
 
 ### 7.1.3 push to docker hub
-   ```bash
-   docker compose push
-   ```
+
+```bash
+docker compose push
+```
 
 #### 7.1.3.1 if you get package with offline environment
-   ```bash
-   docker compose images --quiet | xargs -n1 docker save -o <name>.tar
-   ```
+
+```bash
+docker compose images --quiet | xargs -n1 docker save -o <name>.tar
+```
 
 ## 7.2 Get package with old school style (non-container)
 
 ### 7.2.1 Database
-   ```bash
-    mongosh
-   ```
+
+```bash
+ mongosh
+```
 
 ### 7.2.2 Backend
-   ```bash
-    mvn package
-   ```
+
+```bash
+ mvn package
+```
 
 ### 7.2.3 Frontend
-   ```bash
-    npm run build
-   ```
+
+```bash
+ npm run build
+```
 
 # 8 Deployment Operation
+
 User can run whole project with docker and kubernetes but if want to run manuel please read 8.3 instructions. Firstly, Enter related machine to deploy process.
 
 <p align="center">
@@ -604,69 +641,84 @@ User can run whole project with docker and kubernetes but if want to run manuel 
 </p>
 
 ## 8.1 Deploy with kubernetes
+
 ### 8.1.1 Install minikube for kubernetes environment
+
 For Linux
+
 ```bash
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
 For Mac
+
 ```bash
 brew install minikube
 ```
 
 For Windows
+
 ```bash
 choco install minikube -y
 ```
 
 ### 8.1.2 Execute minikube for setup kubernetes
+
 ```bash
 minikube start
 ```
 
 ### 8.1.3 Install Terraform
+
 ```bash
 https://developer.hashicorp.com/terraform/install
 ```
 
 ### 8.1.4 locate file and execute init
+
 ```bash
 terraform init
 ```
 
 ### 8.1.5 apply teraform environment
+
 ```bash
 terraform apply
 ```
 
 ### 8.1.6 now take a time to terraform handle process and you can see the status with paralel terminal
+
 ```bash
 kubectl get all -A
 ```
 
 ### 8.1.7 Install Ansible
+
 ```bash
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 ```
 
 ### 8.1.8 Install python kubernetes lib
+
 ```bash
 pip install kubernetes
 ```
 
 ### 8.1.9 Change what required in spesific tool yml file
+
 ```bash
 ansible-playbook -i inventory.ini site.yml
 ```
 
 ### 8.1.10 Take a rest and look environment if something changed or not
+
 ```bash
 kubectl describe pod -n <namespace> <choosen pod>
 ```
 
 ### 8.1.11 To down services execute below command in environment
+
 ```bash
 kubectl delete namespace gepide
 ```
@@ -674,21 +726,25 @@ kubectl delete namespace gepide
 ## 8.2 Deploy with docker
 
 ### 8.2.1 send docker compose to related machine
+
 ```bash
 scp docker-compose.yml root:<ipadress>:/home/docker-compose.yml
 ```
 
 ### 8.2.2 enter machine, locate file and execute compose
+
 ```bash
 docker compose up -d --build
 ```
 
 #### 8.2.2.1 if environment offline, locate file then enter machine and execute below rpm command
+
 ```bash
 docker load -i all-images.tar
 ```
 
 ### 8.2.3 stop the services if needed
+
 ```bash
 docker compose down
 ```
@@ -696,84 +752,89 @@ docker compose down
 ## 8.3 Deploy with local
 
 ### 8.3.1 Database
+
     mongosh
 
 ### 8.3.2 Backend
+
     java -jar package.jar
 
 ### 8.3.3 Frontend
+
     npm install -g serve
     serve -s build
 
 ## 8.4 Error Handling
+
 export NODE_OPTIONS=--openssl-legacy-provider
 export SKIP_PREFLIGHT_CHECK=true
 lsof -i tcp:8080
 taskkill /F /PID
 
 # 9 Database Parameters
+
 - Employee
--- ID
--- Name
--- Surname
--- Profession
--- Role
--- Level
--- Team
--- Mentor
--- Join Date
--- Leave Date
--- Location
--- Email
--- Phone Number
--- Birth Date
--- Nationality
--- Address
--- Identity Number
--- Educations
--- Experience
--- Skills
--- Certifications
--- Honors
--- Memberships
--- Projects
--- Links
--- Government Papers
--- Additional Notes
+  -- ID
+  -- Name
+  -- Surname
+  -- Profession
+  -- Role
+  -- Level
+  -- Team
+  -- Mentor
+  -- Join Date
+  -- Leave Date
+  -- Location
+  -- Email
+  -- Phone Number
+  -- Birth Date
+  -- Nationality
+  -- Address
+  -- Identity Number
+  -- Educations
+  -- Experience
+  -- Skills
+  -- Certifications
+  -- Honors
+  -- Memberships
+  -- Projects
+  -- Links
+  -- Government Papers
+  -- Additional Notes
 
 - Products
--- ID
--- Name
--- Category
--- Description
--- Members
--- Customer Segment
--- Revenue Source
--- Cost Source
--- Customer Platforms
--- Developer Platforms
--- Tech Stacks
--- Deployments
--- Sources
--- Historic Dates
--- Performance Indicators
--- Legal Compliance
--- Financial Procedures
--- Additional Notes
+  -- ID
+  -- Name
+  -- Category
+  -- Description
+  -- Members
+  -- Customer Segment
+  -- Revenue Source
+  -- Cost Source
+  -- Customer Platforms
+  -- Developer Platforms
+  -- Tech Stacks
+  -- Deployments
+  -- Sources
+  -- Historic Dates
+  -- Performance Indicators
+  -- Legal Compliance
+  -- Financial Procedures
+  -- Additional Notes
 
 - Assets
--- ID
--- Name
--- Type
--- SerialNumber
--- Department
--- AssignedTo
--- TechnicalSpecs
--- PurchaseDate
--- Value
-
+  -- ID
+  -- Name
+  -- Type
+  -- SerialNumber
+  -- Department
+  -- AssignedTo
+  -- TechnicalSpecs
+  -- PurchaseDate
+  -- Value
 
 # 10 Contributing
+
 1. Follow the established architecture patterns
 2. Maintain SOLID principles
 3. Add comprehensive tests
@@ -781,18 +842,23 @@ taskkill /F /PID
 5. Follow the coding standards
 
 # 11 License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 # 12 Support
+
 For support and questions:
+
 - Create an issue in the repository
 - Review the documentation
 - Check the health endpoints
 <h5>contact me erdemerbaba@gmail.com</h5>
 
 # 13 Donate
-**Buy me a coffee if you want to donate** 
+
+**Buy me a coffee if you want to donate**
 https://www.buymeacoffee.com/erdemerbaba/
+
 ---
 
-**Built with ❤️ by Era Technology Co aka Erdem Erbaba** 
+**Built with ❤️ by Era Technology Co aka Erdem Erbaba**
