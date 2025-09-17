@@ -1212,7 +1212,7 @@ resource "kubernetes_config_map" "logstash_config" {
   }
 
   data = {
-    "logstash.conf" = file("../logstash.conf")
+    "logstash.conf" = file("../monitoring/logstash.conf")
   }
 }
 
@@ -1327,7 +1327,7 @@ resource "kubernetes_config_map" "filebeat_config" {
   }
 
   data = {
-    "filebeat.yml" = file("../filebeat.yml")
+    "filebeat.yml" = file("../monitoring/filebeat.yml")
   }
 }
 
@@ -1437,7 +1437,7 @@ resource "kubernetes_config_map" "prometheus_config" {
   }
 
   data = {
-    "prometheus.yml" = file("../prometheus.yml")
+    "prometheus.yml" = file("../monitoring/prometheus.yml")
   }
 }
 
@@ -1518,7 +1518,7 @@ resource "kubernetes_config_map" "grafana_provisioning" {
   }
 
   data = {
-    "provisioning.yaml" = file("../grafana/provisioning/dashboards.yml")
+    "provisioning.yaml" = file("../monitoring/grafana/provisioning/dashboards.yml")
   }
 }
 
