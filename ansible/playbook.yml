@@ -1,0 +1,697 @@
+---
+- name: Update Asset Service environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Asset Service Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: asset-service
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: asset-service
+            template:
+              metadata:
+                labels:
+                  app: asset-service
+              spec:
+                containers:
+                  - name: asset-service
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"
+                      - name: SPRING_REDIS_HOST
+                        value: "redis"
+                      - name: SPRING_REDIS_PORT
+                        value: "6379"
+                      - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                        value: "kafka:9092"
+
+- name: Update Elasticsearch environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Elasticsearch Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: elasticsearch
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: elasticsearch
+            template:
+              metadata:
+                labels:
+                  app: elasticsearch
+              spec:
+                containers:
+                  - name: elasticsearch
+                    env:
+                      - name: discovery.type
+                        value: "single-node"
+
+- name: Update Eureka Server environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Eureka Server Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: eureka-server
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: eureka-server
+            template:
+              metadata:
+                labels:
+                  app: eureka-server
+              spec:
+                containers:
+                  - name: eureka-server
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"
+
+- name: Update Flagger environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Flagger Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: flagger
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: flagger
+            template:
+              metadata:
+                labels:
+                  app: flagger
+              spec:
+                containers:
+                  - name: flagger
+                    env: []
+
+- name: Update Grafana environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Grafana Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: grafana
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: grafana
+            template:
+              metadata:
+                labels:
+                  app: grafana
+              spec:
+                containers:
+                  - name: grafana
+                    env:
+                      - name: GF_SECURITY_ADMIN_USER
+                        value: "admin"
+                      - name: GF_SECURITY_ADMIN_PASSWORD
+                        value: "admin"
+
+- name: Update Istio environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Istio Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: istio
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: istio
+            template:
+              metadata:
+                labels:
+                  app: istio
+              spec:
+                containers:
+                  - name: istio
+                    env: []
+
+- name: Update Jenkins environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Jenkins Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: jenkins
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: jenkins
+            template:
+              metadata:
+                labels:
+                  app: jenkins
+              spec:
+                containers:
+                  - name: jenkins
+                    env: []
+
+- name: Update Jira environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Jira Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: jira
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: jira
+            template:
+              metadata:
+                labels:
+                  app: jira
+              spec:
+                containers:
+                  - name: jira
+                    env:
+                      - name: ATL_JDBC_URL
+                        value: "jdbc:postgresql://postgre:5432/jiradb"
+                      - name: ATL_JDBC_USER
+                        value: "jirauser"
+                      - name: ATL_JDBC_PASSWORD
+                        value: "jirapassword"
+
+- name: Update Kafdrop environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kafdrop Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kafdrop
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: kafdrop
+            template:
+              metadata:
+                labels:
+                  app: kafdrop
+              spec:
+                containers:
+                  - name: kafdrop
+                    env:
+                      - name: KAFKA_BROKERCONNECT
+                        value: "kafka:9092"
+
+- name: Update Kafka environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kafka Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kafka
+            namespace: default
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: kafka
+                    env:
+                      - name: KAFKA_BROKER_ID
+                        value: "1"
+                      - name: KAFKA_ZOOKEEPER_CONNECT
+                        value: "zookeeper:2181"
+                      - name: KAFKA_CONTROLLER_LISTENER_NAMES
+                        value: "CONTROLLER"
+                      - name: KAFKA_ADVERTISED_LISTENERS
+                        value: "PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093"
+                      - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+                        value: "1"
+                      - name: KAFKA_PROCESS_ROLES
+                        value: "broker,controller"
+                      - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+                        value: "1@kafka:9093"
+                      - name: CLUSTER_ID
+                        value: "cluster-gepide"
+
+- name: Update Keda environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Keda Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: keda
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: keda
+            template:
+              metadata:
+                labels:
+                  app: keda
+              spec:
+                containers:
+                  - name: keda
+                    env: []
+
+- name: Update Kibana environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kibana Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kibana
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: kibana
+            template:
+              metadata:
+                labels:
+                  app: kibana
+              spec:
+                containers:
+                  - name: kibana
+                    env:
+                      - name: ELASTICSEARCH_HOSTS
+                        value: "http://elasticsearch:9200"
+
+- name: Update Kibana Setup environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Kibana Setup Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: kibana-setup
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: kibana-setup
+            template:
+              metadata:
+                labels:
+                  app: kibana-setup
+              spec:
+                containers:
+                  - name: kibana-setup
+                    env: []
+
+- name: Update Logstash environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Logstash Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: logstash
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: logstash
+            template:
+              metadata:
+                labels:
+                  app: logstash
+              spec:
+                containers:
+                  - name: logstash
+                    env: []
+
+- name: Update Management App environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Management App Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: management-app
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: management-app
+            template:
+              metadata:
+                labels:
+                  app: management-app
+              spec:
+                containers:
+                  - name: management-app
+                    env: []
+
+- name: Update MongoDB environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch MongoDB Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: mongodb
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: mongodb
+            template:
+              metadata:
+                labels:
+                  app: mongodb
+              spec:
+                containers:
+                  - name: mongodb
+                    env:
+                      - name: MONGO_INITDB_DATABASE
+                        value: "userdb"
+
+- name: Update Postgre environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Postgre Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: postgre
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: postgre
+            template:
+              metadata:
+                labels:
+                  app: postgre
+              spec:
+                containers:
+                  - name: postgre
+                    env:
+                      - name: POSTGRES_USER
+                        value: "jirauser"
+                      - name: POSTGRES_PASSWORD
+                        value: "jirapassword"
+                      - name: POSTGRES_DB
+                        value: "jiradb"
+
+- name: Update Product Service environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Product Service Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: product-service
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: product-service
+            template:
+              metadata:
+                labels:
+                  app: product-service
+              spec:
+                containers:
+                  - name: product-service
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"
+                      - name: SPRING_REDIS_HOST
+                        value: "redis"
+                      - name: SPRING_REDIS_PORT
+                        value: "6379"
+                      - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                        value: "kafka:9092"
+
+- name: Update Prometheus environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Prometheus Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: prometheus
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: prometheus
+            template:
+              metadata:
+                labels:
+                  app: prometheus
+              spec:
+                containers:
+                  - name: prometheus
+                    env: []
+
+- name: Update Rancher environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Rancher Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: rancher
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: rancher
+            template:
+              metadata:
+                labels:
+                  app: rancher
+              spec:
+                containers:
+                  - name: rancher
+                    env: []
+
+- name: Update Redis environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Redis Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: redis
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: redis
+            template:
+              metadata:
+                labels:
+                  app: redis
+              spec:
+                containers:
+                  - name: redis
+                    env: []
+
+- name: Update SonarQube environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch SonarQube Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: sonarqube
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: sonarqube
+            template:
+              metadata:
+                labels:
+                  app: sonarqube
+              spec:
+                containers:
+                  - name: sonarqube
+                    env:
+                      - name: SONAR_ES_BOOTSTRAP_CHECKS_DISABLE
+                        value: "true"
+                      - name: SONAR_WEB_HOST
+                        value: "0.0.0.0"
+                      - name: SONAR_WEB_PORT
+                        value: "9000"
+
+- name: Update Trivy environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Trivy Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: trivy
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: trivy
+            template:
+              metadata:
+                labels:
+                  app: trivy
+              spec:
+                containers:
+                  - name: trivy
+                    env: []
+
+- name: Update User Service environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch User Service Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: user-service
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: user-service
+            template:
+              metadata:
+                labels:
+                  app: user-service
+              spec:
+                containers:
+                  - name: user-service
+                    env:
+                      - name: SPRING_SECURITY_USER_NAME
+                        value: "admin"
+                      - name: SPRING_SECURITY_USER_PASSWORD
+                        value: "admin"
+                      - name: SPRING_REDIS_HOST
+                        value: "redis"
+                      - name: SPRING_REDIS_PORT
+                        value: "6379"
+                      - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+                        value: "kafka:9092"
+
+- name: Update Zookeeper environment variables
+  hosts: localhost
+  tasks:
+    - name: Patch Zookeeper Deployment with environment variables
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: zookeeper
+            namespace: default
+          spec:
+            template:
+              spec:
+                containers:
+                  - name: zookeeper
+                    env:
+                      - name: ZOOKEEPER_CLIENT_PORT
+                        value: "2181"
+                      - name: ZOOKEEPER_TICK_TIME
+                        value: "2000"

@@ -59,6 +59,7 @@ services:
   eureka-server:
     build:
       context: ./eureka-server
+    image: gepide-eureka-server:latest
     ports:
       - "8761:8761"
     container_name: eureka-server
@@ -69,6 +70,7 @@ services:
   gateway:
     build:
       context: ./gateway
+    image: gepide-gateway:latest
     ports:
       - "8080:8080"
     container_name: gateway
@@ -81,6 +83,7 @@ services:
   user-service:
     build:
       context: ./user-service
+    image: gepide-user-service:latest
     ports:
       - "8081:8081"
     container_name: user-service
@@ -100,6 +103,7 @@ services:
   product-service:
     build:
       context: ./product-service
+    image: gepide-product-service:latest
     ports:
       - "8082:8082"
     container_name: product-service
@@ -115,6 +119,7 @@ services:
   asset-service:
     build:
       context: ./asset-service
+    image: gepide-asset-service:latest
     ports:
       - "8083:8083"
     container_name: asset-service
@@ -130,6 +135,7 @@ services:
   management-app:
     build:
       context: ./management-app
+    image: gepide-management-app:latest
     ports:
       - "3000:80"
     container_name: management-app

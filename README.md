@@ -663,10 +663,14 @@ For Windows
 choco install minikube -y
 ```
 
-### 8.1.2 Execute minikube for setup kubernetes
+### 8.1.2 Execute minikube for setup kubernetes and create namespace (terraform trigger to create namespace sometimes)
 
 ```bash
 minikube start
+kubectl create namespace gepide
+kubectl create namespace keda
+kubectl create namespace flagger
+kubectl create namespace istio-system
 ```
 
 ### 8.1.3 Install Terraform
@@ -675,52 +679,87 @@ minikube start
 https://developer.hashicorp.com/terraform/install
 ```
 
-### 8.1.4 locate file and execute init
+### 8.1.4 get ready local containers
 
 ```bash
+docker compose up -d
+```
+
+### 8.1.5 transfer local updated images int kubernetes environment
+
+```bash
+for image in gepide-eureka:latest gepide-gateway:latest gepide-user-service:latest gepide-product-service:latest gepide-asset-service:latest gepide-management-app:latest; do minikube image load $image; done
+or
+minikube image load gepide-eureka-server:latest
+minikube image load gepide-gateway:latest
+minikube image load gepide-user-service:latest
+minikube image load gepide-product-service:latest
+minikube image load gepide-asset-service:latest
+minikube image load gepide-management-app:latest
+```
+
+### 8.1.6 locate file and execute init
+
+```bash
+cd terraform/
 terraform init
+(if you do not want to up all the tools, you can just convert main.tf into main.tf.bak then lite version mainlite.tf activated)
 ```
 
-### 8.1.5 apply teraform environment
+### 8.1.7 plan teraform environment
 
 ```bash
-terraform apply
+terraform plan
 ```
 
-### 8.1.6 now take a time to terraform handle process and you can see the status with paralel terminal
+### 8.1.8 apply teraform environment
+
+```bash
+terraform apply -auto-approve
+```
+
+### 8.1.9 now take a time to terraform handle process and you can see the status with paralel terminal
 
 ```bash
 kubectl get all -A
 ```
 
-### 8.1.7 Install Ansible
+### 8.1.10 Install Ansible
 
 ```bash
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 ```
 
-### 8.1.8 Install python kubernetes lib
+### 8.1.11 Install python kubernetes lib
 
 ```bash
 pip install kubernetes
 ```
 
-### 8.1.9 Change what required in spesific tool yml file
+### 8.1.12 Change what required in spesific tool yml file
 
 ```bash
-ansible-playbook -i inventory.ini site.yml
+ansible-playbook -i inventory.ini playbook.yml
 ```
 
-### 8.1.10 Take a rest and look environment if something changed or not
+### 8.1.13 Take a rest and look environment to see configurations done or not
 
 ```bash
 kubectl describe pod -n <namespace> <choosen pod>
 ```
 
-### 8.1.11 To down services execute below command in environment
+### 8.1.14 To down services execute below command in environment
 
 ```bash
 kubectl delete namespace gepide
+or
+terraform destroy
+```
+
+### 8.1.14 To delete kubernetes environment then execute below command
+
+```bash
+minikube delete
 ```
 
 ## 8.2 Deploy with docker

@@ -31,11 +31,31 @@ resource "kubernetes_namespace" "gepide" {
   }
 }
 
+resource "kubernetes_namespace" "keda" {
+  metadata {
+    name = "keda"
+  }
+}
+
+resource "kubernetes_namespace" "flagger" {
+  metadata {
+    name = "flagger"
+  }
+}
+
+resource "kubernetes_namespace" "istio_system" {
+  metadata {
+    name = "istio-system"
+  }
+}
+
 resource "kubernetes_deployment" "zookeeper" {
   metadata {
     name      = "zookeeper"
     namespace = "gepide"
   }
+
+  depends_on = [kubernetes_namespace.gepide]
 
   spec {
     replicas = 1
@@ -79,7 +99,8 @@ resource "kubernetes_deployment" "zookeeper" {
 
 resource "kubernetes_service" "zookeeper" {
   metadata {
-    name = "zookeeper"
+    name      = "zookeeper"
+    namespace = "gepide"
   }
 
   spec {
@@ -88,7 +109,9 @@ resource "kubernetes_service" "zookeeper" {
     }
 
     port {
-      port        = 2181
+      name       = "client"
+      protocol   = "TCP"
+      port       = 2181
       target_port = 2181
     }
 
@@ -101,6 +124,8 @@ resource "kubernetes_deployment" "kafka" {
     name      = "kafka"
     namespace = "gepide"
   }
+
+  depends_on = [kubernetes_namespace.gepide] 
 
   spec {
     replicas = 1
@@ -178,7 +203,8 @@ resource "kubernetes_deployment" "kafka" {
 
 resource "kubernetes_service" "kafka" {
   metadata {
-    name = "kafka"
+    name      = "kafka"
+    namespace = "gepide"
   }
 
   spec {
@@ -187,14 +213,16 @@ resource "kubernetes_service" "kafka" {
     }
 
     port {
-      name        = "port-9092"
-      port        = 9092
+      name       = "kafka-port-9092"
+      protocol   = "TCP"
+      port       = 9092
       target_port = 9092
     }
 
     port {
-      name        = "port-9093"
-      port        = 9093
+      name       = "kafka-port-9093"
+      protocol   = "TCP"
+      port       = 9093
       target_port = 9093
     }
 
@@ -207,6 +235,8 @@ resource "kubernetes_deployment" "kafdrop" {
     name      = "kafdrop"
     namespace = "gepide"
   }
+
+  depends_on = [kubernetes_namespace.gepide]
 
   spec {
     replicas = 1
@@ -268,6 +298,8 @@ resource "kubernetes_deployment" "mongodb" {
     namespace = "gepide"
   }
 
+  depends_on = [kubernetes_namespace.gepide] 
+
   spec {
     replicas = 1
 
@@ -309,7 +341,7 @@ resource "kubernetes_deployment" "mongodb" {
           name = "mongo-init-volume"
 
           config_map {
-            name = "mongo-init-config"
+            name = kubernetes_config_map.mongo_init_config.metadata[0].name
           }
         }
       }
@@ -319,7 +351,8 @@ resource "kubernetes_deployment" "mongodb" {
 
 resource "kubernetes_service" "mongodb" {
   metadata {
-    name = "mongodb"
+    name      = "mongodb"
+    namespace = "gepide"
   }
 
   spec {
@@ -328,7 +361,8 @@ resource "kubernetes_service" "mongodb" {
     }
 
     port {
-      port        = 27017
+      protocol   = "TCP"
+      port       = 27017
       target_port = 27017
     }
 
@@ -343,7 +377,7 @@ resource "kubernetes_config_map" "mongo_init_config" {
   }
 
   data = {
-    "mongo-init.js" = file("${path.module}/../mongo-init.js")
+    "mongo-init.js" = file("../mongo-init.js")
   }
 }
 
@@ -439,7 +473,7 @@ resource "kubernetes_deployment" "eureka_server" {
       spec {
         container {
           name  = "eureka-server"
-          image = "eureka-server:latest"
+          image = "gepide-eureka-server:latest"
 
           port {
             container_port = 8761
@@ -513,7 +547,7 @@ resource "kubernetes_deployment" "gateway" {
       spec {
         container {
           name  = "gateway"
-          image = "gateway:latest"
+          image = "gepide-gateway:latest"
 
           port {
             container_port = 8080
@@ -590,7 +624,7 @@ resource "kubernetes_deployment" "user_service" {
       spec {
         container {
           name  = "user-service"
-          image = "user-service:latest"
+          image = "gepide-user-service:latest"
 
           port {
             container_port = 8081
@@ -667,7 +701,7 @@ resource "kubernetes_deployment" "product_service" {
       spec {
         container {
           name  = "product-service"
-          image = "product-service:latest"
+          image = "gepide-product-service:latest"
 
           port {
             container_port = 8082
@@ -744,7 +778,7 @@ resource "kubernetes_deployment" "asset_service" {
       spec {
         container {
           name  = "asset-service"
-          image = "asset-service:latest"
+          image = "gepide-asset-service:latest"
 
           port {
             container_port = 8083
@@ -806,7 +840,7 @@ resource "kubernetes_deployment" "management_app" {
       spec {
         container {
           name  = "management-app"
-          image = "management-app:latest"
+          image = "gepide-management-app:latest"
 
           port {
             container_port = 80
@@ -1020,6 +1054,16 @@ resource "kubernetes_deployment" "jenkins" {
             container_port = 50000
           }
 
+          env {
+            name  = "BASE_PATH"
+            value_from {
+              config_map_key_ref {
+                name = kubernetes_config_map.jenkins_config.metadata[0].name
+                key  = "base_path"
+              }
+            }
+          }
+
           volume_mount {
             name       = "jenkins-data"
             mount_path = "/var/jenkins_home"
@@ -1043,7 +1087,7 @@ resource "kubernetes_deployment" "jenkins" {
           name = "jenkins-init"
 
           host_path {
-            path = "./jenkins/init.groovy"
+            path = "/jenkins/init.groovy"
           }
         }
       }
@@ -1063,21 +1107,35 @@ resource "kubernetes_service" "jenkins" {
     }
 
     port {
+      name        = "https"
       port        = 8443
       target_port = 8443
     }
 
     port {
+      name        = "http"
       port        = 8080
       target_port = 8080
     }
 
     port {
+      name        = "agent"
       port        = 50000
       target_port = 50000
     }
 
     type = "ClusterIP"
+  }
+}
+
+resource "kubernetes_config_map" "jenkins_config" {
+  metadata {
+    name      = "jenkins-config"
+    namespace = "gepide"
+  }
+
+  data = {
+    base_path = "/jenkins"
   }
 }
 
@@ -1138,11 +1196,13 @@ resource "kubernetes_service" "elasticsearch" {
     }
 
     port {
+      name        = "http"
       port        = 9200
       target_port = 9200
     }
 
     port {
+      name        = "transport"
       port        = 9300
       target_port = 9300
     }
@@ -1846,7 +1906,7 @@ resource "helm_release" "rancher" {
   namespace  = "cattle-system"
   chart      = "rancher"
   repository = "https://releases.rancher.com/server-charts/latest"
-  version    = "2.7.0"
+  version    = "2.8.0"
 
   set = [
     {
@@ -1899,6 +1959,10 @@ resource "helm_release" "trivy" {
     {
       name  = "trivyOperator"
       value = "enabled"
+    },
+    {
+      name  = "scanJobTolerations"
+      value = "{}" 
     }
   ]
 }

@@ -33,3 +33,5 @@
                         value: "1@kafka:9093"
                       - name: CLUSTER_ID
                         value: "cluster-gepide"
+                      - name: KAFKA_LOG4J_LOGGERS
+                        value: "kafka.controller=DEBUG,kafka.producer=DEBUG,kafka.consumer=DEBUG"
